@@ -1,0 +1,10 @@
+# Ignore virtual environments
+tronvenv/
+
+# Ignore Python cache files and directories
+__pycache__/
+*.pyc
+
+# Ignore VSCode-related files and directories
+.VSCodeCounter/
+tronbot.code-workspace
