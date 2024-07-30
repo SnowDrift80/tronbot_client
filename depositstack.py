@@ -56,20 +56,18 @@ class DepositStack():
         api = KrakenAPI(CONFIG.SPOT_API_KEY, CONFIG.SPOT_PRIVATE_KEY)
 
         try:
-            # Retrieve deposit addresses from the API
-            response_data = api.generate_new_deposit_address(
-                asset=CONFIG.ASSET,
-                method=CONFIG.METHOD,
-                new=False
-            )
-            result = response_data.get('result', [])
+            # Retriete all deposit addresses from database
+            depositaddresses_recordset = database.get_depositaddresses()
+            print(f"\n\n\nDEPOSITADDRESSES_RECORDSET:\n{depositaddresses_recordset}\n\n\n\n")
+
 
             # Check if MAX_DEPOSIT_ADDRESSES is valid
-            if CONFIG.MAX_DEPOSIT_ADDRESSES > len(result):
-                raise ValueError(f"MAX_DEPOSIT_ADDRESSES ({CONFIG.MAX_DEPOSIT_ADDRESSES}) > than effectively available depositaddresses ({len(result)}).\n\nUpdate config.py MAX_DEPOSIT_ADDRESSES accordingly.")
+            if CONFIG.MAX_DEPOSIT_ADDRESSES > len(depositaddresses_recordset):
+                raise ValueError(f"MAX_DEPOSIT_ADDRESSES ({CONFIG.MAX_DEPOSIT_ADDRESSES}) > than effectively available depositaddresses ({len(depositaddresses_recordset)}).\n\nUpdate config.py MAX_DEPOSIT_ADDRESSES accordingly.")
 
             # Initialize deposit addresses
-            self.deposit_addresses = [result[i]['address'] for i in range(CONFIG.MAX_DEPOSIT_ADDRESSES)]
+            self.deposit_addresses = [depositaddresses_recordset[i]['depositaddress'] for i in range(CONFIG.MAX_DEPOSIT_ADDRESSES)]
+            print(f"\n\n\nSELF.DEPOSIT_ADDRESSES:\n{self.deposit_addresses}")
             self.stacks = [[] for _ in range(CONFIG.MAX_DEPOSIT_ADDRESSES)]
             self.deposit_ref_ids = set()  # set more efficient than list in 'in' comparisons
 
@@ -266,16 +264,17 @@ class DepositStack():
         logger.info("Processing recent deposits.")
         
         try:
-            deposits = response_data.get('result', [])
+            print(f"\n\n\n\nRESPONSE_DATA:\n{response_data}\n\n\n\n\n")
+            deposits = response_data
             
+
             for deposit in deposits:
-                deposit_address = deposit['info']
+                deposit_address = deposit['deposit_address']
                 asset = deposit['asset']
                 txid = deposit['txid']
                 amount = deposit['amount']
                 refid = deposit['refid']  # Unique identifier of the deposit transaction
-                credit_time_timestamp = deposit['time']
-                credit_time = datetime.datetime.fromtimestamp(credit_time_timestamp)
+                credit_time = datetime.datetime.now().isoformat()
                 
                 # Check if the deposit has already been processed
                 if self.database.check_if_deposit_processed(refid):
@@ -284,6 +283,7 @@ class DepositStack():
                 # Iterate through each stack to find matching deposit requests
                 for stack in self.stacks:
                     for i, request in enumerate(stack):
+                        print(f"request['deposit_address']={request['deposit_address']}   vs   deposit_address: {deposit_address}\n******************************************************************************")
                         if request['deposit_address'] == deposit_address and request['sent_to_client']:
                             client_obj: Client = request['client_obj']
                             first_name = client_obj.firstname

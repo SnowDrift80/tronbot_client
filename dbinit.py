@@ -1,3 +1,9 @@
+"""
+Add extension pgcrpto extension by running the blow line in PGAdmin4 Query Tool
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+"""
+
+
 import psycopg2
 from psycopg2 import sql
 from psycopg2.extras import DictCursor
@@ -32,9 +38,20 @@ class DBInit:
         """run all the sql scripts to initialize db"""
         self.execute_script(self.create_clients_table())
         self.execute_script(self.create_deposits_table())
+        self.execute_script(self.create_depositaddresses_table())
+        self.execute_script(self.create_import_depositaddresses_table())
+        self.execute_script(self.create_replace_depositaddresses_procedure())
+        self.execute_script(self.create_get_depositaddresses_function())
+        self.execute_script(self.create_get_deposit_address_private_key())
+        self.execute_script(self.create_update_transferred_status_true())
+        self.execute_script(self.create_update_transferred_status_false())
+        self.execute_script(self.create_get_centraladdress_function())
         self.execute_script(self.create_balances_table())
         self.execute_script(self.create_ledger_table())
         self.execute_script(self.create_returns_table())
+        self.execute_script(self.create_depositlogs_table())
+        self.execute_script(self.create_get_newdepositlogs())
+        self.execute_script(self.create_insert_depositlogs_procedure())
         self.execute_script(self.create_update_timestamp_trigger())
         self.execute_script(self.create_handle_deposit_procedure())
         self.execute_script(self.create_import_csv_data())
@@ -105,6 +122,206 @@ class DBInit:
     
 
     @staticmethod
+    def create_depositaddresses_table():
+        """Returns SQL query string to create 'depositaddresses' table if it doesn't exist.
+
+        This static method generates an SQL query string that creates the 'depositaddresses' table
+        if it does not already exist in the database. The table includes columns for a unique reference ID,
+        deposit address, chat ID to which the address is assigned (which can be NULL), the expiration date of the assignment,
+        and balances for MATIC and USDT.
+
+        Returns:
+            str: SQL query string to create the 'depositaddresses' table with appropriate schema
+                 and an index on 'assigned_to_chatid' for faster lookup.
+        """
+        return """
+        CREATE TABLE IF NOT EXISTS depositaddresses (
+            refid SERIAL PRIMARY KEY,
+            account_type VARCHAR(1) NOT NULL, -- D for Deposit, C for Central Account, H for Helper Account
+            account_name VARCHAR(100) NOT NULL,  -- account name
+            depositaddress VARCHAR(42) NOT NULL, -- ethereum address
+            private_key BYTEA NOT NULL,    -- secret private key
+            assigned_to_chatid BIGINT,  -- This column can be NULL
+            assignment_expiration_datetime TIMESTAMP,
+            MATIC_balance NUMERIC(20, 6) DEFAULT 0,
+            USDT_balance NUMERIC(20, 6) DEFAULT 0
+        );
+
+        -- Index on assigned_to_chatid for faster lookup, but allowing NULL values
+        CREATE INDEX IF NOT EXISTS idx_depositaddresses_chatid ON depositaddresses(assigned_to_chatid);
+        """    
+    
+
+    @staticmethod
+    def create_replace_depositaddresses_procedure():
+        """Returns SQL query string to create 'replace_depositaddresses' stored procedure.
+
+        This static method generates an SQL query string to create a stored procedure named 'replace_depositaddresses'.
+        The procedure performs the following operations:
+        1. Deletes all existing records from the 'depositaddresses' table.
+        2. Inserts all records from the 'import_depositaddresses' table into 'depositaddresses'.
+        3. Hashes the 'private_key' field during the insertion into 'depositaddresses'.
+
+        Returns:
+            str: SQL query string to create the 'replace_depositaddresses' stored procedure.
+        """
+        return """
+        CREATE OR REPLACE PROCEDURE replace_depositaddresses()
+        LANGUAGE plpgsql
+        AS $$
+        BEGIN
+            -- Delete all existing records from depositaddresses
+            DELETE FROM depositaddresses;
+
+            -- Insert all records from import_depositaddresses into depositaddresses
+            INSERT INTO depositaddresses (account_type, account_name, depositaddress, private_key, assigned_to_chatid, assignment_expiration_datetime, MATIC_balance, USDT_balance)
+            SELECT
+                account_type,
+                account_name,
+                depositaddress,
+                pgp_sym_encrypt(private_key, 'dh/afHrC2mO6xPyrhtizM1J1zM7CSMaRUOkj4am7XSU=') AS hashed_private_key,  -- Hashing the private_key
+                assigned_to_chatid,
+                assignment_expiration_datetime,
+                MATIC_balance,
+                USDT_balance
+            FROM
+                import_depositaddresses;
+
+            -- Delete the temporary data in table import_depositaddresses
+            DELETE FROM import_depositaddresses;
+        END;
+        $$;
+        """
+    
+    @staticmethod
+    def create_get_deposit_address_private_key():
+        return """
+        CREATE OR REPLACE FUNCTION get_deposit_address_private_key(deposit_address VARCHAR)
+        RETURNS TEXT AS $$
+        DECLARE
+            encrypted_private_key BYTEA;
+            decrypted_private_key TEXT;  -- Change to TEXT to return as a string
+        BEGIN
+            -- Retrieve the encrypted private key for the given deposit address
+            SELECT private_key INTO encrypted_private_key
+            FROM depositaddresses
+            WHERE depositaddress = deposit_address;
+
+            -- Check if the private key was found
+            IF encrypted_private_key IS NULL THEN
+                RAISE EXCEPTION 'No record found for deposit address: %', deposit_address;
+            END IF;
+
+            -- Decrypt the private key
+            decrypted_private_key := pgp_sym_decrypt(encrypted_private_key, 'dh/afHrC2mO6xPyrhtizM1J1zM7CSMaRUOkj4am7XSU=')::TEXT;  -- Cast to TEXT
+
+            RETURN decrypted_private_key;  -- Return as TEXT
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+            
+
+    @staticmethod
+    def create_import_depositaddresses_table():
+        """Returns SQL query string to create 'import_depositaddresses' table if it doesn't exist.
+
+        This static method generates an SQL query string that creates the 'import_depositaddresses' table
+        if it does not already exist in the database. The table includes columns for a unique reference ID,
+        account name, deposit address, private key, chat ID to which the address is assigned (which can be NULL),
+        the expiration date of the assignment, and balances for MATIC and USDT.
+
+        Returns:
+            str: SQL query string to create the 'import_depositaddresses' table with appropriate schema
+                 and an index on 'assigned_to_chatid' for faster lookup.
+        """
+        return """
+        CREATE TABLE IF NOT EXISTS import_depositaddresses (
+            refid SERIAL PRIMARY KEY,
+            account_type VARCHAR(1) NOT NULL, -- D for Deposit, C for Central Account, H for Helper Account
+            account_name VARCHAR(100) NOT NULL,  -- account name
+            depositaddress VARCHAR(42) NOT NULL, -- ethereum address
+            private_key VARCHAR(64) NOT NULL,    -- secret private key
+            assigned_to_chatid BIGINT,  -- This column can be NULL
+            assignment_expiration_datetime TIMESTAMP,
+            MATIC_balance NUMERIC(20, 6) DEFAULT 0,
+            USDT_balance NUMERIC(20, 6) DEFAULT 0
+        );
+
+        -- Index on assigned_to_chatid for faster lookup, but allowing NULL values
+        CREATE INDEX IF NOT EXISTS idx_import_depositaddresses_chatid ON import_depositaddresses(assigned_to_chatid);
+        """    
+    
+
+    @staticmethod
+    def create_get_depositaddresses_function():
+        """Creates a stored function that returns all rows from the 'depositaddresses' table."""
+        return """
+        CREATE OR REPLACE FUNCTION get_depositaddresses()
+        RETURNS TABLE (
+            refid INT,
+            account_type VARCHAR(1),
+            account_name VARCHAR(100),
+            depositaddress VARCHAR(42),
+            assigned_to_chatid BIGINT,
+            assignment_expiration_datetime TIMESTAMP,
+            MATIC_balance NUMERIC(20, 6),
+            USDT_balance NUMERIC(20, 6)
+        ) AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT 
+                d.refid,
+                d.account_type,
+                d.account_name,
+                d.depositaddress,
+                d.assigned_to_chatid,
+                d.assignment_expiration_datetime,
+                d.MATIC_balance,
+                d.USDT_balance
+            FROM 
+                depositaddresses d
+            WHERE d.account_type = 'D';
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+
+
+    @staticmethod
+    def create_get_centraladdress_function():
+        """Creates a stored function that returns the single central address (address_type "C")."""
+        return """
+        CREATE OR REPLACE FUNCTION get_centraladdress()
+        RETURNS TABLE (
+            refid INT,
+            account_type VARCHAR(1),
+            account_name VARCHAR(100),
+            depositaddress VARCHAR(42),
+            assigned_to_chatid BIGINT,
+            assignment_expiration_datetime TIMESTAMP,
+            MATIC_balance NUMERIC(20, 6),
+            USDT_balance NUMERIC(20, 6)
+        ) AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT 
+                d.refid,
+                d.account_type,
+                d.account_name,
+                d.depositaddress,
+                d.assigned_to_chatid,
+                d.assignment_expiration_datetime,
+                d.MATIC_balance,
+                d.USDT_balance
+            FROM 
+                depositaddresses d
+            WHERE d.account_type = 'C'
+            LIMIT 1;  -- Ensure only one row is returned
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+
+
+    @staticmethod
     def create_balances_table():
         """Returns SQL query string to create 'balances' table if it doesn't exist.
 
@@ -142,7 +359,7 @@ class DBInit:
             str: SQL query string to create the 'ledger' table with appropriate schema.
         """
         return """
-        CREATE TABLE ledger (
+        CREATE TABLE IF NOT EXISTS ledger (
             primary_key SERIAL PRIMARY KEY,
             transaction_type VARCHAR(20) NOT NULL,
             chat_id BIGINT NOT NULL,
@@ -181,6 +398,190 @@ class DBInit:
 
         CREATE UNIQUE INDEX IF NOT EXISTS idx_returns_date ON returns (date);
         """
+    
+    @staticmethod
+    def create_depositlogs_table():
+        """
+        Creates the 'depositlogs' table to log all transactions involving the designated deposit addresses.
+        This table will store details about each transaction, including the addresses involved, 
+        transaction ID, block information, and transfer amount. Additionally, it includes a 
+        'chat_id' field that will be updated later to associate the transaction with a specific 
+        Telegram chat.
+
+        Returns:
+            str: SQL string to create the 'depositlogs' table.
+        """        
+        return """
+        CREATE TABLE IF NOT EXISTS depositlogs(
+            id SERIAL PRIMARY KEY, -- unique identifier for each row
+            from_address VARCHAR(100) NOT NULL, -- Address from which the transfer was made
+            to_address VARCHAR(100) NOT NULL, -- Address to which the transfer was made
+            transaction_id VARCHAR(100) NOT NULL, -- Unique transaction id (ETH "Transaction hash")
+            block_number BIGINT NOT NULL, -- block number in blockchain in which the transaction happened.
+            block_timestamp TIMESTAMP NOT NULL, -- Timestamp of the block
+            amount NUMERIC(20, 6) NOT NULL, -- Amount of USDT transferred
+            chat_id BIGINT, -- Telegram chat ID
+            transferred BOOLEAN DEFAULT FALSE, -- Boolean field to indicate whether the transfer was processed
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- automatically set to the current timestamp.
+        );
+        -- create an index on 'transaction_id'
+        CREATE INDEX IF NOT EXISTS idx_transaction_id ON depositlogs(transaction_id);
+
+        -- create an index on 'chat_id' (the telegram user ID)
+        CREATE INDEX IF NOT EXISTS idx_chat_id ON depositlogs(chat_id);
+
+        -- Create an index on 'transferred' to optimize queries filtering by this field
+        CREATE INDEX IF NOT EXISTS idx_transferred ON depositlogs(transferred);
+        """
+    
+    @staticmethod
+    def create_get_newdepositlogs():
+        """
+        Returns all depositlogs where 'transferred' is false. This means, these are the transactions
+        from clients depositing money on one of the deposit-accounts which haven't been transferred yet
+        to the central account.
+        """
+        return """
+        CREATE OR REPLACE FUNCTION get_newdepositlogs()
+        RETURNS TABLE (
+            id INTEGER,  -- Updated type to match the table definition
+            from_address VARCHAR,
+            to_address VARCHAR,
+            transaction_id VARCHAR,
+            block_number BIGINT,
+            block_timestamp TIMESTAMP,
+            amount NUMERIC,  -- Adjusted type to match table definition if needed
+            chat_id BIGINT,
+            transferred BOOLEAN,
+            created_at TIMESTAMP
+        ) AS $$
+        BEGIN
+            RETURN QUERY
+            SELECT 
+                d.id,
+                d.from_address,
+                d.to_address,
+                d.transaction_id,
+                d.block_number,
+                d.block_timestamp,
+                d.amount,
+                d.chat_id,
+                d.transferred,
+                d.created_at
+            FROM depositlogs d
+            WHERE d.transferred = FALSE;
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+
+
+    @staticmethod
+    def create_update_transferred_status_true():
+        return """
+        CREATE OR REPLACE FUNCTION update_transferred_status_true(param_transaction_id VARCHAR)
+        RETURNS VOID AS $$
+        BEGIN
+            -- Perform the update using the parameter
+            UPDATE depositlogs
+            SET transferred = TRUE
+            WHERE transaction_id = param_transaction_id;
+
+            -- Check if the update affected any rows
+            IF NOT FOUND THEN
+                RAISE NOTICE 'No rows updated for transaction_id: %', param_transaction_id;
+            END IF;
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+
+    @staticmethod
+    def create_update_transferred_status_false():
+        return """
+        CREATE OR REPLACE FUNCTION update_transferred_status_false(param_transaction_id VARCHAR)
+        RETURNS VOID AS $$
+        BEGIN
+            -- Perform the update using the parameter
+            UPDATE depositlogs
+            SET transferred = FALSE
+            WHERE transaction_id = param_transaction_id;
+
+            -- Check if the update affected any rows
+            IF NOT FOUND THEN
+                RAISE NOTICE 'No rows updated for transaction_id: %', param_transaction_id;
+            END IF;
+        END;
+        $$ LANGUAGE plpgsql;
+        """
+
+
+
+
+    @staticmethod
+    def create_insert_depositlogs_procedure():
+        """
+        Creates a stored procedure to insert new records into the 'depositlogs' table. 
+        This procedure accepts arrays of transaction details and inserts records for 
+        transactions that are not already present in the table based on the 'transaction_id'. 
+        This ensures that only unique transactions are logged. The procedure handles multiple 
+        transactions in a single call, using arrays to efficiently manage batch inserts.
+
+        Parameters:
+            p_from_address (TEXT[]): Array of addresses from which the transfer was made.
+            p_to_address (TEXT[]): Array of addresses to which the transfer was made.
+            p_transaction_id (TEXT[]): Array of unique transaction IDs (ETH "Transaction hash").
+            p_block_number (BIGINT[]): Array of block numbers in the blockchain where the transaction occurred.
+            p_block_timestamp (TIMESTAMP[]): Array of timestamps for the blocks.
+            p_amount (NUMERIC[]): Array of amounts of USDT transferred.
+
+        Returns:
+            str: SQL string to create the 'insert_depositlogs' procedure.
+        """
+        return """
+        CREATE OR REPLACE PROCEDURE insert_depositlogs(
+            p_from_address TEXT[],
+            p_to_address TEXT[],
+            p_transaction_id TEXT[],
+            p_block_number BIGINT[],
+            p_block_timestamp TIMESTAMP[],
+            p_amount NUMERIC[]
+        )
+        LANGUAGE plpgsql
+        AS $$
+        BEGIN
+            -- Insert new records directly into the depositlogs table
+            INSERT INTO depositlogs (
+                from_address,
+                to_address,
+                transaction_id,
+                block_number,
+                block_timestamp,
+                amount
+            )
+            SELECT
+                from_address,
+                to_address,
+                transaction_id,
+                block_number,
+                block_timestamp,
+                amount
+            FROM (
+                SELECT
+                    unnest(p_from_address) AS from_address,
+                    unnest(p_to_address) AS to_address,
+                    unnest(p_transaction_id) AS transaction_id,
+                    unnest(p_block_number) AS block_number,
+                    unnest(p_block_timestamp) AS block_timestamp,
+                    unnest(p_amount) AS amount
+            ) AS new_records
+            WHERE
+                new_records.transaction_id NOT IN (
+                    SELECT transaction_id
+                    FROM depositlogs
+                );
+        END;
+        $$;
+        """
+
 
 
     @staticmethod
@@ -196,6 +597,7 @@ class DBInit:
             str: SQL query string to create trigger functions and attach them to tables.
         """
         return """
+        -- Create or replace the function (handles existence by itself)
         CREATE OR REPLACE FUNCTION update_last_update_date()
         RETURNS TRIGGER AS $$
         BEGIN
@@ -204,15 +606,39 @@ class DBInit:
         END;
         $$ LANGUAGE plpgsql;
 
-        CREATE TRIGGER clients_last_update
-        BEFORE UPDATE ON clients
-        FOR EACH ROW
-        EXECUTE FUNCTION update_last_update_date();
+        -- Create the trigger for the clients table if it does not already exist
+        DO $$
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1
+                FROM pg_trigger
+                WHERE tgname = 'clients_last_update'
+            ) THEN
+                EXECUTE '
+                    CREATE TRIGGER clients_last_update
+                    BEFORE UPDATE ON clients
+                    FOR EACH ROW
+                    EXECUTE FUNCTION update_last_update_date();
+                ';
+            END IF;
+        END $$;
 
-        CREATE TRIGGER balances_last_update
-        BEFORE UPDATE ON balances
-        FOR EACH ROW
-        EXECUTE FUNCTION update_last_update_date();
+        -- Create the trigger for the balances table if it does not already exist
+        DO $$
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1
+                FROM pg_trigger
+                WHERE tgname = 'balances_last_update'
+            ) THEN
+                EXECUTE '
+                    CREATE TRIGGER balances_last_update
+                    BEFORE UPDATE ON balances
+                    FOR EACH ROW
+                    EXECUTE FUNCTION update_last_update_date();
+                ';
+            END IF;
+        END $$;
         """
 
 
@@ -572,7 +998,7 @@ class DBInit:
                         (SELECT firstname FROM clients WHERE chat_id = record.chat_id),
                         (SELECT lastname FROM clients WHERE chat_id = record.chat_id),
                         'USDT',
-                        'Tether USD (TRC20)',
+                        'Tether USDT (ERC20)',
                         v_increase,
                         v_return,
                         CURRENT_TIMESTAMP
@@ -656,7 +1082,7 @@ class DBInit:
                     v_firstname,
                     v_lastname,
                     'USDT',
-                    'Tether USD (TRC20)',
+                    'Tether USDT (ERC20)',
                     -p_amount,
                     CURRENT_TIMESTAMP
                 );
@@ -786,7 +1212,7 @@ class DBInit:
                 v_firstname,
                 v_lastname,
                 'USDT',
-                'Tether USD (TRC20)',
+                'Tether USDT (ERC20)',
                 p_amount,
                 CURRENT_TIMESTAMP
             );
@@ -886,7 +1312,7 @@ class DBInit:
         Outputs:
             p_date (DATE): Current date when the procedure is executed.
             p_asset (VARCHAR(10)): Asset name, 'USDT'.
-            p_method (VARCHAR(100)): Method name, 'Tether USD (TRC20)'.
+            p_method (VARCHAR(100)): Method name, 'Tether USDT (ERC20)'.
             p_total_balance (NUMERIC(20, 6)): Total balance of liabilities.
 
         Returns:
@@ -912,7 +1338,7 @@ class DBInit:
             -- Set the output parameters
             p_date := CURRENT_DATE;
             p_asset := 'USDT';
-            p_method := 'Tether USD (TRC20)';
+            p_method := 'Tether USDT (ERC20)';
             p_total_balance := v_total_balance;
         END;
         $$;

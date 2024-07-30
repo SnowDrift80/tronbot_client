@@ -85,7 +85,7 @@ if __name__ == '__main__':
     kraken = KrakenAPI(CONFIG.SPOT_API_KEY, CONFIG.SPOT_PRIVATE_KEY)
 
     asset = 'USDT'
-    method = 'Tether USD (TRC20)'
+    method = 'Tether USDT (ERC20)'
 
     new_address_response = kraken.generate_new_deposit_address(asset, method)
     if new_address_response:

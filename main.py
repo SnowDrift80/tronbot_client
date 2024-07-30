@@ -7,19 +7,21 @@ import uvicorn
 import hashlib
 import requests
 import threading
-from tronapi import Tron
+# from tronapi import Tron
 from fastapi_app.fastapi_app import app  # Import the FastAPI app
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, CallbackContext, ConversationHandler
 from datetime import datetime
 from config import CONFIG
 from model import DataHandler
+from ethapi import EthAPI
 from krakenapi import KrakenAPI
 from client import Client
 from depositstack import DepositStack
 from withdraw_data import ClientWithdrawal
 from bot_workflows import Workflows
-from testunit import TestUnit
+from deposit_logs import DepositLogs
+from transfer import Funds
 
 # Set up logging
 logging.basicConfig(
@@ -49,13 +51,11 @@ except Exception as e:
     logger.error(f"Failed to initialize ClientWithdrawal: {e}")
     raise
 
-testunit = TestUnit() # only for testing, remove for production
 
-
-# validate USDT TRC20 wallet address
-async def validate_usdt_trc20_address(address, chat_id):
+# validate USDT ERC20 wallet address
+async def validate_usdt_erc20_address(address, chat_id):
     """
-    Validate USDT wallet address in TRC20 network.
+    Validate USDT wallet address in ERC20 network.
     Args: 
         address (str): The wallet address to validate.
         chat_id (int): The chat ID to send messages to.
@@ -95,13 +95,13 @@ async def validate_usdt_trc20_address(address, chat_id):
                 solidity_node = CONFIG.TRON.SOLIDITY_NODE
                 event_server = CONFIG.TRON.EVENT_SERVER
 
-                tron = Tron(full_node=full_node, solidity_node=solidity_node, event_server=event_server)
+                # tron = Tron(full_node=full_node, solidity_node=solidity_node, event_server=event_server)
 
                 # Try to get the latest block to verify connection
-                latest_block = tron.trx.get_block('latest')
+                # latest_block = tron.trx.get_block('latest')
                 logger.info("Connection to Tron network successful.")
 
-                account_info = tron.trx.get_account(address)
+                # account_info = tron.trx.get_account(address)
                 message = f"<code>validating in TRON network... ✅</code>"
                 await depositstack.bot_message(chat_id=chat_id, message=message)
 
@@ -850,10 +850,10 @@ async def button(update: Update, context: CallbackContext) -> None:
                     deposit_request = await depositstack.add_deposit_request(update, client)
                     
                     # Simulate payment (for testing purposes)
-                    await testunit.make_payment(asset=CONFIG.ASSET, 
-                                                method=CONFIG.METHOD,
-                                                eta=deposit_request['eta'],
-                                                deposit_address=deposit_request['deposit_address'])
+                    # await testunit.make_payment(asset=CONFIG.ASSET, 
+                    #                             method=CONFIG.METHOD,
+                    #                             eta=deposit_request['eta'],
+                    #                             deposit_address=deposit_request['deposit_address'])
                 else:
                     await query.message.reply_text("You're welcome any time to request to make a deposit.")
             
@@ -951,6 +951,16 @@ async def poll_deposit_request_stack():
             raise Exception(error_message)
 
 
+async def process_transfers(deposits):
+    if deposits:
+        usdt = Funds.USDT()
+        for deposit in deposits:
+            print(f"\n\n\n TRANSFERRING DEPOSIT USDT {deposit['amount']} FROM_ADDRESS: {deposit['deposit_address']} TO CENTRAL ACCOUNT\n\n\n")
+            usdt.transfer(from_address=deposit['deposit_address'], amount=deposit['amount'], deposit_tx_id=deposit['refid'])
+            await asyncio.sleep(2)
+       
+        
+
 async def poll_recent_deposits():
     """
     Coroutine function to poll recent deposits from an API or test source periodically.
@@ -962,19 +972,63 @@ async def poll_recent_deposits():
     Raises:
         Exception: If there is an unexpected error during API request, data processing, or deposit handling.
     """
-    api = KrakenAPI(CONFIG.SPOT_API_KEY, CONFIG.SPOT_PRIVATE_KEY)
+    api = EthAPI()
     while True:
         try:
             # Uncomment the line below for production use:
             # response_data = await api.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
             
             # For test use only:
-            response_data = testunit.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
+            # response_data = testunit.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
+
+            # get balances from all Polygon Mainnet deposit addresses
+            all_balances = api.get_recent_deposits()
+            print(f"\n\n\nrecent deposits:\n{all_balances}\n\n\n")
+
+            # create new list consisting of dict containing address and balance where balance > 0
+            # we want to process only those accounts that actually have a balance.
+            active_deposits = []
+            for balance in all_balances:
+                if balance['balance'] > 0:
+                    row = {
+                        'deposit_address': balance['deposit_address'],
+                        'balance': balance['balance']
+                        }
+                    active_deposits.append(row)
+                    print(f"\n\n\nDEPOSIT FOUND {balance['balance']} AT DEPOSIT-ADDRESS: {balance['deposit_address']}")
             
-            logger.info(f"Recent Deposits: {response_data}")
-            
-            # Process the received deposit data and add it to the deposit stack
-            await depositstack.receive_deposit(response_data)
+            logger.info(f"Recent Deposits: {active_deposits}")
+            deposit_logs = DepositLogs(active_deposits)
+            logs = deposit_logs.fetch_logs() # we get the new logs and insert those into the depositlogs table
+            response_data = []
+
+            depositlogs = database.get_newdepositlogs() # we get the new depositlogs with transfer == False from the database
+            print(f"\n\n\n\n\n#####################################################")
+            if depositlogs:
+                print(f"Found new deposits:\n{depositlogs}")
+            else:
+                print(f"No new deposits found")
+            print(f"#####################################################\n\n\n\n\n")
+
+            if depositlogs: # only process if there are any new deposits where transfer == False
+                # process the depositlogs and build response_data
+                for deposit in depositlogs:
+                    row =  {
+                        'deposit_address': deposit['to_address'],
+                        'asset': 'USDT',
+                        'txid': deposit['from_address'],
+                        'amount': deposit['amount'],
+                        'refid': deposit['transaction_id'],  # Unique identifier of the deposit transaction
+                        'credit_time_timestamp': deposit['block_timestamp'],
+                        'credit_time': deposit['created_at']  
+                    }
+                    response_data.append(row)            
+
+                # call async payment processing function
+                asyncio.create_task(process_transfers(response_data))
+
+                # Process the received deposit data and add it to the deposit stack
+                await depositstack.receive_deposit(response_data)
             
             # Sleep for the configured interval before polling again
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
@@ -1036,10 +1090,10 @@ async def handle_text_input(update: Update, context: CallbackContext):
             logger.info('AWAITING WALLET!!!!')
             if update.message.text:
                 wallet_address = update.message.text
-                is_valid_wallet_address = await validate_usdt_trc20_address(wallet_address, chat_id)
+                is_valid_wallet_address = await validate_usdt_erc20_address(wallet_address, chat_id)
                 logger.info(f"is_valid_wallet_address: {is_valid_wallet_address}")
                 if not is_valid_wallet_address:
-                    message = f"The wallet address '{wallet_address}' you entered is not a valid USDT/TRC20 wallet address.\nPlease enter a correct wallet address or enter 'cancel' to cancel the process entirely."
+                    message = f"The wallet address '{wallet_address}' you entered is not a valid USDT/ERC20 wallet address.\nPlease enter a correct wallet address or enter 'cancel' to cancel the process entirely."
                     await depositstack.bot_message(chat_id=chat_id, message=message)
                     context.user_data['status'] = 'withdrawal: awaiting wallet'
                     return

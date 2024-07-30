@@ -1,6 +1,8 @@
 # model.py
 
 import psycopg2
+from decimal import Decimal
+from psycopg2.extras import RealDictRow
 import psycopg2.extras
 import logging
 import argparse
@@ -399,6 +401,169 @@ class DataHandler:
             raise
 
 
+    def get_depositaddresses(self):
+        """
+        Retrieves all deposit addresses from the database.
+
+        Returns:
+            list of dict or None: List of dictionaries containing deposit addresses fetched from the
+                                  'get_depositaddresses' function, or None if no data is found.
+
+        Raises:
+            Exception: If there is an error while retrieving deposit addresses.
+        """
+        try:
+            # Call the 'get_depositaddresses' function
+            return self.call_function("get_depositaddresses")
+        except Exception as e:
+            logging.error(f"Error retrieving deposit addresses: {e}")
+            raise
+
+
+    def get_deposit_address_private_key(self, deposit_address):
+        """
+        Retrieves the unhashed private key for a given deposit address.
+
+        Args:
+            deposit_address (str): The deposit address to search for.
+
+        Returns:
+            bytes: The unhashed private key corresponding to the deposit address.
+
+        Raises:
+            Exception: If there is an error while retrieving the private key.
+        """
+        try:
+            # Call the 'get_unhashed_private_key' function
+            private_key = self.call_function("get_deposit_address_private_key", deposit_address)
+            return private_key
+        except Exception as e:
+            logging.error(f"Error retrieving unhashed private key: {e}")
+            raise
+
+
+    def get_centraladdress(self):
+        """
+        Retrieves the central deposit address from the database.
+        The central deposit address is the address where all funds found on the
+        deposit addresses are transferred to.
+
+        Returns:
+            dict: A dictionary containing the central deposit address and other relevant
+                details fetched from the 'get_centraladdress' function.
+                If no data is found, returns a default address from CONFIG.ETHPOLYGON.BACKUP_CENTRAL_ADDRESS.
+
+        Raises:
+            Exception: If there is an error while retrieving the central address.
+        """
+        try:
+            # Call the 'get_depositaddresses' function
+            central_address = self.call_function("get_centraladdress")
+            if central_address and len(central_address) > 0:
+                return central_address
+            else:
+                return {"depositaddress": CONFIG.ETHPOLYGON.BACKUP_CENTRAL_ADDRESS}
+        except Exception as e:
+            logging.error(f"Error retrieving central address: {e}")
+            raise
+
+
+    def insert_depositlogs(self, logs):
+        try:
+            # Prepare lists from logs
+            from_addresses = [log['from_address'] for log in logs]
+            to_addresses = [log['to_address'] for log in logs]
+            transaction_ids = [log['transaction_id'] for log in logs]
+            block_numbers = [log['block_number'] for log in logs]
+            
+            # Block timestamps are already strings in the correct format
+            block_timestamps = [log['block_timestamp'] for log in logs]
+            amounts = [log['amount'] for log in logs]
+            
+            # Convert lists to PostgreSQL array format
+            from_addresses_str = '{' + ','.join(f"'{addr}'" for addr in from_addresses) + '}'
+            to_addresses_str = '{' + ','.join(f"'{addr}'" for addr in to_addresses) + '}'
+            transaction_ids_str = '{' + ','.join(f"'{txid}'" for txid in transaction_ids) + '}'
+            block_numbers_str = '{' + ','.join(map(str, block_numbers)) + '}'
+            block_timestamps_str = '{' + ','.join(f"'{ts}'" for ts in block_timestamps) + '}'
+            amounts_str = '{' + ','.join(map(str, amounts)) + '}'
+
+            # Call the stored procedure with explicit type casting
+            self.call_procedure(
+                "insert_depositlogs",
+                from_addresses_str,
+                to_addresses_str,
+                transaction_ids_str,
+                block_numbers_str,
+                block_timestamps_str,
+                amounts_str,
+            )
+            self.conn.commit()
+        except Exception as e:
+            logging.error(f"Error inserting deposit logs: {e}")
+            self.conn.rollback()
+            raise
+        finally:
+            self.conn.close()
+
+
+    def get_newdepositlogs(self):
+        try:
+            # Call the 'get_depositaddresses' function
+            newdeposits = self.call_function("get_newdepositlogs")
+            if newdeposits and len(newdeposits) > 0:
+                result = []
+                for row in newdeposits:
+                    dict_row = dict(row)
+                    for key, value in dict_row.items():
+                        if isinstance(value, str):
+                            dict_row[key] = value.strip("'")
+                        else:
+                            dict_row[key] = value
+                    result.append(dict_row)
+                return result
+            else:
+                return None
+        except Exception as e:
+            logging.error(f"Error retrieving new deposit logs: {e}")
+            raise
+
+
+    def update_transferred_status_true(self, transaction_id):
+        """
+        Updates the 'transferred' boolean field in depositlogs to TRUE by transaction_id (varchar).
+    
+        Returns:
+            nothing, except error message in case of exception
+
+        Raises:
+            Exception: If there is an error while retrieving deposit addresses.
+        """
+        try:
+            # Call the 'get_depositaddresses' function
+            return self.call_function("update_transferred_status_true", transaction_id)
+        except Exception as e:
+            logging.error(f"Error updating depositlogs, 'transferred' to TRUE (tx_hash = {transaction_id}): {e}")
+            raise
+
+
+    def update_transferred_status_false(self, transaction_id):
+        """
+        Updates the 'transferred' boolean field in depositlogs to FALSE by transaction_id (varchar).
+    
+        Returns:
+            nothing, except error message in case of exception
+
+        Raises:
+            Exception: If there is an error while retrieving deposit addresses.
+        """
+        try:
+            # Call the 'get_depositaddresses' function
+            return self.call_function("update_transferred_status_false", transaction_id)
+        except Exception as e:
+            logging.error(f"Error updating depositlogs, 'transferred' to FALSE (tx_hash = {transaction_id}): {e}")
+            raise
+
 
 
     def close(self):
@@ -417,6 +582,9 @@ class DataHandler:
         except Exception as e:
             logging.error(f"Error closing database connection: {e}")
             raise
+
+
+    
 
 
 

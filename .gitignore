@@ -4,6 +4,7 @@ tronvenv/
 # Ignore Python cache files and directories
 __pycache__/
 *.pyc
+trialscripts/
 
 # Ignore VSCode-related files and directories
 .VSCodeCounter/
