@@ -15,6 +15,7 @@ from datetime import datetime
 from config import CONFIG
 from model import DataHandler
 from ethapi import EthAPI
+from eth_utils import is_checksum_address, to_checksum_address, is_address
 from krakenapi import KrakenAPI
 from client import Client
 from depositstack import DepositStack
@@ -52,8 +53,78 @@ except Exception as e:
     raise
 
 
+async def validate_address(address, chat_id):
+    """
+    Validate cryptocurrency wallet address.
+    Args: 
+        address (str): The wallet address to validate.
+        chat_id (int): The chat ID to send messages to.
+    Returns: 
+        bool: True if valid, False otherwise.
+    """
+    # Check if address is Ethereum (0x... format) or Tron (T... format)
+    if address.startswith('0x'):
+        return await validate_ethereum_address(address, chat_id)
+    elif address.startswith('T'):
+        return await validate_tron_address(address, chat_id)
+    else:
+        await depositstack.bot_message(chat_id=chat_id, message="<code>Invalid address format</code>")
+        return False
+
+
+# Validate Ethereum address with checksum and network check
+async def validate_ethereum_address(address, chat_id):
+    """
+    Validate Ethereum address with checksum and network existence.
+    Args:
+        address (str): The Ethereum wallet address.
+        chat_id (int): The chat ID to send messages to.
+    Returns:
+        bool: True if valid, False otherwise.
+    """
+    check_result = True
+
+    try:
+        # Check address format
+        if not re.match(r'^0x[a-fA-F0-9]{40}$', address):
+            message = f"<code>checking wallet format....... 🚫</code>"
+            await depositstack.bot_message(chat_id=chat_id, message=message)
+            return False
+        else:
+            message = f"<code>checking wallet format....... ✅</code>"
+            await depositstack.bot_message(chat_id=chat_id, message=message)
+
+        # Checksum check
+        try:
+            if not is_checksum_address(address):
+                address = to_checksum_address(address)
+                message = f"<code>testing wallet checksum...... 🚫</code>"
+                await depositstack.bot_message(chat_id=chat_id, message=message)
+                return False
+            else:
+                message = f"<code>testing wallet checksum...... ✅</code>"
+                await depositstack.bot_message(chat_id=chat_id, message=message)
+        except Exception as e:
+            logger.error(f"Checksum validation error: {e}")
+            message = f"<code>testing wallet checksum...... 🚫</code>"
+            await depositstack.bot_message(chat_id=chat_id, message=message)
+            return False
+
+    except re.error as regex_error:
+        logger.error(f"Regex error while validating address: {regex_error}")
+        check_result = False
+        await depositstack.bot_message(chat_id=chat_id, message="<code>Error validating address format</code>")
+
+    except Exception as general_error:
+        logger.error(f"General error during address validation: {general_error}")
+        check_result = False
+        await depositstack.bot_message(chat_id=chat_id, message="<code>An unexpected error occurred</code>")
+
+    return check_result
+
+
 # validate USDT ERC20 wallet address
-async def validate_usdt_erc20_address(address, chat_id):
+async def validate_tron_address(address, chat_id):
     """
     Validate USDT wallet address in ERC20 network.
     Args: 
@@ -1090,7 +1161,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
             logger.info('AWAITING WALLET!!!!')
             if update.message.text:
                 wallet_address = update.message.text
-                is_valid_wallet_address = await validate_usdt_erc20_address(wallet_address, chat_id)
+                is_valid_wallet_address = await validate_address(wallet_address, chat_id)
                 logger.info(f"is_valid_wallet_address: {is_valid_wallet_address}")
                 if not is_valid_wallet_address:
                     message = f"The wallet address '{wallet_address}' you entered is not a valid USDT/ERC20 wallet address.\nPlease enter a correct wallet address or enter 'cancel' to cancel the process entirely."
