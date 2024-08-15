@@ -30,7 +30,6 @@ class DataHandler:
         - get_statement(p_chat_id, p_start_date, p_end_date): Retrieves transaction statements between two dates.
         - get_total_liabilities(): Calculates the total liabilities from the 'balances' table.
         - projected_balance(p_target_date, p_chat_id): Calculates projected balance up to a target date for a client.
-        - withdraw(p_chat_id, p_amount): Processes a withdrawal transaction and updates balances accordingly.
         - get_balance(p_chat_id): Retrieves the current balance information for a client.
         - get_client(p_chat_id): Retrieves client information based on the chat_id.
 
@@ -215,58 +214,6 @@ class DataHandler:
             raise
     
 
-    def correct_balance(self, p_chat_id, p_amount):
-        """
-        Executes the 'correct_balance' procedure to adjust the balance for a specific chat_id.
-
-        Args:
-            p_chat_id (int): Chat ID of the client whose balance is to be corrected.
-            p_amount (float): Amount by which to correct the balance.
-
-        Returns:
-            list or None: List of results from the 'correct_balance' procedure, or None if no results.
-
-        Raises:
-            Exception: If there is an error while correcting the balance.
-        """
-        try:
-            # Call the 'correct_balance' procedure with the provided chat_id and amount
-            return self.call_procedure('correct_balance', p_chat_id, p_amount)
-        except Exception as e:
-            logging.error(f"Error correcting balance for chat_id {p_chat_id}: {e}")
-            raise
-    
-
-    def handle_deposit(self, p_chat_id, p_firstname, p_lastname, p_currency, p_method, p_amount, p_deposit_address, p_kraken_refid, p_kraken_time, p_kraken_txid):
-        """
-        Handles a deposit by calling the 'handle_deposit' procedure.
-
-        Args:
-            p_chat_id (int): Chat ID of the client making the deposit.
-            p_firstname (str): First name of the client.
-            p_lastname (str): Last name of the client.
-            p_currency (str): Currency of the deposit.
-            p_method (str): Method used for the deposit.
-            p_amount (float): Amount deposited.
-            p_deposit_address (str): Deposit address used.
-            p_kraken_refid (str): Reference ID from Kraken exchange.
-            p_kraken_time (datetime): Time of the deposit from Kraken.
-            p_kraken_txid (str): Transaction ID from Kraken.
-
-        Returns:
-            list or None: List of results from the 'handle_deposit' procedure, or None if no results.
-
-        Raises:
-            Exception: If there is an error while handling the deposit.
-        """
-        try:
-            # Call the 'handle_deposit' procedure with the provided parameters
-            return self.call_procedure('handle_deposit', p_chat_id, p_firstname, p_lastname, p_currency, p_method,
-                                    p_amount, p_deposit_address, p_kraken_refid, p_kraken_time, p_kraken_txid)
-        except Exception as e:
-            logging.error(f"Error handling deposit for chat_id {p_chat_id}: {e}")
-            raise
-    
     
     def get_statement(self, p_chat_id, p_start_date, p_end_date):
         """
@@ -333,73 +280,6 @@ class DataHandler:
             logging.error(f"Error calculating projected balance: {e}")
             raise
     
-
-    def withdraw(self, p_chat_id, p_amount):
-        """
-        Processes a withdrawal for a client specified by chat ID.
-
-        Args:
-            p_chat_id (int): Client chat ID.
-            p_amount (float): Amount to withdraw.
-
-        Returns:
-            dict or None: Dictionary containing withdrawal details fetched from the 'withdraw' procedure,
-                        or None if no data is found.
-
-        Raises:
-            Exception: If there is an error while processing the withdrawal.
-        """
-        try:
-            # Call the 'withdraw' procedure with the provided parameters
-            return self.call_procedure("withdraw", p_chat_id, p_amount)
-        except Exception as e:
-            logging.error(f"Error processing withdrawal: {e}")
-            raise
-    
-    
-    def get_balance(self, p_chat_id):
-        """
-        Retrieves the current balance for a client specified by chat ID.
-
-        Args:
-            p_chat_id (int): Client chat ID.
-
-        Returns:
-            dict or None: Dictionary containing balance details fetched from the 'get_balance' function,
-                        or None if no data is found.
-
-        Raises:
-            Exception: If there is an error while retrieving the balance.
-        """
-        try:
-            # Call the 'get_balance' function with the provided chat ID
-            return self.call_function("get_balance", p_chat_id)
-        except Exception as e:
-            logging.error(f"Error retrieving balance: {e}")
-            raise
-
-
-    def get_client(self, p_chat_id):
-        """
-        Retrieves client details based on the provided chat ID.
-
-        Args:
-            p_chat_id (int): Client chat ID.
-
-        Returns:
-            dict or None: Dictionary containing client details fetched from the 'get_client' function,
-                        or None if no data is found.
-
-        Raises:
-            Exception: If there is an error while retrieving client details.
-        """
-        try:
-            # Call the 'get_client' function with the provided chat ID
-            return self.call_function("get_client", p_chat_id)
-        except Exception as e:
-            logging.error(f"Error retrieving client details: {e}")
-            raise
-
 
     def get_depositaddresses(self):
         """

@@ -8,8 +8,9 @@ import hashlib
 import requests
 import threading
 # from tronapi import Tron
+from decimal import Decimal, ROUND_HALF_UP
 from fastapi_app.fastapi_app import app  # Import the FastAPI app
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update, Bot
 from telegram.ext import Application, CommandHandler, CallbackQueryHandler, MessageHandler, filters, CallbackContext, ConversationHandler
 from datetime import datetime
 from config import CONFIG
@@ -549,6 +550,98 @@ async def show_deposit_address(update: Update, context: CallbackContext, chat_id
         await send_message(message_obj, context, error_message)
 
 
+async def get_factor():
+    # fetches current factor from Result server app via get_factor integration endpoint
+    # Get the current date
+    now = datetime.now()
+    # Format the date as "YYYY-MM-DD"
+    return_date = now.strftime("%Y-%m-%d")
+    # get the current minute
+    minute = now.hour * 60 + now.minute
+
+    factor = 0
+    url = f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.GET_FACTOR}"
+    params = {
+        "return_date": return_date,
+        "minute": minute
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # Raise an error for bad status codes
+        data = response.json()  # Parse the response as JSON
+        
+        if data["status"] == "success":
+            factor = data["factor"]
+        else:
+            print("Error:", data["message"])
+            factor = 0
+    
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+
+    return factor, now
+
+
+async def get_balance(chat_id: int):
+    """
+    Fetches the balance, firstname, lastname and currency through
+    remote integration endpoint from the Returns server app
+    """
+    balance_url = f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.GET_BALANCE}"
+    balance_data = {
+        "chat_id": chat_id  # Ensure chat_id is the correct parameter name
+    }
+
+    try:
+        response = requests.post(balance_url, json=balance_data)
+        response.raise_for_status()  # Raise an error for bad status codes
+        balance_data = response.json()  # Parse the response as JSON
+        print(f"\n\n\nDATA:\n{balance_data}\n\n\n")
+        balance_info = balance_data['balance'][0]
+        print(f"\n\n\n\nBALANCE INFO: \n{balance_info}")
+
+        if balance_data["status"] == "success":
+            firstname = balance_info['firstname']
+            lastname = balance_info['lastname']
+            currency = balance_info['currency']
+            if balance_info['balance'] is not None:
+                balance = Decimal(balance_info['balance'])  # Convert balance to Decimal
+            else:
+                balance = 0
+            last_update_date = balance_info['last_update_date']
+        else:
+            print("Error:", balance_data["message"])
+            balance_info = {}
+        
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout) as e:                
+
+        # if callback == False:
+        #     await update.message.reply_text("The server is currently offline. Please try later again.")
+        # elif callback == True:
+        #     await update.callback_query.message.reply_text("The server is currently offline. Please try later again.")
+        # context.user_data['status'] = None
+
+        message = f"Server is offline. Please try again later.\n {e}"
+        bot_message = "<b> ⚠️     Maintenance Information     ⚠️ \n\nThis part of the application is currently offline.\nPlease try later again.\n\nWe apologize for the inconvenience.</b>"
+        logger.error(message)
+        await application.bot.send_message(chat_id=chat_id, text=bot_message, parse_mode='HTML')
+        balance = -1
+        firstname, lastname, currency = "", "", ""
+
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+        balance_info = {}
+        balance = -1
+        firstname, lastname, currency = "", "", ""
+    
+    return balance, firstname, lastname, currency
+
+
+
+
 async def show_balance(update: Update, context: CallbackContext):
     """
     Retrieves and displays the balance information for a client from the database.
@@ -573,20 +666,34 @@ async def show_balance(update: Update, context: CallbackContext):
         callback = True
 
     try:
-        result = database.get_balance(chat_id)
-        if result:
-            balance_info = result[0]
-            firstname = balance_info['firstname']
-            lastname = balance_info['lastname']
-            currency = balance_info['currency']
-            balance = balance_info['balance']
-            last_update_date = balance_info['last_update_date']
+        # fetches oscillation factor
+        factor, now = await get_factor()
 
-            bot_text = f"ℹ️ Client: {firstname} {lastname}\nBalance: {currency} {balance}\nLast updated: {last_update_date}"
-            if callback == False:
-                await update.message.reply_text(bot_text, parse_mode='HTML')
-            elif callback == True:
-                await update.callback_query.message.reply_text(bot_text, parse_mode='HTML')
+        # fetches latest closure balance
+        balance, firstname, lastname, currency = await get_balance(chat_id)
+        if balance == -1:
+            user_data = context.user_data
+            context.user_data['status'] = None
+            await update.message.reply_text("An error occurred while fetching the balance information.")
+            return
+
+        factor_decimal = Decimal(factor)
+
+        # Calculate the factorized balance
+        factorized_balance = balance * factor_decimal
+
+        factorized_balance = factorized_balance.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+        timestamp = now.strftime("%Y-%m-%d:%H:%M:%S")
+        bot_text = f"ℹ️ Client: {firstname} {lastname}\nBalance: {currency} {factorized_balance}\nTimestamp: {timestamp}"
+        print(f"\n\n\nBOT-TEXT: {bot_text}\n\n\n")
+        if not callback:
+            #await update.message.reply_text(bot_text, parse_mode='HTML')
+            ## UPDATE ALL BOT COMMUNICATIONS LIKE THE LINE BELOW FOR NON-CALLBACK MESSAGES, to ensure it uses rate limit queuing
+            await context.bot.send_message(chat_id=update.effective_chat.id, text=bot_text, parse_mode='HTML')
+        elif callback:
+            #await update.callback_query.message.reply_text(bot_text, parse_mode='HTML')
+            ## UPDATE ALL BOT COMMUNICATIONS LIKE THE LINE BELOW FOR CALLBACK MESSAGES, to ensure it uses rate limit queuing
+            await context.bot.send_message(chat_id=update.callback_query.message.chat_id, text=bot_text, parse_mode='HTML')
     except Exception as e:
         error_message = f"Error retrieving balance information: {str(e)}"
         logger.error(error_message)
@@ -648,6 +755,18 @@ async def request_withdrawal(update: Update, context: CallbackContext):
                 await update.message.reply_text(bot_text, parse_mode='HTML')
             elif callback == True:
                 await update.callback_query.message.reply_text(bot_text, parse_mode='HTML')
+    except (requests.exceptions.HTTPError,
+            requests.exceptions.ConnectionError,
+            requests.exceptions.Timeout) as e:                
+        error_message = f"Error processing withdrawal request: {str(e)}"
+        logger.error(error_message)
+        if callback == False:
+            await update.message.reply_text("The server is currently offline. Please try later again.")
+        elif callback == True:
+            await update.callback_query.message.reply_text("The server is currently offline. Please try later again.")
+        context.user_data['status'] = None
+        return
+        
     except Exception as e:
         error_message = f"Error processing withdrawal request: {str(e)}"
         logger.error(error_message)
@@ -756,6 +875,26 @@ async def client_confirm_withdrawal(chat_id, context: CallbackContext):
         logger.error(error_message)
         raise Exception(error_message)
 
+async def fetch_client_from_api(chat_id):
+    try:
+        # Prepare the payload for the POST request
+        payload = {"chat_id": chat_id}
+        
+        # Make the API call to get client details
+        response = requests.post(f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.GET_CLIENT}", json=payload)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        
+        # Parse the response JSON
+        client = response.json()
+        
+        return client
+    except requests.HTTPError as e:
+        logging.error(f"HTTP error occurred: {e}")
+        return None
+    except Exception as e:
+        logging.error(f"Error occurred while requesting client details: {e}")
+        return None
+
 
 async def admin_confirm_payout(chat_id, chat_id_client, amount, context: CallbackContext):
     """
@@ -796,7 +935,8 @@ async def admin_confirm_payout(chat_id, chat_id_client, amount, context: Callbac
         ]
         
         # Retrieve client data for the payout
-        client = database.get_client(chat_id_client)[0]
+        client = await fetch_client_from_api(chat_id_client)
+        print(f"\n\n\nCLIENT = {client}\n\n\n")
         logger.info(f"Retrieved client data for payout confirmation: {client}")
         
         # Construct message with payout details
@@ -914,7 +1054,11 @@ async def button(update: Update, context: CallbackContext) -> None:
             callback_data = json.loads(callback_data_json)
             status = callback_data.get("status")
             decision = callback_data.get("decision")
-            
+
+            # Acknowledge the callback query
+            await query.answer()
+
+
             if status == "client_commit_to_deposit":
                 if decision == "yes":
                     client = get_client_object(update, chat_id)
@@ -940,16 +1084,13 @@ async def button(update: Update, context: CallbackContext) -> None:
             
             elif status == "withdrawal: confirm":
                 if decision == "yes":
-                    client_raw = database.get_client(chat_id)
-                    client = client_raw[0]
+                    client_raw = await fetch_client_from_api(chat_id)
+                    client = client_raw["client"][0]
+                    print(f"\n\n\nCLIENT = {client}\n\n\n")
                     withdrawal = withdrawals.get_withdrawal_data(chat_id)
                     amount = withdrawal['amount']
                     wallet = withdrawal['wallet']
-                    balance_raw = database.get_balance(chat_id)
-                    
-                    if balance_raw:
-                        balance_info = balance_raw[0]
-                        balance = balance_info['balance']
+                    balance, _, _, _ = await get_balance(chat_id)
                     
                     # Prepare data to send to sister application
                     data = {
@@ -1141,10 +1282,16 @@ async def handle_text_input(update: Update, context: CallbackContext):
                 try:
                     amount = float(amount_text)
                     context.user_data['status'] = ''  # Reset status after successfully parsing amount
-                    result = database.get_balance(chat_id)
-                    if result:
-                        balance_info = result[0]
-                        balance = float(balance_info['balance'])
+                    balance_raw, firstname, lastname, currency = await get_balance(chat_id)
+                    if balance_raw == -1: # if get_balance failed, server probably not online, therefore cancel process
+                        user_data = context.user_data
+                        user_data['status'] = None
+                        await update.message.reply_text("Withdrawal process was canceled. Please try later again.")
+                        return
+
+                    print(f"\n\n\n\nRESULT:\n{balance_raw}")
+                    if balance_raw:
+                        balance = float(balance_raw)
                         if amount > balance:
                             await update.message.reply_text(f"The requested withdrawal amount {amount} exceeds your balance {balance}. Please enter a lower amount or enter 'cancel' to cancel the withdrawal.")
                             context.user_data['status'] = 'withdrawal: awaiting amount'

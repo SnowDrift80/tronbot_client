@@ -1,8 +1,10 @@
 # fastapi_app/fastapi_app.py
 
 # Import necessary modules from FastAPI and Pydantic
+import requests
 from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
+from config import CONFIG
 
 # Import datetime module for handling date and time operations
 from datetime import datetime
@@ -193,8 +195,23 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
         logging.info(f"- Approved by: {approved_by_username}")
 
         # Update balance in the database
-        database = DataHandler()
-        database.withdraw(chat_id, amount)
+        # database = DataHandler()
+        # database.withdraw(chat_id, amount)
+
+        # Prepare the request payload
+        payload = {
+            "chat_id": chat_id,
+            "amount": amount
+        }
+
+        # Make the HTTP request to the withdraw endpoint
+        # this updates ledger and balance in the Returns app database
+        withdraw_url = f"{CONFIG['RETURNS_API']['APPSERVER_URL']}{CONFIG['RETURNS_API']['WITHDRAW']}"
+        response = requests.post(withdraw_url, json=payload)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+
+
+
 
         # Create and send a confirmation message
         message = (
@@ -326,8 +343,15 @@ async def balance_rollback(data: RollbackWithdrawalData = Body(...)):
         logging.info(f"- Target Address: {target_address}")
 
         # Update the balance in the database
-        database = DataHandler()
-        database.correct_balance(chat_id, amount)
+        # database = DataHandler()
+        # database.correct_balance(chat_id, amount)
+
+        # Define the URL for the rollback endpoint
+        rollback_url = f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.ROLLBACK_WITHDRAWAL}"
+
+        # Make the request to the Returns app
+        response = requests.post(rollback_url, json={"chat_id": chat_id, "amount": amount})
+        response.raise_for_status()  # Raise an HTTPError if the response status is 4xx or 5xx
 
         # Return a success message
         return {"status": "success", "message": "Balance rollback processed"}

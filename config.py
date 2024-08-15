@@ -49,6 +49,15 @@ class CONFIG:
         HOST = 'psql15.hq.rvg'
         PORT = '5432'
 
+    class RETURNS_API:
+        APPSERVER_URL = "http://localhost:5010"
+        GET_BALANCE = "/api/get_balance/"
+        GET_FACTOR = "/api/get_factor/"
+        HANDLE_DEPOSIT = "/api/handle_deposit/"
+        GET_CLIENT = "/api/get_client/"
+        WITHDRAW = "/api/withdraw/"
+        ROLLBACK_WITHDRAWAL = "/api/rollback_withdrawal"
+
 
 
     MAIN_ACCOUNT_PRIVATE_KEY = '8f0a81b40c2c5c3282e6ee44457be8e3cd34a2dd47e586bf2ff5f2a400ccc4d6'

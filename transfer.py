@@ -46,7 +46,6 @@ class Funds:
             # get wallet address where the funds need to be sent to from database
             raw_to_address = self.database.get_centraladdress()[0]
             to_address = raw_to_address['depositaddress']
-            print(f"transaction = usdt_contract.functions.transfer({to_address}, {t_amount}).build_transaction(")
 
             # USDT contract address on Polygon
             usdt_address = CONFIG.ETHPOLYGON.USDT_CONTRACT

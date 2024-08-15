@@ -1,6 +1,8 @@
 # depositstack.py
 import sys
 import datetime
+import requests
+from decimal import Decimal
 import telegram
 from telegram import Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, filters
@@ -304,11 +306,49 @@ class DepositStack():
                             # Add deposit record to the database to prevent re-processing
                             self.database.add_deposit_record(refid, chat_id, first_name, last_name, amount, asset, txid, deposit_address)
                             
-                            # Update client balances and create ledger entry
-                            self.database.handle_deposit(chat_id, first_name, last_name, CONFIG.ASSET, CONFIG.METHOD, amount, deposit_address, refid, credit_time, txid)
-                            
+                            # Update client balances and create ledger entry / old code
+                            # self.database.handle_deposit(chat_id, first_name, last_name, CONFIG.ASSET, CONFIG.METHOD, amount, deposit_address, refid, credit_time, txid)
+
+
+############################ UPDATE CLIENT BALANCES REMOTE PROCEDURE CALL ##################################################
+                            # Update client balances and create ledger entry 
+                            # Prepare data to send in the API request
+                            # Convert amount to float if it's a Decimal
+                            if isinstance(amount, Decimal):
+                                amount = float(amount)
+
+                            payload = {
+                                "chat_id": chat_id,
+                                "firstname": first_name,
+                                "lastname": last_name,
+                                "currency": CONFIG.ASSET,
+                                "method": CONFIG.METHOD,
+                                "amount": amount,
+                                "deposit_address": deposit_address,
+                                "kraken_refid": refid,
+                                "kraken_time": credit_time,
+                                "kraken_txid": txid
+                            }
+
+                            try:
+                                # Make the API call to handle the deposit
+                                response = requests.post(f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.HANDLE_DEPOSIT}", json=payload)
+                                response.raise_for_status()  # Raise an exception for HTTP errors
+                                result = response.json()
+                                logger.info(f"Deposit handled successfully: {result}")
+                            except requests.HTTPError as e:
+                                logger.error(f"HTTP error occurred: {e}")
+                            except Exception as e:
+                                logger.error(f"Error occurred while calling handle_deposit API: {e}")
+
+#############################################################################################################################
+
+
                             # Notify client about the deposit confirmation
-                            await self.bot_message(chat_id, message)
+                            #await self.bot_message(chat_id, message)
+                            # use the below variant to use the automatic queuing feature
+                            await self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
+
                             
                             # Add refid to known refids to avoid processing it again
                             self.deposit_ref_ids.add(refid)
