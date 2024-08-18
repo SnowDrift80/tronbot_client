@@ -17,7 +17,6 @@ from config import CONFIG
 from model import DataHandler
 from ethapi import EthAPI
 from eth_utils import is_checksum_address, to_checksum_address, is_address
-from krakenapi import KrakenAPI
 from client import Client
 from depositstack import DepositStack
 from withdraw_data import ClientWithdrawal
@@ -516,12 +515,9 @@ async def show_deposit_address(update: Update, context: CallbackContext, chat_id
         text = "Preparing deposit address..."
         await message_obj.reply_text(text)
 
-        api = KrakenAPI(CONFIG.SPOT_API_KEY, CONFIG.SPOT_PRIVATE_KEY)
-        response_data = api.generate_new_deposit_address(
-            asset=CONFIG.ASSET,
-            method=CONFIG.METHOD,
-            new=False
-        )
+        response_data = database.get_depositaddresses()
+        print(f"RESPONSE_DATA: {response_data}")
+
         deposit_addresses = response_data.get('result', [])
 
         in_use = False
@@ -1061,6 +1057,7 @@ async def button(update: Update, context: CallbackContext) -> None:
 
             if status == "client_commit_to_deposit":
                 if decision == "yes":
+                    await query.message.reply_text("Please wait while your deposit address is being prepared...")
                     client = get_client_object(update, chat_id)
                     deposit_request = await depositstack.add_deposit_request(update, client)
                     

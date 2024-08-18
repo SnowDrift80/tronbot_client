@@ -7,7 +7,6 @@ import telegram
 from telegram import Update, Bot
 from telegram.ext import Updater, CommandHandler, MessageHandler, filters
 from client import Client
-from krakenapi import KrakenAPI
 from config import CONFIG
 from model import DataHandler
 import logging
@@ -54,8 +53,6 @@ class DepositStack():
         """
         self.bot = telegram.Bot(token=CONFIG.TELEGRAM_KEY)
         self.database = database
-
-        api = KrakenAPI(CONFIG.SPOT_API_KEY, CONFIG.SPOT_PRIVATE_KEY)
 
         try:
             # Retriete all deposit addresses from database
@@ -218,7 +215,7 @@ class DepositStack():
     async def process_next(self):
         """Process the next deposit request from the stack with the most elements."""
         logger.info("Processing next deposit request.")
-        
+
         try:
             # Loop through the stacks to find the oldest element
             for stack in self.stacks:

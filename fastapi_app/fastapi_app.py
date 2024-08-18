@@ -206,7 +206,7 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
 
         # Make the HTTP request to the withdraw endpoint
         # this updates ledger and balance in the Returns app database
-        withdraw_url = f"{CONFIG['RETURNS_API']['APPSERVER_URL']}{CONFIG['RETURNS_API']['WITHDRAW']}"
+        withdraw_url = f"{CONFIG.RETURNS_API.APPSERVER_URL}{CONFIG.RETURNS_API.WITHDRAW}"
         response = requests.post(withdraw_url, json=payload)
         response.raise_for_status()  # Raise an exception for HTTP errors
 
