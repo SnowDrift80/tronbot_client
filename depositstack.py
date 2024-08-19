@@ -292,11 +292,16 @@ class DepositStack():
                             # Log the deposit received information
                             logger.info(f"Deposit received to deposit address {deposit_address} from client {first_name} {last_name}. Amount: {amount}")
                             
+                            # avoid 'None' in firstname or lastname and replace with empty string ""                
+                            if first_name == None:
+                                first_name = ""
+                            if last_name == None:
+                                last_name = ""
                             # Construct message for deposit confirmation
                             message = (
                                 f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
                                 f"Hello {first_name} {last_name},\n"
-                                f"🏦 Your deposit with the amount of <b>USDT {amount}</b> was just credited to our account.\n\n"
+                                f"🏦 Your deposits for the amount of <b>USDT {amount}</b> have just been received and credited to your account after deduction of {CONFIG.FEES.DEPOSIT_FEE}% deposit fee.\n\n"
                                 f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
                             )
                             
@@ -324,7 +329,8 @@ class DepositStack():
                                 "deposit_address": deposit_address,
                                 "kraken_refid": refid,
                                 "kraken_time": credit_time,
-                                "kraken_txid": txid
+                                "kraken_txid": txid,
+                                "deposit_fee": CONFIG.FEES.DEPOSIT_FEE
                             }
 
                             try:

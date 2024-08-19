@@ -353,6 +353,17 @@ async def balance_rollback(data: RollbackWithdrawalData = Body(...)):
         response = requests.post(rollback_url, json={"chat_id": chat_id, "amount": amount})
         response.raise_for_status()  # Raise an HTTPError if the response status is 4xx or 5xx
 
+        # Create and send a confirmation message
+        message = (
+            f"<b>🔄 Rollback of Approved Withdrawal by Administrator 🔄</b>\n\n"
+            f"<code>Requested by user...: {firstname} {lastname}\n"
+            f"Requested amount....: {currency} {amount}\n\n"
+            f"The previously granted approval was withdrawn by the Administrator."
+            f"Your withdrawal request is now pending for approval again.</code>"
+
+        )
+        await Utils.bot_message(chat_id, message)
+
         # Return a success message
         return {"status": "success", "message": "Balance rollback processed"}
 

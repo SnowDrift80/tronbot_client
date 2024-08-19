@@ -58,6 +58,10 @@ class CONFIG:
         WITHDRAW = "/api/withdraw/"
         ROLLBACK_WITHDRAWAL = "/api/rollback_withdrawal"
 
+    class FEES:
+        DEPOSIT_FEE = 10 # deposit fee in percent to be deducted from the deposit
+        WITHDRAWAL_FEE = 10 # withdrawal fee in percent to be deducted from the deposit
+
 
 
     MAIN_ACCOUNT_PRIVATE_KEY = '8f0a81b40c2c5c3282e6ee44457be8e3cd34a2dd47e586bf2ff5f2a400ccc4d6'

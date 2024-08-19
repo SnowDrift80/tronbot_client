@@ -1088,6 +1088,7 @@ async def button(update: Update, context: CallbackContext) -> None:
                     amount = withdrawal['amount']
                     wallet = withdrawal['wallet']
                     balance, _, _, _ = await get_balance(chat_id)
+                    formatted_balance = f"{balance:.6f}"  # Format balance to 6 decimal places
                     
                     # Prepare data to send to sister application
                     data = {
@@ -1111,7 +1112,7 @@ async def button(update: Update, context: CallbackContext) -> None:
                         f"<b>🔴 WITHDRAWAL REQUEST 💵</b>\n\n"
                         f"By user: {client['firstname']} {client['lastname']}\n"
                         f"Telegram user-id: <code>{chat_id}</code>\n"
-                        f"Balance USDT {balance}\n"
+                        f"Balance USDT {formatted_balance}\n"
                         f"Withdrawal amount: USDT <code>{amount}</code>\n"
                         f"Beneficiary account: <code>{wallet}</code>"
                     )
@@ -1279,7 +1280,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                 try:
                     amount = float(amount_text)
                     context.user_data['status'] = ''  # Reset status after successfully parsing amount
-                    balance_raw, firstname, lastname, currency = await get_balance(chat_id)
+                    balance_raw, _, _, _ = await get_balance(chat_id)
                     if balance_raw == -1: # if get_balance failed, server probably not online, therefore cancel process
                         user_data = context.user_data
                         user_data['status'] = None
@@ -1290,7 +1291,13 @@ async def handle_text_input(update: Update, context: CallbackContext):
                     if balance_raw:
                         balance = float(balance_raw)
                         if amount > balance:
-                            await update.message.reply_text(f"The requested withdrawal amount {amount} exceeds your balance {balance}. Please enter a lower amount or enter 'cancel' to cancel the withdrawal.")
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} exceeds your balance of {balance}. Please enter a lower amount or enter 'cancel' to cancel the withdrawal.")
+                            context.user_data['status'] = 'withdrawal: awaiting amount'
+                        elif amount == 0:
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be 0. Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
+                            context.user_data['status'] = 'withdrawal: awaiting amount'
+                        elif amount < 0:
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be negative. Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
                             context.user_data['status'] = 'withdrawal: awaiting amount'
                         else:
                             withdrawals.update_amount(chat_id, amount)
