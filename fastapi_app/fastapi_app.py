@@ -150,6 +150,18 @@ class RollbackWithdrawalData(BaseModel):
     approved_by: int
 
 
+class UpdateDepositLogsRefundRequest(BaseModel):
+    """
+    Pydantic model for representing the request body for updating deposit logs with refund data.
+
+    Attributes:
+        p_id (str): The ID of the deposit log entry.
+        p_refund_transaction_id (str): The refund transaction ID to be associated with the deposit log entry.
+    """
+    p_transaction_id: str
+    p_refund_transaction_id: str    
+
+
 @app.post("/api/approved_withdrawal")
 async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
     """
@@ -210,9 +222,6 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
         response = requests.post(withdraw_url, json=payload)
         response.raise_for_status()  # Raise an exception for HTTP errors
 
-
-
-
         # Create and send a confirmation message
         message = (
             f"<b>💰 Withdrawal Approval Confirmation</b>\n\n"
@@ -223,7 +232,6 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
             f"<b>Payout net amount...: {net_amount}</b>\n"
             f"Beneficiary wallet..: {wallet}\n"
             f"Status..............: {status}\n"
-            f"Processed by........: {approved_by_username}</code>\n"
         )
         await Utils.bot_message(chat_id, message)
 
@@ -289,7 +297,6 @@ async def handle_declined_withdrawal(data: DeclinedWithdrawal = Body(...)):
             f"<b>Payout net amount...: {net_amount}</b>\n"
             f"Beneficiary wallet..: {wallet}\n"
             f"Status..............: DECLINED\n"
-            f"Processed by........: {declined_by_username}</code>\n\n"
             "A withdrawal request may be declined if the requested amount "
             "exceeds the balance. Please verify your balance using /balance.\n"
             "To create a new withdrawal request, use /withdraw."
@@ -370,6 +377,72 @@ async def balance_rollback(data: RollbackWithdrawalData = Body(...)):
     except Exception as e:
         logging.error(f"Error processing balance rollback: {str(e)}")
         raise HTTPException(status_code=500, detail="Error processing balance rollback")
+    
+
+@app.get("/api/get_unidentified_deposits")
+async def get_unidentified_deposits():
+    """
+    Endpoint to retrieve all unidentified deposits from the database.
+
+    Returns:
+        list of dict: A list of dictionaries, each representing a row in the depositlogs_view.
+
+    Raises:
+        HTTPException: If any error occurs during retrieval.
+    """
+    try:
+        # Instantiate DataHandler
+        data_handler = DataHandler()
+
+        # Call the method to retrieve deposits
+        deposits_list = data_handler.get_unidentified_deposits()
+
+        # Return the list of dictionaries as JSON
+        return deposits_list
+
+    except Exception as e:
+        logging.error(f"Error retrieving unidentified deposits: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error retrieving unidentified deposits")
+
+@app.post("/api/update_depositlogs_refund")
+async def update_depositlogs_refund(data: UpdateDepositLogsRefundRequest = Body(...)):
+    """
+    Endpoint to update deposit logs with refund data.
+
+    Args:
+        data (UpdateDepositLogsRefundRequest): The data for updating the deposit log entry with refund details.
+
+    Returns:
+        dict: A success message if the deposit log was updated correctly.
+
+    Raises:
+        HTTPException: If any error occurs during the update process.
+    """
+    try:
+        # Extract data from the request
+        p_transaction_id = data.p_transaction_id
+        p_refund_transaction_id = data.p_refund_transaction_id
+
+        # we need to add single quotes as IDs are stored with single-quotes in db.
+        p_transaction_id = f"'{p_transaction_id}'"
+        print(f"\n\n\np_transaction_id: {p_transaction_id}\np_refund_transaction_id: {p_refund_transaction_id}\n\n\n")
+
+        # Log the received data
+        logging.info(f"Updating deposit log with ID: {p_transaction_id}")
+        logging.info(f"- Refund Transaction ID: {p_refund_transaction_id}")
+
+        # Instantiate the DataHandler and call the update_depositlogs_refund method
+        database = DataHandler()
+        database.update_depositlogs_refund(p_transaction_id, p_refund_transaction_id)
+
+        # Return a success message
+        return {"status": "success", "message": "Deposit log updated with refund data"}
+
+    except Exception as e:
+        logging.error(f"Error updating deposit log with refund data: {str(e)}")
+        raise HTTPException(status_code=500, detail="Error updating deposit log with refund data")
+
+
 
 
 if __name__ == "__main__":

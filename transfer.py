@@ -1,12 +1,58 @@
 import time
+import logging
 from web3 import Web3
 from eth_account import Account
 from config import CONFIG
 from model import DataHandler
 
 
+# Set up logging
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', 
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
 class Funds:
+    """
+    The `Funds` class provides functionality for managing and transferring USDT (Tether) tokens on the Polygon network. 
+    Specifically, it facilitates the transfer of USDT from deposit accounts to a central collection account.
+
+    The class interacts with the Ethereum blockchain using Web3.py and utilizes a database handler to manage private 
+    keys and transaction records.
+
+    Nested Classes:
+        USDT: A nested class that handles the USDT token transfer process.
+
     class USDT:
+    """    
+
+    class USDT:
+        """
+        The `USDT` class is responsible for transferring USDT tokens from a deposit account to a central collection account 
+        on the Polygon network. It includes methods for fetching the current gas price, estimating gas for transactions, 
+        and executing the transfer of USDT.
+
+        Attributes:
+            polygon_url (str): The URL of the Polygon network RPC endpoint.
+            web3 (Web3): An instance of the Web3 class used to interact with the Ethereum blockchain.
+            database (DataHandler): An instance of the DataHandler class used for database operations.
+        
+        Methods:
+            __init__(): Initializes the USDT class, sets up the Web3 connection, and configures the database handler.
+            
+            get_gas_price(): Fetches the current gas price from the Ethereum network and adjusts it based on a configured percentage increase.
+            
+            estimate_gas(from_address, to_address, amount, usdt_contract): Estimates the gas required for a USDT transfer transaction.
+            
+            transfer(from_address, amount, deposit_tx_id): Executes a USDT transfer from the specified deposit account to the central collection account. 
+            The method handles transaction signing, submission to the blockchain, and receipt verification.
+
+        Example Usage:
+            funds = Funds.USDT()
+            funds.transfer("0xYourDepositAddress", 100, "deposit_transaction_id")
+        """
+
         def __init__(self) -> None:
             # Configure your Web3 provider (Infura or Alchemy)
             self.polygon_url = CONFIG.API.INFURA_API_URL + CONFIG.API.INFURA_API_KEY
@@ -32,15 +78,11 @@ class Funds:
 
         def transfer(self, from_address, amount, deposit_tx_id):
             t_amount = int(amount * (10 ** 6))  # 0.1 USDT in Wei
-            print(f"t_amount = {t_amount}")
 
             # Fetch the private key
             priv_key = self.database.get_deposit_address_private_key(from_address)[0]
             private_key = priv_key['get_deposit_address_private_key']
             
-
-            print(f"DECODED PRIVATE KEY: {private_key}")
-
             #account = Account.from_key(private_key)
 
             # get wallet address where the funds need to be sent to from database
@@ -78,11 +120,11 @@ class Funds:
 
             # Get the current gas price
             current_gas_price = self.get_gas_price()
-            print(f'Current gas price: {self.web3.from_wei(current_gas_price, "gwei")} Gwei')
+            logger.info(f'Current gas price: {self.web3.from_wei(current_gas_price, "gwei")} Gwei')
 
             # Estimate gas for the transaction
             estimated_gas = self.estimate_gas(from_address, to_address, t_amount, usdt_contract)
-            print(f'Estimated gas: {estimated_gas}')
+            logger.info(f'Estimated gas: {estimated_gas}')
 
             # Create a transaction dictionary
             transaction = usdt_contract.functions.transfer(to_address, t_amount).build_transaction({
@@ -98,10 +140,9 @@ class Funds:
             # Send the transaction to the Polygon network
             tx_hash = self.web3.eth.send_raw_transaction(signed_transaction.rawTransaction)
             tx_hash_str = tx_hash.hex()
-            print(f"\n\n\n\n\n TX_HASH_STR: {tx_hash_str}\n\n\n\n\n\n")
-            print(f"updating record with deposit transaction id {deposit_tx_id} to TRUE")
+            logger.info(f"Updating record with deposit transaction id {deposit_tx_id} to TRUE")
             self.database.update_transferred_status_true(f"'{deposit_tx_id}'")                
-            print(f'*** TRANSFER SUCCESSFULLY INITIATED: {tx_hash_str}')
+            logger.info(f'Transfer successfully initiated: {tx_hash_str}')
             receipt = None
             while receipt is None:
                 try:
@@ -109,16 +150,16 @@ class Funds:
                     if receipt is not None:
                         break
                     else:
-                        print('Transaction not yet mined, waiting...')
+                        logger.info('Transaction not yet mined, waiting...')
                         time.sleep(2)
                 except Exception as e:
-                    print(f"Error while fetching transaction receipt of with TxHash {tx_hash_str}: {e}")
+                    logger.warning(f"Error while fetching transaction receipt of with TxHash {tx_hash_str}: {e}")
                     time.sleep(2)
 
             if receipt.status == 1:
-                print(f'*** RECEIPT RECEIVED: Transaction was successful. Receipt: {receipt}')
+                logger.info(f'*** RECEIPT RECEIVED: Transaction was successful. Receipt: {receipt}')
             else:
-                print(f'*** RECEIPT RECEIVED: Transaction failed. Receipt: {receipt}')
+                logger.error(f'*** RECEIPT RECEIVED: Transaction failed. Receipt: {receipt}')
                 #update field 'transferred' in depositlogs to FALSE to mark record to 'not processed'
                 self.database.update_transferred_status_false(f"'{deposit_tx_id}'")                
 

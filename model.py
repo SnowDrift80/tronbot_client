@@ -1,5 +1,5 @@
 # model.py
-
+import requests
 import psycopg2
 from decimal import Decimal
 from psycopg2.extras import RealDictRow
@@ -110,6 +110,7 @@ class DataHandler:
         try:
             with self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                 cursor.callproc(func_name, args)
+                self.conn.commit()
                 result = cursor.fetchall()
                 return result
         except Exception as e:
@@ -383,8 +384,6 @@ class DataHandler:
             logging.error(f"Error inserting deposit logs: {e}")
             self.conn.rollback()
             raise
-        finally:
-            self.conn.close()
 
 
     def get_newdepositlogs(self):
@@ -407,6 +406,182 @@ class DataHandler:
         except Exception as e:
             logging.error(f"Error retrieving new deposit logs: {e}")
             raise
+
+
+    def get_unidentified_deposits(self):
+        """
+        Retrieves all unidentified depositsfrom the database.
+
+        Returns:
+            list of dict containing the depositlog rows
+
+        Raises:
+            Exception: If there is an error while retrieving deposit addresses.
+        """
+        try:
+            # create cursor
+            cursor = self.conn.cursor()
+
+            # execute sql query
+            cursor.execute("SELECT * FROM depositlogs_view ORDER BY block_timestamp DESC LIMIT 300")
+
+            # fetch results
+            deposits = cursor.fetchall()
+
+            # convert to list of dictionaries
+            columns = [desc[0] for desc in cursor.description]
+            deposits_list = [dict(zip(columns, row)) for row in deposits]
+
+            return deposits_list
+        except Exception as e:
+            logging.error(f"Error retrieving deposit addresses: {e}")
+            raise
+
+
+    def update_depositlogs_refund(self, p_transaction_id, p_refund_transaction_id):
+        """
+        Retrieves all unidentified depositsfrom the database.
+
+        Returns:
+            list of dict containing the depositlog rows
+
+        Raises:
+            Exception: If there is an error while retrieving deposit addresses.
+        """
+        try:
+            # Call the 'get_depositaddresses' function
+            self.call_function("update_depositlogs_refund", p_transaction_id, p_refund_transaction_id)
+        except Exception as e:
+            logging.error(f"Error updating depositlog with refund data: {e}")
+            raise
+
+
+    def get_profits_one_day(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_profits_one_day"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one day profits: {e}")
+            raise
+
+
+    def get_profits_one_week(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_profits_one_week"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one week profits: {e}")
+            raise
+
+        
+    def get_profits_one_month(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_profits_one_month"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one month profits: {e}")
+            raise
+
+
+    def get_profits_three_months(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_profits_three_months"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving three months profits: {e}")
+            raise
+
+
+    def get_profits_all_time(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_profits_all_time"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving yesterday's return: {e}")
+            raise
+
+
+    def get_bot_returns_yesterday(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_bot_returns_yesterday"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one day profits: {e}")
+            raise
+
+
+    def calculate_weekly_compounded_return(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/calculate_weekly_compounded_return"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one week compounded returns: {e}")
+            raise
+
+
+    def calculate_monthly_compounded_return(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/calculate_monthly_compounded_return"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving one month compounded returns: {e}")
+            raise
+
+
+    def calculate_three_months_compounded_return(self, p_chat_id):
+        url = f"{CONFIG.RETURNS_BASEURL}/calculate_three_months_compounded_return"
+        print(f"URL: {url}")
+        try:
+            response = requests.post(url, params={
+                'chat_id': p_chat_id
+            })
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logging.error(f"Error retrieving three months compounded returns: {e}")
+            raise
+
+
 
 
     def update_transferred_status_true(self, transaction_id):

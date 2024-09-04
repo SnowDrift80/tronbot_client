@@ -32,6 +32,26 @@ class Workflows:
                 }
     class GetHelp:
         HLP_0 = {
-            'description': 'show list of available bot commands',
-            'function': 'show_command_list',
-        }
+                    'description': 'show list of available bot commands',
+                    'function': 'show_command_list',
+                }
+    class GotoChat:
+        GOC_0 = {
+                    'description': 'go to group chat',
+                    'function': 'goto_groupchat',
+                }
+    class GetStatistics:
+        GES_0 = {
+                    'description': 'get returns statistics',
+                    'function': 'get_statistics',
+                }
+    class GotoFAQ:
+        GOF_0 = {
+                    'description': 'view frequently asked questions',
+                    'function': 'view_faq',
+                }
+    class ContactSupport:
+        COS_0 = {
+                    'description': 'contact support',
+                    'function': 'contact_support',
+                }

@@ -25,7 +25,6 @@ class DepositLogs:
         self.contract_address = self.web3.to_checksum_address(CONFIG.ETHPOLYGON.USDT_CONTRACT)  # USDT contract
         self.wallet_addresses = []
         for address in wallet_addresses:
-            print(f"\n\n\n\nADDRESS: {address}\n\n\n\n")
             self.wallet_addresses.append(self.web3.to_checksum_address(address['deposit_address']))
 
         # Transfer event signature
@@ -98,17 +97,13 @@ class DepositLogs:
             adr_padded = f"0x{adr[2:].rjust(64, '0')}"  # Pad wallet_address to 32 bytes
             wallet_addresses_padded.append(adr_padded)
 
+        database = DataHandler()
         for wallet_address_padded in wallet_addresses_padded:
             # Fetch logs for the specific block
             # block_number = 59667010 - that was a transaction of 2 USDT
             latest_block = self.get_latest_block()
-            retrospect = 35000
+            retrospect = CONFIG.ETHPOLYGON.RETROSPECT_BLOCKS
             startblock = latest_block - retrospect
-            endblock = latest_block
-            print(f"Start block: {startblock}   End block: {endblock}")
-            print(f"CONTRACT ADDRESS: {self.contract_address}")
-            print(f"TRANSFER EVENT SIGNATURE: {self.transfer_event_signature}")
-            print(f"WALLET ADDRESS: {wallet_address_padded}")
             logs = None
             try:
                 logs = self.web3.eth.get_logs({
@@ -120,8 +115,6 @@ class DepositLogs:
             except Exception as e:
                 print(f"Error while fetching transaction logs: {e}")
 
-            print(f"\n\n\n\nLOGS:\n{logs}\n\n\n\n")
-
             # Process the logs
             if logs:
                 for log in logs:
@@ -129,7 +122,6 @@ class DepositLogs:
                     if row:
                         result.append(row)
 
-                database = DataHandler()
-                database.insert_depositlogs(result)
+                database.insert_depositlogs(result) # SQL procedure inserts only new deposits into the depositlog table
         return result
 

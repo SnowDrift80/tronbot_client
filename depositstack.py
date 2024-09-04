@@ -1,6 +1,6 @@
 # depositstack.py
 import sys
-import datetime
+from datetime import datetime, timedelta
 import requests
 from decimal import Decimal
 import telegram
@@ -57,7 +57,6 @@ class DepositStack():
         try:
             # Retriete all deposit addresses from database
             depositaddresses_recordset = database.get_depositaddresses()
-            print(f"\n\n\nDEPOSITADDRESSES_RECORDSET:\n{depositaddresses_recordset}\n\n\n\n")
 
 
             # Check if MAX_DEPOSIT_ADDRESSES is valid
@@ -66,7 +65,6 @@ class DepositStack():
 
             # Initialize deposit addresses
             self.deposit_addresses = [depositaddresses_recordset[i]['depositaddress'] for i in range(CONFIG.MAX_DEPOSIT_ADDRESSES)]
-            print(f"\n\n\nSELF.DEPOSIT_ADDRESSES:\n{self.deposit_addresses}")
             self.stacks = [[] for _ in range(CONFIG.MAX_DEPOSIT_ADDRESSES)]
             self.deposit_ref_ids = set()  # set more efficient than list in 'in' comparisons
 
@@ -99,10 +97,11 @@ class DepositStack():
                   'client_obj', 'deposit_address', and 'sent_to_client' keys.
         """
         try:
-            timestamp = datetime.datetime.now().isoformat()
+            timestamp = datetime.now().isoformat()
 
             # Buffer as timedelta
-            validity_buffer = datetime.timedelta(seconds=CONFIG.DEPOSIT_ADDR_VALIDITY_BUFFER)
+            validity_buffer = timedelta(seconds=CONFIG.DEPOSIT_ADDR_VALIDITY_BUFFER)
+            deposit_addr_validity = timedelta(seconds=CONFIG.DEPOSIT_ADDR_VALIDITY)
 
             # Find the stack with the least number of requests
             min_stack_index = min(range(CONFIG.MAX_DEPOSIT_ADDRESSES), key=lambda i: len(self.stacks[i]))
@@ -110,16 +109,22 @@ class DepositStack():
             # Calculate ETA for the new request
             if len(self.stacks[min_stack_index]) > 0:
                 last_eta = self.stacks[min_stack_index][-1]['eta']
-                eta_timestamp = datetime.datetime.fromisoformat(last_eta) + datetime.timedelta(seconds=CONFIG.DEPOSIT_ADDR_VALIDITY) + validity_buffer
+                etd_timestamp = datetime.fromisoformat(last_eta) + timedelta(seconds=1)
+                eta_timestamp = datetime.fromisoformat(last_eta) + deposit_addr_validity + validity_buffer
                 eta = eta_timestamp.isoformat()
+                etd = etd_timestamp.isoformat()
             else:
-                eta_timestamp = datetime.datetime.fromisoformat(timestamp) + datetime.timedelta(seconds=CONFIG.DEPOSIT_ADDR_VALIDITY) + validity_buffer
+                etd_timestamp = datetime.fromisoformat(timestamp)
+                eta_timestamp = datetime.fromisoformat(timestamp) + deposit_addr_validity + validity_buffer
                 eta = eta_timestamp.isoformat()
+                etd = etd_timestamp.isoformat()
 
             # Create deposit request dictionary
+            print(f"\n\n\n\n\n~~~~~~~~~~~~~~~~~~~~~~\n\ndeposit_request eta: {eta}\n~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n\n")
             deposit_request = {
                 'timestamp': timestamp,
-                'eta': eta,
+                'etd': etd, # estimated start time (estimated time of departure) - start time of deposit time window
+                'eta': eta, # estimated time as of when the deposit time-window will start - end time of deposit time window
                 'client_obj': client,
                 'deposit_address': self.deposit_addresses[min_stack_index],
                 'sent_to_client': False
@@ -130,7 +135,7 @@ class DepositStack():
 
             # Notify the client if their request is queued
             if len(self.stacks[min_stack_index]) > 1:
-                eta_datetime = datetime.datetime.fromisoformat(eta) - validity_buffer
+                eta_datetime = datetime.fromisoformat(eta) - validity_buffer
                 human_readable_eta = eta_datetime.strftime("%H:%M")
 
                 message = (
@@ -140,15 +145,15 @@ class DepositStack():
                     f"You will have {CONFIG.DEPOSIT_ADDR_VALIDITY / 60:.0f} minutes to complete the deposit once you receive the address."
                 )
                 chat_id = client.chat_id
-                logger(f"SENDING MESSAGE:\n{message}")
+                logger.info(f"SENDING MESSAGE:\n{message}")
                 await self.send_message_to_client(message=message, chat_id=chat_id, update=update)
-                logger(f"CHAT_ID: {chat_id}")
+                logger.info(f"CHAT_ID: {chat_id}")
 
             return deposit_request
         
         except Exception as e:
             # Handle any unexpected errors during deposit request addition
-            logger(f"Error in add_deposit_request: {e}")
+            logger.error(f"Error in add_deposit_request: {e}")
             raise
 
 
@@ -224,9 +229,9 @@ class DepositStack():
                 
                 # Retrieve the oldest element
                 element = stack[0]
-                start_datetime = datetime.datetime.fromisoformat(element['timestamp'])
-                eta_datetime = datetime.datetime.fromisoformat(element['eta'])
-                current_timestamp = datetime.datetime.now()
+                start_datetime = datetime.fromisoformat(element['etd'])
+                eta_datetime = datetime.fromisoformat(element['eta'])
+                current_timestamp = datetime.now()
                 client_obj: Client = element['client_obj']
                 chat_id = client_obj.chat_id
 
@@ -263,7 +268,6 @@ class DepositStack():
         logger.info("Processing recent deposits.")
         
         try:
-            print(f"\n\n\n\nRESPONSE_DATA:\n{response_data}\n\n\n\n\n")
             deposits = response_data
             
 
@@ -273,17 +277,20 @@ class DepositStack():
                 txid = deposit['txid']
                 amount = deposit['amount']
                 refid = deposit['refid']  # Unique identifier of the deposit transaction
-                credit_time = datetime.datetime.now().isoformat()
+                credit_time =datetime.now()
                 
                 # Check if the deposit has already been processed
                 if self.database.check_if_deposit_processed(refid):
-                    continue
+                    continue # jump to next item in deposits and don't process the current one cos it's already processed
                 
                 # Iterate through each stack to find matching deposit requests
                 for stack in self.stacks:
                     for i, request in enumerate(stack):
-                        print(f"request['deposit_address']={request['deposit_address']}   vs   deposit_address: {deposit_address}\n******************************************************************************")
-                        if request['deposit_address'] == deposit_address and request['sent_to_client']:
+                        # Convert request['eta'] from ISO string to a datetime object
+                        etd_datetime = datetime.fromisoformat(request['etd'])
+                        eta_datetime = datetime.fromisoformat(request['eta'])
+                        print(f"eta_datetime {etd_datetime} <= credit_time {credit_time}\nand eta_datetime {eta_datetime} >= credit_time {credit_time}")
+                        if request['deposit_address'] == deposit_address and request['sent_to_client'] and etd_datetime <= credit_time and eta_datetime >= credit_time:
                             client_obj: Client = request['client_obj']
                             first_name = client_obj.firstname
                             last_name = client_obj.lastname
@@ -318,7 +325,7 @@ class DepositStack():
                             # Convert amount to float if it's a Decimal
                             if isinstance(amount, Decimal):
                                 amount = float(amount)
-
+                            credit_time_str = credit_time.isoformat()
                             payload = {
                                 "chat_id": chat_id,
                                 "firstname": first_name,
@@ -328,7 +335,7 @@ class DepositStack():
                                 "amount": amount,
                                 "deposit_address": deposit_address,
                                 "kraken_refid": refid,
-                                "kraken_time": credit_time,
+                                "kraken_time": credit_time_str,
                                 "kraken_txid": txid,
                                 "deposit_fee": CONFIG.FEES.DEPOSIT_FEE
                             }

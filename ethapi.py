@@ -13,6 +13,11 @@ class EthAPI:
         The get_recent_deposits method retrieves the list of deposit_addresses from the database.
         Next, the list is split in batches of CONFIG.ETHPOLYGON.GET_BALANCE_BATCH_SIZE, for example batches of 10.
 
+        This function returns a list containing a dictionary that consists of following key/value pairs:
+        deposit_address: wallet_address   
+        balance:         balance_amount
+
+        The balance_amount represents the present balance on the respective wallet_address.
         """
         # Retrieve deposit addresses from the database
         deposit_addresses = database.get_depositaddresses()

@@ -29,6 +29,11 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', 
     level=logging.INFO
 )
+
+# global stop event to signal threads to stop
+stop_event = threading.Event()
+
+# initiate logger
 logger = logging.getLogger(__name__)
 
 # Initialize global variables
@@ -211,7 +216,7 @@ async def start(update: Update, context: CallbackContext) -> None:
         context (CallbackContext): The context object containing callback data.
     """
     try:
-        await update.message.reply_text('Welcome to OrcaTrade.')
+        await update.message.reply_text('Great ! All is ready to start.\n\nBefore using our service, we strongly recommend you to carefully review the functionality of each trading bot button.')
         await startmenu(update, context)
     except Exception as e:
         logger.error(f"Error in start handler: {e}")
@@ -230,8 +235,15 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         user = update.effective_user
         img = CONFIG.LOGO_PATH
         message = (
-            f"<b>Hello {user.first_name}!\nWelcome to OrcaTrade.</b>\n\n"
-            "Please choose an option from the menu below:"
+            f"<b>Hello {user.first_name}!\nWelcome to AlgoEagle.</b>\n\n"
+            "Please choose an option from the menu below:\n\n"
+            "<code><b>Deposit</b>:........Add funds to your account.\n"
+            "<b>Balance</b>:........Check your current balance.\n"
+            "<b>Withdraw</b>:.......Withdraw funds from your account.\n"
+            "<b>AlgoEagle Chat</b>:.Join our community chat.\n"
+            "<b>Statistics</b>:.....View your trading statistics.\n"
+            "<b>FAQ</b>:............Frequently asked questions.\n"
+            "<b>Support</b>:........Get help from our support team.</code>"
         )
         logger.info(f"Displaying start menu to user: {user.id}")
 
@@ -240,8 +252,8 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
                 {
                     "status": "request_deposit",
                     "decision": "",
-                }))],
-            [InlineKeyboardButton("Balance\u2003\u2003\u2003🏦", callback_data=json.dumps(
+                })),
+            InlineKeyboardButton("Balance\u2003\u2003\u2003🏦", callback_data=json.dumps(
                 {
                     "status": "get_balance",
                     "decision": "",
@@ -249,6 +261,26 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
             [InlineKeyboardButton("Withdraw\u2003💰", callback_data=json.dumps(
                 {
                     "status": "request_withdraw",
+                    "decision": "",
+                })),
+            InlineKeyboardButton("AlgoEagle Chat\u2003💬", callback_data=json.dumps(
+                {
+                    "status": Workflows.GotoChat.GOC_0['function'],
+                    "decision": "",
+                }))],
+            [InlineKeyboardButton("Statistics\u2003📈", callback_data=json.dumps(
+                {
+                    "status": Workflows.GetStatistics.GES_0['function'],
+                    "decision": "",
+                })),
+            InlineKeyboardButton("FAQ\u2003ℹ️", callback_data=json.dumps(
+                {
+                    "status": Workflows.GotoFAQ.GOF_0['function'],
+                    "decision": "",
+                }))],
+            [InlineKeyboardButton("Support\u2003💁‍♂️", callback_data=json.dumps(
+                {
+                    "status": Workflows.ContactSupport.COS_0['function'],
                     "decision": "",
                 }))],
         ]
@@ -293,7 +325,8 @@ async def enter_address(update: Update, context: CallbackContext) -> int:
 
         admin_message = f'User {user.username} requested withdrawal of {amount} TRX to address {address}.'
         logger.info(f"Sending withdrawal request for user {user.id} to admin.")
-        await context.bot.send_message(chat_id=CONFIG.ADMIN_CHAT_ID, text=admin_message)
+        for admin_chat_id in CONFIG.ADMIN_CHAT_IDS:
+            await context.bot.send_message(chat_id=admin_chat_id, text=admin_message)
         await update.message.reply_text(f'Your withdrawal request has been sent to the admin.')
 
         user_data.clear()
@@ -949,6 +982,77 @@ async def admin_confirm_payout(chat_id, chat_id_client, amount, context: Callbac
         raise Exception(error_message)
 
 
+async def send_group_chat_invite_link(update: Update, context: CallbackContext) -> None:
+    """
+    Sends an invitation link to the user for joining the AlgoEagle group chat.
+    """
+    invite_link = '@AlgoEagle'
+    message = (
+        "Click on the link below to join the AlgoEagle group chat:\n"
+        f"{invite_link}"
+    )
+    await update.callback_query.message.reply_text(message)
+
+
+async def send_faq(update: Update, context: CallbackContext) -> None:
+    """
+    Sends the FAQW text.
+    """
+    faq_text = CONFIG.TEXTS.FAQ
+    message = (
+        faq_text
+    )
+    await update.callback_query.message.reply_text(message, parse_mode='HTML')
+
+
+async def start_chat_with_support(update: Update, context: CallbackContext) -> None:
+    """
+    Sends an invitation link for joining the support group chat
+    """
+    invite_link = '@AlgoEagle_Support'
+    message = (
+        "Click on the link below to start a chat with the AlgoEagle support:\n"
+        f"{invite_link}"
+    )
+    await update.callback_query.message.reply_text(message)
+
+
+async def get_statistics(update: Update, context: CallbackContext):
+    print("GET_STATISTICS")
+    model = DataHandler()
+    chat_id = update.callback_query.message.chat_id
+    print(f"CHAT_ID: {chat_id}")
+    r_day = model.get_bot_returns_yesterday(p_chat_id=chat_id)
+    r_week = model.calculate_weekly_compounded_return(p_chat_id=chat_id)
+    r_month = model.calculate_monthly_compounded_return(p_chat_id=chat_id)
+    r_threemonths = model.calculate_three_months_compounded_return(p_chat_id=chat_id)
+
+    message = (
+        "<b>⭐  ⭐ ⭐   YOUR PROFIT   ⭐ ⭐  ⭐\n\n</b>"
+        f"These are the returns the AlgoEagle bot has earned.\n\n"
+        # "<code>"
+        # f"Telegram ID: {r_day['chat_id']}\n"
+        # f"Full name:   {r_day['full_name']}\n"
+        # f"Join date:   {r_day['creation_date']}\n\n</code>"
+        f"<b>Yesterday:</b>\n"
+        f"<code>Date:        {r_day['profit_date']}\n"
+        f"Profit:      {r_day['yesterdays_return']}%\n\n</code>"
+        f"<b>Last week:</b>\n"
+        f"<code>Start date:  {r_week['start_date']}\n"
+        f"End date:    {r_week['end_date']}\n"
+        f"Profit:      {r_week['compounded_return']}%\n\n</code>"
+        f"<b>Last month:</b>\n"
+        f"<code>Start date:  {r_month['start_date']}\n"
+        f"End date:    {r_month['end_date']}\n"
+        f"Profit:      {r_month['compounded_return']}%\n\n</code>"
+        f"<b>Last three months:</b>\n"
+        f"<code>Start date:  {r_threemonths['start_date']}\n"
+        f"End date:    {r_threemonths['end_date']}\n"
+        f"Profit:      {r_threemonths['compounded_return']}%\n\n</code>"
+    )
+    await update.callback_query.message.reply_text(message, parse_mode='HTML')
+
+
 async def execute_workflow_action(update: Update, context: CallbackContext, action: str) -> None:
     """
     Executes workflow actions based on the provided action string.
@@ -1005,6 +1109,14 @@ async def execute_workflow_action(update: Update, context: CallbackContext, acti
             client.status = Workflows.Idle.IDLE_0
             logger.info(f"CLIENT STATUS: {client.status}")
             await help(update, context)
+        elif action == Workflows.GotoChat.GOC_0['function']:
+            await send_group_chat_invite_link(update, context)
+        elif action == Workflows.GotoFAQ.GOF_0['function']:
+            await send_faq(update, context)
+        elif action == Workflows.ContactSupport.COS_0['function']:
+            await start_chat_with_support(update, context)
+        elif action == Workflows.GetStatistics.GES_0['function']:
+            await get_statistics(update, context)
         
         else:
             await update.message.reply_text("Invalid action requested.")
@@ -1078,7 +1190,18 @@ async def button(update: Update, context: CallbackContext) -> None:
             elif status == "request_withdraw":
                 action = "request_withdrawal"
                 await execute_workflow_action(update, context, action)
-            
+            elif status == Workflows.GotoChat.GOC_0['function']:
+                action = Workflows.GotoChat.GOC_0['function']
+                await execute_workflow_action(update, context, action)
+            elif status == Workflows.GetStatistics.GES_0['function']:
+                action = Workflows.GetStatistics.GES_0['function']
+                await execute_workflow_action(update, context, action)
+            elif status == Workflows.GotoFAQ.GOF_0['function']:
+                action = Workflows.GotoFAQ.GOF_0['function']
+                await execute_workflow_action(update, context, action)
+            elif status == Workflows.ContactSupport.COS_0['function']:
+                action = Workflows.ContactSupport.COS_0['function']
+                await execute_workflow_action(update, context, action)            
             elif status == "withdrawal: confirm":
                 if decision == "yes":
                     client_raw = await fetch_client_from_api(chat_id)
@@ -1116,7 +1239,8 @@ async def button(update: Update, context: CallbackContext) -> None:
                         f"Withdrawal amount: USDT <code>{amount}</code>\n"
                         f"Beneficiary account: <code>{wallet}</code>"
                     )
-                    await depositstack.bot_message(chat_id=CONFIG.ADMIN_CHAT_ID, message=message)
+                    for admin_chat_id in CONFIG.ADMIN_CHAT_IDS:
+                        await depositstack.bot_message(chat_id=admin_chat_id, message=message)
                     
                     message = f"Your request to withdraw USDT {str(amount)} was forwarded to the administrator."
                     await depositstack.bot_message(chat_id=chat_id, message=message)
@@ -1146,7 +1270,7 @@ async def poll_deposit_request_stack():
     Raises:
         Exception: If there is an unexpected error during processing of deposit requests.
     """
-    while True:
+    while not stop_event.is_set():
         try:
             # Process the next deposit request from the stack
             next_request = await depositstack.process_next()
@@ -1163,10 +1287,10 @@ async def poll_deposit_request_stack():
 
 async def process_transfers(deposits):
     if deposits:
-        usdt = Funds.USDT()
-        for deposit in deposits:
-            print(f"\n\n\n TRANSFERRING DEPOSIT USDT {deposit['amount']} FROM_ADDRESS: {deposit['deposit_address']} TO CENTRAL ACCOUNT\n\n\n")
-            usdt.transfer(from_address=deposit['deposit_address'], amount=deposit['amount'], deposit_tx_id=deposit['refid'])
+        usdt = Funds.USDT() 
+        for deposit in deposits: # loop that transfers the deposits on the deposit-accounts to the central collection account
+            logger.info(f"TRANSFERRING DEPOSIT USDT {deposit['amount']} FROM_ADDRESS: {deposit['deposit_address']} TO CENTRAL ACCOUNT")
+            usdt.transfer(from_address=deposit['deposit_address'], amount=deposit['amount'], deposit_tx_id=deposit['refid']) 
             await asyncio.sleep(2)
        
         
@@ -1183,7 +1307,7 @@ async def poll_recent_deposits():
         Exception: If there is an unexpected error during API request, data processing, or deposit handling.
     """
     api = EthAPI()
-    while True:
+    while not stop_event.is_set():
         try:
             # Uncomment the line below for production use:
             # response_data = await api.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
@@ -1193,7 +1317,6 @@ async def poll_recent_deposits():
 
             # get balances from all Polygon Mainnet deposit addresses
             all_balances = api.get_recent_deposits()
-            print(f"\n\n\nrecent deposits:\n{all_balances}\n\n\n")
 
             # create new list consisting of dict containing address and balance where balance > 0
             # we want to process only those accounts that actually have a balance.
@@ -1207,9 +1330,9 @@ async def poll_recent_deposits():
                     active_deposits.append(row)
                     print(f"\n\n\nDEPOSIT FOUND {balance['balance']} AT DEPOSIT-ADDRESS: {balance['deposit_address']}")
             
-            logger.info(f"Recent Deposits: {active_deposits}")
+            logger.info(f"New deposits found: {active_deposits}")
             deposit_logs = DepositLogs(active_deposits)
-            logs = deposit_logs.fetch_logs() # we get the new logs and insert those into the depositlogs table
+            deposit_logs.fetch_logs() # we get the new logs and insert those into the depositlogs table
             response_data = []
 
             depositlogs = database.get_newdepositlogs() # we get the new depositlogs with transfer == False from the database
@@ -1340,6 +1463,7 @@ def start_telegram_bot():
     Raises:
         Exception: If there is an unexpected error during the bot initialization or polling.
     """
+
     try:
         global application
         application = Application.builder().token(CONFIG.TELEGRAM_KEY).build()
@@ -1379,6 +1503,10 @@ def main():
     Raises:
         Exception: If there is an unexpected error during thread creation or bot startup.
     """
+
+
+    global thread_fastapi, thread_deposits, thread_deposit_request_stack
+
     try:
         # Create and start a thread for FastAPI
         thread_fastapi = threading.Thread(target=run_fastapi)
@@ -1461,6 +1589,7 @@ def run_fastapi():
     Raises:
         Exception: If there is an unexpected error during FastAPI application startup.
     """
+
     try:
         uvicorn.run(app, host="127.0.0.1", port=8000)
     except Exception as e:

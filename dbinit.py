@@ -46,6 +46,8 @@ class DBInit:
         self.execute_script(self.create_update_transferred_status_false())
         self.execute_script(self.create_get_centraladdress_function())
         self.execute_script(self.create_depositlogs_table())
+        self.execute_script(self.create_depositlogs_view())
+        self.execute_script(self.create_update_depositlogs_refund_function())
         self.execute_script(self.create_get_newdepositlogs())
         self.execute_script(self.create_insert_depositlogs_procedure())
         self.execute_script(self.create_import_csv_data())
@@ -53,6 +55,37 @@ class DBInit:
         self.execute_script(self.create_check_if_deposit_processed())
 
 
+
+    @staticmethod
+    def create_depositlogs_view():
+        """Returns SQL query string to create 'depositlogs_view' view if it doesn't exist.
+
+        This static method generates an SQL query string that creates the 'depositlogs_view' view
+        if it does not already exist in the database. The view includes fields from the depositlogs
+        table where the 'transferred' field is true and the 'transaction_id' is not present in the
+        'refid' column of the deposits table.
+
+        Returns:
+            str: SQL query string to create the 'depositlogs_view' view with the specified conditions.
+        """
+        return """
+        CREATE OR REPLACE VIEW depositlogs_view AS
+        SELECT dl.transaction_id,
+            dl.from_address,
+            dl.to_address,
+            dl.block_number,
+            dl.block_timestamp,
+            dl.amount,
+            dl.transferred,
+            dl.refund_transaction_id,
+            dl.refund_timestamp
+        FROM depositlogs dl
+        WHERE dl.transferred = true
+        AND REPLACE(dl.transaction_id, '''', '') NOT IN (
+                SELECT deposits.refid
+                    FROM deposits
+            );
+        """
    
 
     @staticmethod
@@ -309,7 +342,9 @@ class DBInit:
             amount NUMERIC(20, 6) NOT NULL, -- Amount of USDT transferred
             chat_id BIGINT, -- Telegram chat ID
             transferred BOOLEAN DEFAULT FALSE, -- Boolean field to indicate whether the transfer was processed
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- automatically set to the current timestamp.
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- automatically set to the current timestamp.
+            refund_transaction_id VARCHAR(100), -- Optional trx ID from refund if unidentified deposit returned to sender
+            refund_timestamp TIMESTAMP -- Optional timestamp in case of deposit refund 
         );
         -- create an index on 'transaction_id'
         CREATE INDEX IF NOT EXISTS idx_transaction_id ON depositlogs(transaction_id);
@@ -320,7 +355,39 @@ class DBInit:
         -- Create an index on 'transferred' to optimize queries filtering by this field
         CREATE INDEX IF NOT EXISTS idx_transferred ON depositlogs(transferred);
         """
-    
+
+
+    @staticmethod
+    def create_update_depositlogs_refund_function():
+        """
+        Creates the stored function 'update_depositlogs_returndata' which updates the 'refund_transaction_id'
+        and 'refund_timestamp' fields in the 'depositlogs' table for a specific record identified by its 'id'.
+
+        Returns:
+            str: SQL string to create the 'update_depositlogs_returndata' function.
+        """
+        return """
+        CREATE OR REPLACE FUNCTION update_depositlogs_refund(
+            p_transaction_id VARCHAR(100),
+            p_refund_transaction_id VARCHAR(100)
+        )
+        RETURNS VOID AS $$
+        BEGIN
+            -- Update the depositlogs table with the refund transaction id and current timestamp
+            UPDATE depositlogs
+            SET
+                refund_transaction_id = p_refund_transaction_id,
+                refund_timestamp = CURRENT_TIMESTAMP
+            WHERE
+                transaction_id = p_transaction_id;
+
+            -- Optionally, you can raise a notice or log the action
+            RAISE NOTICE 'Deposit log with Transaction ID % updated with refund transaction ID % and current timestamp.', p_transaction_id, p_refund_transaction_id;
+        END;
+        $$ LANGUAGE plpgsql;
+        """    
+
+
     @staticmethod
     def create_get_newdepositlogs():
         """
