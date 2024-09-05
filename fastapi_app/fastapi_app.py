@@ -1,6 +1,7 @@
 # fastapi_app/fastapi_app.py
 
 # Import necessary modules from FastAPI and Pydantic
+from telegram.ext import Application
 import requests
 from fastapi import FastAPI, HTTPException, Body
 from pydantic import BaseModel
@@ -11,11 +12,16 @@ from datetime import datetime
 
 # Import custom modules or classes
 from model import DataHandler
+
+# Import the singleton application object
+from telegram_bot import application
+
 from .utils import Utils
 import logging
 
 # Initialize FastAPI application
 app = FastAPI()
+
 
 # The above imports and initialization serve as the foundation for the FastAPI application.
 # Each import has a specific purpose:
@@ -233,7 +239,7 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
             f"Beneficiary wallet..: {wallet}\n"
             f"Status..............: {status}</code>\n"
         )
-        await Utils.bot_message(chat_id, message)
+        await Utils.bot_message(chat_id, message, application)
 
         # Return a success message
         return {"status": "success", "message": "Approved withdrawal processed"}
@@ -301,7 +307,7 @@ async def handle_declined_withdrawal(data: DeclinedWithdrawal = Body(...)):
             "exceeds the balance. Please verify your balance using /balance.\n"
             "To create a new withdrawal request, use /withdraw."
         )
-        await Utils.bot_message(chat_id, message)
+        await Utils.bot_message(chat_id, message, application)
 
         # Return a success message
         return {"status": "success", "message": "Declined withdrawal processed"}
@@ -369,7 +375,7 @@ async def balance_rollback(data: RollbackWithdrawalData = Body(...)):
             f"Your withdrawal request is now pending for approval again.</code>"
 
         )
-        await Utils.bot_message(chat_id, message)
+        await Utils.bot_message(chat_id, message, application)
 
         # Return a success message
         return {"status": "success", "message": "Balance rollback processed"}

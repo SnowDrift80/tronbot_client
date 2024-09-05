@@ -1,6 +1,7 @@
 # fastapi_app/utils.py
 
 from telegram import Bot
+from telegram.ext import Application
 from config import CONFIG
 import logging
 
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 class Utils:
     @staticmethod
-    async def bot_message(chat_id, message: str):
+    async def bot_message(chat_id, message: str, application: Application):
         """
         Sends a message to a Telegram chat using the configured bot.
 
@@ -25,7 +26,8 @@ class Utils:
         logger.info(f"Sending message to chat ID {chat_id}: {message}")
 
         try: 
-            bot = Bot(CONFIG.TELEGRAM_KEY)
-            await bot.sendMessage(chat_id, message, parse_mode='HTML')
+            # bot = Bot(CONFIG.TELEGRAM_KEY)
+            # await bot.sendMessage(chat_id, message, parse_mode='HTML')
+            await application.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
         except Exception as e:
             logger.error(f"Error while trying to send message to Telegram user: {e}")

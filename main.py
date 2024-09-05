@@ -23,6 +23,7 @@ from withdraw_data import ClientWithdrawal
 from bot_workflows import Workflows
 from deposit_logs import DepositLogs
 from transfer import Funds
+from telegram_bot import application
 
 # Set up logging
 logging.basicConfig(
@@ -1461,8 +1462,9 @@ def start_telegram_bot():
     """
 
     try:
-        global application
-        application = Application.builder().token(CONFIG.TELEGRAM_KEY).build()
+        # commented out because used before introduction of telegram_bot.py
+        # global application
+        # application = Application.builder().token(CONFIG.TELEGRAM_KEY).build()
 
         # Add command handlers
         application.add_handler(CommandHandler("start", lambda update, context: execute_workflow_action(update, context, Workflows.Start.MENU_0['function'])))
