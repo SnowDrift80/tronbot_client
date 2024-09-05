@@ -231,7 +231,7 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
             f"Fee amount..........: {fee_amount}\n"
             f"<b>Payout net amount...: {net_amount}</b>\n"
             f"Beneficiary wallet..: {wallet}\n"
-            f"Status..............: {status}\n"
+            f"Status..............: {status}</code>\n"
         )
         await Utils.bot_message(chat_id, message)
 
@@ -296,7 +296,7 @@ async def handle_declined_withdrawal(data: DeclinedWithdrawal = Body(...)):
             f"Fee amount..........: {fee_amount}\n"
             f"<b>Payout net amount...: {net_amount}</b>\n"
             f"Beneficiary wallet..: {wallet}\n"
-            f"Status..............: DECLINED\n"
+            f"Status..............: DECLINED</code>\n"
             "A withdrawal request may be declined if the requested amount "
             "exceeds the balance. Please verify your balance using /balance.\n"
             "To create a new withdrawal request, use /withdraw."
