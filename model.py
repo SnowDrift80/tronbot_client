@@ -526,13 +526,11 @@ class DataHandler:
             raise
 
 
-    def get_bot_returns_yesterday(self, p_chat_id):
+    def get_bot_returns_yesterday(self):
         url = f"{CONFIG.RETURNS_BASEURL}/get_bot_returns_yesterday"
         print(f"URL: {url}")
         try:
-            response = requests.post(url, params={
-                'chat_id': p_chat_id
-            })
+            response = requests.post(url)
             response.raise_for_status()
             return response.json()
         except Exception as e:
@@ -540,13 +538,11 @@ class DataHandler:
             raise
 
 
-    def calculate_weekly_compounded_return(self, p_chat_id):
+    def calculate_weekly_compounded_return(self):
         url = f"{CONFIG.RETURNS_BASEURL}/calculate_weekly_compounded_return"
         print(f"URL: {url}")
         try:
-            response = requests.post(url, params={
-                'chat_id': p_chat_id
-            })
+            response = requests.post(url)
             response.raise_for_status()
             return response.json()
         except Exception as e:
@@ -554,13 +550,11 @@ class DataHandler:
             raise
 
 
-    def calculate_monthly_compounded_return(self, p_chat_id):
+    def calculate_monthly_compounded_return(self):
         url = f"{CONFIG.RETURNS_BASEURL}/calculate_monthly_compounded_return"
         print(f"URL: {url}")
         try:
-            response = requests.post(url, params={
-                'chat_id': p_chat_id
-            })
+            response = requests.post(url)
             response.raise_for_status()
             return response.json()
         except Exception as e:
@@ -568,13 +562,11 @@ class DataHandler:
             raise
 
 
-    def calculate_three_months_compounded_return(self, p_chat_id):
+    def calculate_three_months_compounded_return(self):
         url = f"{CONFIG.RETURNS_BASEURL}/calculate_three_months_compounded_return"
         print(f"URL: {url}")
         try:
-            response = requests.post(url, params={
-                'chat_id': p_chat_id
-            })
+            response = requests.post(url)
             response.raise_for_status()
             return response.json()
         except Exception as e:

@@ -1022,18 +1022,14 @@ async def get_statistics(update: Update, context: CallbackContext):
     model = DataHandler()
     chat_id = update.callback_query.message.chat_id
     print(f"CHAT_ID: {chat_id}")
-    r_day = model.get_bot_returns_yesterday(p_chat_id=chat_id)
-    r_week = model.calculate_weekly_compounded_return(p_chat_id=chat_id)
-    r_month = model.calculate_monthly_compounded_return(p_chat_id=chat_id)
-    r_threemonths = model.calculate_three_months_compounded_return(p_chat_id=chat_id)
+    r_day = model.get_bot_returns_yesterday()
+    r_week = model.calculate_weekly_compounded_return()
+    r_month = model.calculate_monthly_compounded_return()
+    r_threemonths = model.calculate_three_months_compounded_return()
 
     message = (
-        "<b>⭐  ⭐ ⭐   YOUR PROFIT   ⭐ ⭐  ⭐\n\n</b>"
+        "<b>⭐  ⭐ ⭐   ALGOEAGLE BOT PROFIT   ⭐ ⭐  ⭐\n\n</b>"
         f"These are the returns the AlgoEagle bot has earned.\n\n"
-        # "<code>"
-        # f"Telegram ID: {r_day['chat_id']}\n"
-        # f"Full name:   {r_day['full_name']}\n"
-        # f"Join date:   {r_day['creation_date']}\n\n</code>"
         f"<b>Yesterday:</b>\n"
         f"<code>Date:        {r_day['profit_date']}\n"
         f"Profit:      {r_day['yesterdays_return']}%\n\n</code>"
