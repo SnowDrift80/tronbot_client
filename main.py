@@ -6,7 +6,7 @@ import asyncio
 import uvicorn
 import hashlib
 import requests
-import threading
+from concurrent.futures import ThreadPoolExecutor
 # from tronapi import Tron
 from decimal import Decimal, ROUND_HALF_UP
 from fastapi_app.fastapi_app import app  # Import the FastAPI app
@@ -31,11 +31,13 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-# global stop event to signal threads to stop
-stop_event = threading.Event()
-
 # initiate logger
 logger = logging.getLogger(__name__)
+
+# global flag for shutdown signal
+# shutdown_event = asyncio.Event()
+executor = ThreadPoolExecutor(max_workers=3)
+
 
 # Initialize global variables
 active_chats = []
@@ -238,13 +240,13 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         message = (
             f"<b>Hello {user.first_name}!\nWelcome to AlgoEagle.</b>\n\n"
             "Please choose an option from the menu below:\n\n"
-            "<code><b>Deposit</b>:........Add funds to your account.\n"
-            "<b>Balance</b>:........Check your current balance.\n"
-            "<b>Withdraw</b>:.......Withdraw funds from your account.\n"
-            "<b>AlgoEagle Chat</b>:.Join our community chat.\n"
-            "<b>Statistics</b>:.....View your trading statistics.\n"
-            "<b>FAQ</b>:............Frequently asked questions.\n"
-            "<b>Support</b>:........Get help from our support team.</code>"
+            "<b>Deposit</b>:\n<code>Add funds to your account.</code>\n\n"
+            "<b>Balance</b>:\n<code>Check your current balance.</code>\n\n"
+            "<b>Withdraw</b>:\n<code>Withdraw funds from your account.</code>\n\n"
+            "<b>AlgoEagle Chat</b>:\n<code>Join our community chat.</code>\n\n"
+            "<b>Statistics</b>:\n<code>View your trading statistics.</code>\n\n"
+            "<b>FAQ</b>:\n<code>Frequently asked questions.</code>\n\n"
+            "<b>Support</b>:\n<code>Get help from our support team.</code>"
         )
         logger.info(f"Displaying start menu to user: {user.id}")
 
@@ -542,6 +544,7 @@ async def show_deposit_address(update: Update, context: CallbackContext, chat_id
             message = f"⚠️ <b>You already requested a deposit.</b>\n\n"
             message += f"Please send your deposit to the following address:\n"
             message += f"<code>{client.active_deposit_address}</code>\n\n"
+            message += f"<b>Please make sure that you send the USDT on the POLYGON (MATIC) Network.</b>\n\n"
             message += f"You will be automatically notified once the deposit has been credited to our account."
             await send_message(message_obj, context, message)
             return
@@ -568,7 +571,9 @@ async def show_deposit_address(update: Update, context: CallbackContext, chat_id
 
         bot_text = "<b><u>Make a Deposit:</u></b>\n\n"
         bot_text += "💳  Please make your deposit to this address:\n\n" + f"<code>{client.active_deposit_address}</code>\n"
-        bot_text += " \n"
+        bot_text += "\n"
+        bot_text += "<b>Please make sure that you send the USDT on the POLYGON (MATIC) Network.</b>"
+        bot_text += "\n\n"
         bot_text += "You will be automatically notified once the deposit has been credited to our account."
 
         await message_obj.reply_text(bot_text, parse_mode='HTML')
@@ -772,7 +777,7 @@ async def request_withdrawal(update: Update, context: CallbackContext):
                     await update.callback_query.message.reply_text(bot_text, parse_mode='HTML')
             else:
                 context.user_data['status'] = 'withdrawal: awaiting amount'
-                bot_text = f"Enter withdrawal amount:"
+                bot_text = f"Enter withdrawal amount or 'cancel' to exit the process:"
                 if callback == False: 
                     await update.message.reply_text(bot_text, parse_mode='HTML')
                 elif callback == True:
@@ -842,7 +847,7 @@ async def client_commit_to_deposit(chat_id, context: CallbackContext):
         ]
         unit = "seconds" if CONFIG.DEPOSIT_ADDR_VALIDITY / 60 < 1 else "minute" if CONFIG.DEPOSIT_ADDR_VALIDITY / 60 == 1 else "minutes"
         value = CONFIG.DEPOSIT_ADDR_VALIDITY if CONFIG.DEPOSIT_ADDR_VALIDITY < 60 else int(CONFIG.DEPOSIT_ADDR_VALIDITY/60)
-        text = f"❓ Make a Deposit\n\nDue to high demand, the deposit address necessary to make a deposit will only be reserved for {value} {unit}.\n\n Please confirm if you are ready to make the deposit now."
+        text = f"❓ Make a Deposit\n\nDue to high demand, the deposit address necessary to make a deposit will only be reserved for {value} {unit}.\n\n<b>IMPORTANT:\nPlease make sure that you send the USDT on the POLYGON (MATIC) Network.</b>\n\nPlease confirm if you are ready to make the deposit now."
         reply_markup = InlineKeyboardMarkup(keyboard_options)
         await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup, parse_mode='HTML')
 
@@ -987,7 +992,7 @@ async def send_group_chat_invite_link(update: Update, context: CallbackContext) 
     """
     Sends an invitation link to the user for joining the AlgoEagle group chat.
     """
-    invite_link = '@AlgoEagle'
+    invite_link = CONFIG.CHAT_GROUP
     message = (
         "Click on the link below to join the AlgoEagle group chat:\n"
         f"{invite_link}"
@@ -1010,7 +1015,7 @@ async def start_chat_with_support(update: Update, context: CallbackContext) -> N
     """
     Sends an invitation link for joining the support group chat
     """
-    invite_link = '@AlgoEagle_Support'
+    invite_link = CONFIG.SUPPORT_CONTACT
     message = (
         "Click on the link below to start a chat with the AlgoEagle support:\n"
         f"{invite_link}"
@@ -1237,7 +1242,11 @@ async def button(update: Update, context: CallbackContext) -> None:
                         f"Beneficiary account: <code>{wallet}</code>"
                     )
                     for admin_chat_id in CONFIG.ADMIN_CHAT_IDS:
-                        await depositstack.bot_message(chat_id=admin_chat_id, message=message)
+                        try:
+                            await depositstack.bot_message(chat_id=admin_chat_id, message=message)
+                        except Exception as e:
+                            error_message =f"Error occured sending admin notifications: {str(e), admin_chat_id}"
+                            logger.error(error_message)
                     
                     message = f"Your request to withdraw USDT {str(amount)} was forwarded to the administrator."
                     await depositstack.bot_message(chat_id=chat_id, message=message)
@@ -1267,14 +1276,18 @@ async def poll_deposit_request_stack():
     Raises:
         Exception: If there is an unexpected error during processing of deposit requests.
     """
-    while not stop_event.is_set():
+    while not application.shutdown_event.is_set():
+        print(f"\n\n\n\nSHUTDOWN FLAG: {application.shutdown_event.is_set}\n\n\n\n")
         try:
             # Process the next deposit request from the stack
             next_request = await depositstack.process_next()
             
             # Sleep for the configured interval before processing the next request
             await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
-    
+            if application.shutdown_event.is_set():
+                break
+
+
         except Exception as e:
             # Handle any exceptions that occur during processing
             error_message = f"Error occurred in deposit request stack polling: {str(e)}"
@@ -1304,7 +1317,7 @@ async def poll_recent_deposits():
         Exception: If there is an unexpected error during API request, data processing, or deposit handling.
     """
     api = EthAPI()
-    while not stop_event.is_set():
+    while not application.shutdown_event.is_set():
         try:
             # Uncomment the line below for production use:
             # response_data = await api.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
@@ -1362,6 +1375,8 @@ async def poll_recent_deposits():
             
             # Sleep for the configured interval before polling again
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
+            if application.shutdown_event.is_set():
+                break
         
         except Exception as e:
             error_message = f"Error occurred in poll_recent_deposits coroutine: {str(e)}"
@@ -1386,6 +1401,8 @@ async def handle_text_input(update: Update, context: CallbackContext):
 
         # Cancel the ongoing operation if the user types 'cancel'
         if update.message.text == 'cancel':
+            if 'status' not in user_data:
+                user_data['status'] = None
             if user_data['status'] is not None:
                 await update.message.reply_text(f'The current operation "{user_data["status"]}" was canceled.')
                 context.user_data['status'] = None
@@ -1506,23 +1523,14 @@ def main():
     global thread_fastapi, thread_deposits, thread_deposit_request_stack
 
     try:
-        # Create and start a thread for FastAPI
-        thread_fastapi = threading.Thread(target=run_fastapi)
-        thread_fastapi.start()
+        with executor:
+            # submit tasks to run in background as separate threads
+            executor.submit(run_fastapi)
+            executor.submit(poll_recent_deposits_wrapper)
+            executor.submit(poll_deposit_request_stack_wrapper)
 
-        # Create and start a thread for deposit polling
-        thread_deposits = threading.Thread(target=poll_recent_deposits_wrapper)
-        thread_deposits.start()
-
-        # Create and start a thread for deposit request stack polling
-        thread_deposit_request_stack = threading.Thread(target=poll_deposit_request_stack_wrapper)
-        thread_deposit_request_stack.start()
-
-        # Start the Telegram bot in the main thread
-        start_telegram_bot()
-
-        # Wait for the deposit polling thread to finish (though in practice it runs indefinitely)
-        thread_deposits.join()
+            # Start the Telegram bot in the main thread
+            start_telegram_bot()
 
     except Exception as e:
         error_message = f"Error occurred in main function: {str(e)}"
@@ -1589,18 +1597,36 @@ def run_fastapi():
     """
 
     try:
-        uvicorn.run(app, host="127.0.0.1", port=8000)
+        config = uvicorn.Config("main:app", host="127.0.0.1", port=8000)
+        server = uvicorn.Server(config)
+        server.run()
+
+
+    except KeyboardInterrupt:
+        server.should_exit = True
+        server.shutdown()
     except Exception as e:
         error_message = f"Error occurred in run_fastapi function: {str(e)}"
         logger.error(error_message)
         raise Exception(error_message)
 
 
+def shutdown():
+    logger.info("Shutting down...")
+    application.shutdown_event.set() # sets signal for threads to stop
+    logger.info("Stop event set.")
+    executor.shutdown(wait=True)
+    logger.info("Shutdown complete.")
+
+
 if __name__ == '__main__':
     # Entry point of the script when executed directly
-
     # Call the main function to start the application
-    main()
+    try:
+        main()
+    except (KeyboardInterrupt, SystemExit):
+        logger.info("Received shutdown signal, shutting down.")
+        shutdown()
 
     # Note: This block ensures that the main function is executed when the script is run directly.
     # The main function typically starts multiple threads for FastAPI, Telegram bot, and other asynchronous tasks.

@@ -1,15 +1,17 @@
 #config.py
 
 class CONFIG:
-    FUTURES_PUBLIC_KEY = 'EEvdeuYlIw4UljdIlz1ZuVyAcMRzJAGMO185yisNIjNKL37/A9x+dZZg'
-    FUTURES_PRIVATE_KEY = 'pkoI4WuGl8GPe6S28sfz2fDq6jwOfV4Jsb8+DiLXnglxv5+kPQGHm45Nx0VgWNzLPgU8BiH/4TN9j5kUv6fYxaqj'
-    SPOT_API_KEY = 'pTF+vmYH8shJB1oYW/fOpZhxFOjRDOfDzyZQ9GPvDrAK/fSTp9ruTeMP'
-    SPOT_PRIVATE_KEY = 'WRAKh1+9o4wrUz65L6HCXU3PgxwUKhp0y9Q26gx1yBZLFY9omf6iIldkDPfW9mxTtn9t+7JiS6OSpj+kyMXrUw=='
-    TELEGRAM_KEY = '7482254233:AAHZqH8MnQL0O0R78aLZrmTpkyXsq2_rsVY'
+    #FUTURES_PUBLIC_KEY = 'EEvdeuYlIw4UljdIlz1ZuVyAcMRzJAGMO185yisNIjNKL37/A9x+dZZg'
+    #FUTURES_PRIVATE_KEY = 'pkoI4WuGl8GPe6S28sfz2fDq6jwOfV4Jsb8+DiLXnglxv5+kPQGHm45Nx0VgWNzLPgU8BiH/4TN9j5kUv6fYxaqj'
+    #SPOT_API_KEY = 'pTF+vmYH8shJB1oYW/fOpZhxFOjRDOfDzyZQ9GPvDrAK/fSTp9ruTeMP'
+    #SPOT_PRIVATE_KEY = 'WRAKh1+9o4wrUz65L6HCXU3PgxwUKhp0y9Q26gx1yBZLFY9omf6iIldkDPfW9mxTtn9t+7JiS6OSpj+kyMXrUw=='
+    
+    ## TELEGRAM_KEY = '7482254233:AAHZqH8MnQL0O0R78aLZrmTpkyXsq2_rsVY' # original test bot @trondemo_bot
+    TELEGRAM_KEY = '7491925213:AAE0DXt_4hPwZFZsJGGEVb82zmMreL9UXFc' # production test bot t.me/tron_staging_bot
     ASSET = 'USDT'
     METHOD = 'Tether USDT (ERC20)'
-    ADMIN_CHAT_IDS = ['6916783573', '1366778530']
-    #ADMIN_CHAT_ID = '1366778530' # Italian admin
+    ADMIN_CHAT_IDS = ['6916783573', '1366778530', '578856029']
+    ADMIN_DEPOSIT_NOTIFICATION = True
     DEPOSIT_ADDR_VALIDITY = 150 # number of seconds the deposit address remains assigned to the chat_id
     DEPOSIT_ADDR_VALIDITY_BUFFER = 30 # buffer that reflects the time it can take until the deposit is credited to our account
     DEPOSIT_POLLING_INTERVAL = 10 # polling interval in seconds for incoming deposits
@@ -18,6 +20,8 @@ class CONFIG:
     LOGO_PATH = 'assets/algoeagle_dark_logo.jpg'
     ENDPOINT_BASEURL = 'http://localhost:5001/api'
     RETURNS_BASEURL = 'http://localhost:5010/api'
+    SUPPORT_CONTACT = '@AlgoEagleAdmin'
+    CHAT_GROUP = '@AlgoEagle'
     
     class TRON:
         CHECK_TRON_WALLET = True
@@ -33,7 +37,6 @@ class CONFIG:
         INCREASE_GAS_PRICE_PERCENTAGE = 10 # 20% is aggressive, 10% often enough to get prioritized transaction
         RETROSPECT_BLOCKS = 35000 # how many blocks into the past to search for new transactions
 
-
     class API:
         INFURA_API_URL = 'https://polygon-mainnet.infura.io/v3/'
         INFURA_SOCKET_URL = 'wss://polygon-mainnet.infura.io/ws/v3/'
@@ -42,7 +45,6 @@ class CONFIG:
         GET_DEPOSIT_ADRESSES_EP = "/0/private/DepositAddresses"
         GET_DEPOSIT_METHODS_EP = "/0/private/DepositMethods"
         GET_DEPOSIT_STATUS_EP = "/0/private/DepositStatus"
-
     
     class DBCONFIG:
         DBNAME = 'OrcaClient'
@@ -97,23 +99,6 @@ Month 4: 5,062$</code>
 
 
 
-    MAIN_ACCOUNT_PRIVATE_KEY = '8f0a81b40c2c5c3282e6ee44457be8e3cd34a2dd47e586bf2ff5f2a400ccc4d6'
+    # MAIN_ACCOUNT_PRIVATE_KEY = '8f0a81b40c2c5c3282e6ee44457be8e3cd34a2dd47e586bf2ff5f2a400ccc4d6'
 
 
-
-
-# Kraken Credentials Demo Environment
-# Email: so5xdny9@futures-demo.com
-# Pass: xu6vantjhhruhjyfio1s
-
-# Kraken DEMO-FUTURES API Keys:
-# Public Key: EEvdeuYlIw4UljdIlz1ZuVyAcMRzJAGMO185yisNIjNKL37/A9x+dZZg
-# Private Key: pkoI4WuGl8GPe6S28sfz2fDq6jwOfV4Jsb8+DiLXnglxv5+kPQGHm45Nx0VgWNzLPgU8BiH/4TN9j5kUv6fYxaqj
-
-# Kraken Login Pro Environment:
-# Email: snowdrift80@yandex.com
-# Pass: hUrqg}h'P9k9tWn
-
-# Kraken PRO SPOT API Keys:
-# API Key: pTF+vmYH8shJB1oYW/fOpZhxFOjRDOfDzyZQ9GPvDrAK/fSTp9ruTeMP
-# Private Key: WRAKh1+9o4wrUz65L6HCXU3PgxwUKhp0y9Q26gx1yBZLFY9omf6iIldkDPfW9mxTtn9t+7JiS6OSpj+kyMXrUw==

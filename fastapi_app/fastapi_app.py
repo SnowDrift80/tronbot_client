@@ -182,6 +182,11 @@ async def handle_approved_withdrawal(data: ApprovedWithdrawal = Body(...)):
     Raises:
         HTTPException: If any error occurs during processing the withdrawal.
     """
+    print("\n\n\n")
+    print("**********************************************")
+    print("\n /api/approved_withdrawal\n")
+    print("**********************************************")
+    print("\n\n\n")
     try:
         # Extract data from the request
         wrid = data.wrid

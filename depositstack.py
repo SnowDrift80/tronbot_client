@@ -243,6 +243,7 @@ class DepositStack():
                             f"<b><u>ℹ️ Make a Deposit:</u></b>\n\n"
                             f"💳  Please make your deposit to this address:\n\n"
                             f"<code>{element['deposit_address']}</code>\n\n"
+                            f"<b>Please make sure that you send the USDT on the POLYGON (MATIC) Network.</b>\n\n"
                             f"You will be automatically notified once the deposit has been credited to our account."
                         )
                         await self.bot_message(chat_id, message)
@@ -359,7 +360,18 @@ class DepositStack():
                             # use the below variant to use the automatic queuing feature
                             await self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
 
-                            
+                            if CONFIG.ADMIN_DEPOSIT_NOTIFICATION:
+                                message = (
+                                    f"<b>⟠⟠⟠ NEW DEPOSIT ARRIVAL ⟠⟠⟠</b>\n"
+                                    f"TG user with chat-ID {chat_id}, {self.smart_concat(first_name, last_name)} just made a deposit of {CONFIG.ASSET} {amount}"
+                                )
+                                for admin_chat_id in CONFIG.ADMIN_CHAT_IDS:
+                                    try:
+                                        await self.bot.send_message(chat_id=admin_chat_id, text=message, parse_mode='HTML')
+                                    except Exception as e:
+                                        error_message =f"Error occured sending admin notifications: {str(e), admin_chat_id}"
+                                        logger.error(error_message)
+
                             # Add refid to known refids to avoid processing it again
                             self.deposit_ref_ids.add(refid)
                             
@@ -371,6 +383,14 @@ class DepositStack():
             logger.error(f"Error occurred while processing recent deposits: {e}")
             raise
     
+
+    def smart_concat(self, str1, str2):
+        if str1 and str2:
+            return f"{str1} {str2}"
+        elif str1:
+            return str1
+        elif str2:
+            return str2
     
     def __len__(self):
         """Return the total number of deposit requests across all stacks."""
