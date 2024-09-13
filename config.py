@@ -6,8 +6,9 @@ class CONFIG:
     #SPOT_API_KEY = 'pTF+vmYH8shJB1oYW/fOpZhxFOjRDOfDzyZQ9GPvDrAK/fSTp9ruTeMP'
     #SPOT_PRIVATE_KEY = 'WRAKh1+9o4wrUz65L6HCXU3PgxwUKhp0y9Q26gx1yBZLFY9omf6iIldkDPfW9mxTtn9t+7JiS6OSpj+kyMXrUw=='
     
-    ## TELEGRAM_KEY = '7482254233:AAHZqH8MnQL0O0R78aLZrmTpkyXsq2_rsVY' # original test bot @trondemo_bot
-    TELEGRAM_KEY = '7491925213:AAE0DXt_4hPwZFZsJGGEVb82zmMreL9UXFc' # production test bot t.me/tron_staging_bot
+    TELEGRAM_KEY = '7352388541:AAFBM0lqJ0JrkE738vSrhJ6RIa-n7ElR8Mg' # tron dev test bot
+    ## TELEGRAM_KEY = '7482254233:AAHZqH8MnQL0O0R78aLZrmTpkyXsq2_rsVY' # test-environment test bot @trondemo_bot
+    ## TELEGRAM_KEY = '7491925213:AAE0DXt_4hPwZFZsJGGEVb82zmMreL9UXFc' # production-environment test bot t.me/tron_staging_bot
     ASSET = 'USDT'
     METHOD = 'Tether USDT (ERC20)'
     ADMIN_CHAT_IDS = ['6916783573', '1366778530', '578856029']
@@ -16,6 +17,7 @@ class CONFIG:
     DEPOSIT_ADDR_VALIDITY_BUFFER = 30 # buffer that reflects the time it can take until the deposit is credited to our account
     DEPOSIT_POLLING_INTERVAL = 10 # polling interval in seconds for incoming deposits
     DEPOSIT_REQUEST_STACK_INTERVAL = 10 # polling interval in seconds for request stack
+    DEPOSIT_MINIMUM = 20 # If below the deposit minimum, the deposit receipt confirmation will ask the customer to top up the difference.
     MAX_DEPOSIT_ADDRESSES = 10 # maximum number of deposit addresses that can be used concurrently
     LOGO_PATH = 'assets/algoeagle_dark_logo.jpg'
     ENDPOINT_BASEURL = 'http://localhost:5001/api'
@@ -40,7 +42,8 @@ class CONFIG:
     class API:
         INFURA_API_URL = 'https://polygon-mainnet.infura.io/v3/'
         INFURA_SOCKET_URL = 'wss://polygon-mainnet.infura.io/ws/v3/'
-        INFURA_API_KEY = 'e02346fc16f8431aa3fb1c0aef9b7730'
+        INFURA_API_KEY = 'e02346fc16f8431aa3fb1c0aef9b7730' # test key
+        # INFURA_API_KEY = '71db71cab031411db6c9bc496ef4463c' # production key
         BASE_URL = "https://api.kraken.com"
         GET_DEPOSIT_ADRESSES_EP = "/0/private/DepositAddresses"
         GET_DEPOSIT_METHODS_EP = "/0/private/DepositMethods"

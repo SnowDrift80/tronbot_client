@@ -243,6 +243,7 @@ class DepositStack():
                             f"<b><u>ℹ️ Make a Deposit:</u></b>\n\n"
                             f"💳  Please make your deposit to this address:\n\n"
                             f"<code>{element['deposit_address']}</code>\n\n"
+                            f"The deposit <b><u>minimum amount is USDT {CONFIG.DEPOSIT_MINIMUM}</u></b>.\n\n"
                             f"<b>Please make sure that you send the USDT on the POLYGON (MATIC) Network.</b>\n\n"
                             f"You will be automatically notified once the deposit has been credited to our account."
                         )
@@ -306,11 +307,25 @@ class DepositStack():
                             if last_name == None:
                                 last_name = ""
                             # Construct message for deposit confirmation
+                            print("\n\n\n***************************************************")
+                            print("***************************************************\n\n\n")
+                            print("self.database.get_total_deposits_client next!")
+                            print("chat_id:", chat_id, "\n\n")
+
+                            print("***************************************************\n\n\n")
+                            total_deposit_amount = self.database.get_total_deposits_client(p_chat_id=int(chat_id))
+                            print("total_deposit_amount: ", total_deposit_amount)
+                            if total_deposit_amount < CONFIG.DEPOSIT_MINIMUM:
+                                difference = CONFIG.DEPOSIT_MINIMUM - total_deposit_amount
+                                top_up_warning = f"\n\n❗ WARNING: The minimum deposit is USDT {CONFIG.DEPOSIT_MINIMUM}, but you've only deposited USDT {total_deposit_amount}. Please add USDT {difference} to meet the minimum required for your investment to generate returns. You can make an additional deposit using the /deposit command."
+                            else:
+                                top_up_warning = ""
                             message = (
                                 f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
                                 f"Hello {first_name} {last_name},\n"
                                 f"🏦 Your deposits for the amount of <b>USDT {amount}</b> have just been received and credited to your account after deduction of {CONFIG.FEES.DEPOSIT_FEE}% deposit fee.\n\n"
                                 f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                f"{top_up_warning}"
                             )
                             
                             # Add deposit record to the database to prevent re-processing

@@ -574,6 +574,36 @@ class DataHandler:
             raise
 
 
+    def get_total_deposits_client(self, p_chat_id: int):
+        url = f"{CONFIG.RETURNS_BASEURL}/get_total_deposits_client"
+        print(f"URL: {url}")
+        
+        try:
+            # Make a POST request with the chat_id as a parameter
+            response = requests.get(url, params={"chat_id": p_chat_id})
+            response.raise_for_status()  # Check if the request was successful
+            
+            # Parse the response as JSON
+            data = response.json()
+            
+            # Assuming the API returns a JSON object with the total deposit as a float
+            client_total_deposit = float(data)  # Ensure it's a float
+            
+            return client_total_deposit
+        
+        except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+            raise
+        except requests.exceptions.RequestException as req_err:
+            logging.error(f"Request error occurred: {req_err}")
+            raise
+        except ValueError as val_err:
+            logging.error(f"Value error occurred: {val_err}")
+            raise
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            raise
+
 
 
     def update_transferred_status_true(self, transaction_id):

@@ -79,6 +79,11 @@ async def validate_address(address, chat_id):
         await depositstack.bot_message(chat_id=chat_id, message="<code>Invalid address format</code>")
         return False
 
+def has_upper_and_lower_letters(s):
+    has_upper = any(char.isupper() for char in s) # checks for upppercase letters
+    has_lower = any(char.islower() for char in s) # checks for lowercase letters
+    return has_upper and has_lower # logical 'and' expression is true if both values are true
+
 
 # Validate Ethereum address with checksum and network check
 async def validate_ethereum_address(address, chat_id):
@@ -103,20 +108,21 @@ async def validate_ethereum_address(address, chat_id):
             await depositstack.bot_message(chat_id=chat_id, message=message)
 
         # Checksum check
-        try:
-            if not is_checksum_address(address):
-                address = to_checksum_address(address)
+        if has_upper_and_lower_letters(address): # only addresses with mixed letters have checksum!
+            try:
+                if not is_checksum_address(address):
+                    address = to_checksum_address(address)
+                    message = f"<code>testing wallet checksum...... 🚫</code>"
+                    await depositstack.bot_message(chat_id=chat_id, message=message)
+                    return False
+                else:
+                    message = f"<code>testing wallet checksum...... ✅</code>"
+                    await depositstack.bot_message(chat_id=chat_id, message=message)
+            except Exception as e:
+                logger.error(f"Checksum validation error: {e}")
                 message = f"<code>testing wallet checksum...... 🚫</code>"
                 await depositstack.bot_message(chat_id=chat_id, message=message)
                 return False
-            else:
-                message = f"<code>testing wallet checksum...... ✅</code>"
-                await depositstack.bot_message(chat_id=chat_id, message=message)
-        except Exception as e:
-            logger.error(f"Checksum validation error: {e}")
-            message = f"<code>testing wallet checksum...... 🚫</code>"
-            await depositstack.bot_message(chat_id=chat_id, message=message)
-            return False
 
     except re.error as regex_error:
         logger.error(f"Regex error while validating address: {regex_error}")
@@ -632,9 +638,7 @@ async def get_balance(chat_id: int):
         response = requests.post(balance_url, json=balance_data)
         response.raise_for_status()  # Raise an error for bad status codes
         balance_data = response.json()  # Parse the response as JSON
-        print(f"\n\n\nDATA:\n{balance_data}\n\n\n")
         balance_info = balance_data['balance'][0]
-        print(f"\n\n\n\nBALANCE INFO: \n{balance_info}")
 
         if balance_data["status"] == "success":
             firstname = balance_info['firstname']
@@ -675,11 +679,59 @@ async def get_balance(chat_id: int):
     return balance, firstname, lastname, currency
 
 
+async def get_factorized_balance(update: Update, context: CallbackContext):
+    """
+    Retrieves and returns the factorized1 balance information for a client from the database.
+
+    Args:
+        update (Update): The incoming update from Telegram containing the message.
+        context (CallbackContext): The context object for handling callbacks.
+
+    Returns:
+        factorized_balance
+
+    Raises:
+        Exception: If there is an error retrieving or formatting the balance information.
+
+    """
+    callback = False
+    if update.message:
+        chat_id = update.message.chat_id
+        callback = False
+    elif update.callback_query:
+        chat_id = update.callback_query.message.chat_id
+        callback = True
+
+    try:
+        # fetches oscillation factor
+        factor, now = await get_factor()
+
+        # fetches latest closure balance
+        balance, firstname, lastname, currency = await get_balance(chat_id)
+        if balance == -1:
+            user_data = context.user_data
+            context.user_data['status'] = None
+            await update.message.reply_text("An error occurred while fetching the balance information.")
+            return
+
+        factor_decimal = Decimal(factor)
+
+        # Calculate the factorized balance
+        factorized_balance = balance * factor_decimal
+
+        factorized_balance = factorized_balance.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+        return factorized_balance
+    
+    except Exception as e:
+        error_message = f"Error retrieving balance information: {str(e)}"
+        logger.error(error_message)
+        await update.message.reply_text("An error occurred while fetching the balance information.")
+        return -1
 
 
 async def show_balance(update: Update, context: CallbackContext):
     """
-    Retrieves and displays the balance information for a client from the database.
+    Retrieves and displays the factorized balance information for a client from the database.
 
     Args:
         update (Update): The incoming update from Telegram containing the message.
@@ -1171,6 +1223,7 @@ async def button(update: Update, context: CallbackContext) -> None:
 
             if status == "client_commit_to_deposit":
                 if decision == "yes":
+                    await query.edit_message_text(text="You confirmed to make a deposit now.")
                     await query.message.reply_text("Please wait while your deposit address is being prepared...")
                     client = get_client_object(update, chat_id)
                     deposit_request = await depositstack.add_deposit_request(update, client)
@@ -1181,6 +1234,7 @@ async def button(update: Update, context: CallbackContext) -> None:
                     #                             eta=deposit_request['eta'],
                     #                             deposit_address=deposit_request['deposit_address'])
                 else:
+                    await query.edit_message_text(text="You decided to not make a deposit yet.")
                     await query.message.reply_text("You're welcome any time to request to make a deposit.")
             
             elif status == "request_deposit":
@@ -1224,7 +1278,9 @@ async def button(update: Update, context: CallbackContext) -> None:
                         "amount": amount,
                         "wallet": wallet
                     }
-                    
+
+                    await query.edit_message_text(text=f"You confirmed to request a withdrawal:\n\nChat-ID: {chat_id}\nFirstname: {client['firstname']}\nLastname: {client['lastname']}\nCurrency: USDT\nAmount: {amount}\nWallet: {wallet}")
+
                     # Send post request to sister application
                     url = CONFIG.ENDPOINT_BASEURL + "/request_withdrawal"
                     headers = {'Content-Type': 'application/json'}
@@ -1254,6 +1310,7 @@ async def button(update: Update, context: CallbackContext) -> None:
                     withdrawals.remove_withdrawal(chat_id)
                 
                 else:
+                    await query.edit_message_text(text=f"You clicked on cancel.")
                     context.user_data['status'] = None  # Reset status because user process ends here
                     withdrawals.remove_withdrawal(chat_id)
                     message = "Withdrawal canceled by user."
@@ -1417,7 +1474,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                 try:
                     amount = float(amount_text)
                     context.user_data['status'] = ''  # Reset status after successfully parsing amount
-                    balance_raw, _, _, _ = await get_balance(chat_id)
+                    balance_raw = await get_factorized_balance(update, context)
                     if balance_raw == -1: # if get_balance failed, server probably not online, therefore cancel process
                         user_data = context.user_data
                         user_data['status'] = None
@@ -1597,7 +1654,7 @@ def run_fastapi():
     """
 
     try:
-        config = uvicorn.Config("main:app", host="127.0.0.1", port=8000)
+        config = uvicorn.Config("main:app", host="127.0.0.1", port=8000, workers=4)
         server = uvicorn.Server(config)
         server.run()
 
