@@ -764,8 +764,10 @@ async def show_balance(update: Update, context: CallbackContext):
             await update.message.reply_text("An error occurred while fetching the balance information.")
             return
         
+        balance = Decimal(balance)
+        minimum_deposit = Decimal(CONFIG.DEPOSIT_MINIMUM)
+
         total_client_deposits = database.get_total_deposits_client(p_chat_id=chat_id)
-        minimum_deposit = CONFIG.DEPOSIT_MINIMUM
         deposit_difference = (minimum_deposit - balance).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
 
         if total_client_deposits >= minimum_deposit:
