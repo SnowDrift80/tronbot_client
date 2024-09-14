@@ -763,16 +763,27 @@ async def show_balance(update: Update, context: CallbackContext):
             context.user_data['status'] = None
             await update.message.reply_text("An error occurred while fetching the balance information.")
             return
+        
+        total_client_deposits = database.get_total_deposits_client(p_chat_id=chat_id)
+        minimum_deposit = CONFIG.DEPOSIT_MINIMUM
+        deposit_difference = (minimum_deposit - balance).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
 
-        factor_decimal = Decimal(factor)
+        if total_client_deposits >= minimum_deposit:
+            factor_decimal = Decimal(factor)
 
-        # Calculate the factorized balance
-        factorized_balance = balance * factor_decimal
+            # Calculate the factorized balance
+            factorized_balance = balance * factor_decimal
 
-        factorized_balance = factorized_balance.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
-        timestamp = now.strftime("%Y-%m-%d:%H:%M:%S")
-        bot_text = f"ℹ️ Client: {firstname} {lastname}\nBalance: {currency} {factorized_balance}\nTimestamp: {timestamp}"
-        print(f"\n\n\nBOT-TEXT: {bot_text}\n\n\n")
+            factorized_balance = factorized_balance.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+            timestamp = now.strftime("%Y-%m-%d:%H:%M:%S")
+            bot_text = f"ℹ️ Your balance per {timestamp}\n\n<code>Client:  {firstname} {lastname}\nBalance: {currency} {factorized_balance}\n</code>"
+            logger.info(f"BOT-TEXT: {bot_text}")
+        else:
+            balance = balance.quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+            timestamp = now.strftime("%Y-%m-%d:%H:%M:%S")
+            bot_text = f"ℹ️ Your balance per {timestamp}\n\n<code>Client:  {firstname} {lastname}\nBalance: {currency} {balance}</code>\n\n❗ WARNING: You have deposited less than the required mininmum of USDT {minimum_deposit} and therefore <b><u>your funds are excluded from trading</u></b>.\n\nPlease make another deposit of USDT {deposit_difference} or more using the /deposit command."
+            logger.info(f"BOT-TEXT: {bot_text}")
+
         if not callback:
             #await update.message.reply_text(bot_text, parse_mode='HTML')
             ## UPDATE ALL BOT COMMUNICATIONS LIKE THE LINE BELOW FOR NON-CALLBACK MESSAGES, to ensure it uses rate limit queuing
