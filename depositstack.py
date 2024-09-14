@@ -306,35 +306,10 @@ class DepositStack():
                                 first_name = ""
                             if last_name == None:
                                 last_name = ""
-                            # Construct message for deposit confirmation
-                            print("\n\n\n***************************************************")
-                            print("***************************************************\n\n\n")
-                            print("self.database.get_total_deposits_client next!")
-                            print("chat_id:", chat_id, "\n\n")
-
-                            print("***************************************************\n\n\n")
-                            total_deposit_amount = self.database.get_total_deposits_client(p_chat_id=int(chat_id))
-                            print("total_deposit_amount: ", total_deposit_amount)
-                            if total_deposit_amount < CONFIG.DEPOSIT_MINIMUM:
-                                difference = CONFIG.DEPOSIT_MINIMUM - total_deposit_amount
-                                top_up_warning = f"\n\n❗ WARNING: The minimum deposit is USDT {CONFIG.DEPOSIT_MINIMUM}, but you've only deposited USDT {total_deposit_amount}. Please add USDT {difference} to meet the minimum required for your investment to generate returns. You can make an additional deposit using the /deposit command."
-                            else:
-                                top_up_warning = ""
-                            message = (
-                                f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
-                                f"Hello {first_name} {last_name},\n"
-                                f"🏦 Your deposits for the amount of <b>USDT {amount}</b> have just been received and credited to your account after deduction of {CONFIG.FEES.DEPOSIT_FEE}% deposit fee.\n\n"
-                                f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
-                                f"{top_up_warning}"
-                            )
                             
                             # Add deposit record to the database to prevent re-processing
                             self.database.add_deposit_record(refid, chat_id, first_name, last_name, amount, asset, txid, deposit_address)
                             
-                            # Update client balances and create ledger entry / old code
-                            # self.database.handle_deposit(chat_id, first_name, last_name, CONFIG.ASSET, CONFIG.METHOD, amount, deposit_address, refid, credit_time, txid)
-
-
 ############################ UPDATE CLIENT BALANCES REMOTE PROCEDURE CALL ##################################################
                             # Update client balances and create ledger entry 
                             # Prepare data to send in the API request
@@ -362,6 +337,7 @@ class DepositStack():
                                 response.raise_for_status()  # Raise an exception for HTTP errors
                                 result = response.json()
                                 logger.info(f"Deposit handled successfully: {result}")
+  
                             except requests.HTTPError as e:
                                 logger.error(f"HTTP error occurred: {e}")
                             except Exception as e:
@@ -371,7 +347,29 @@ class DepositStack():
 
 
                             # Notify client about the deposit confirmation
-                            #await self.bot_message(chat_id, message)
+                            # Construct message for deposit confirmation
+                            print("\n\n\n***************************************************")
+                            print("***************************************************\n\n\n")
+                            print("self.database.get_total_deposits_client next!")
+                            print("chat_id:", chat_id, "\n\n")
+
+                            print("***************************************************\n\n\n")
+                            total_deposit_amount = self.database.get_total_deposits_client(p_chat_id=int(chat_id))
+                            gross_total_deposit_amount = total_deposit_amount / (100 - CONFIG.FEES.DEPOSIT_FEE) * 100
+                            print("gross_total_deposit_amount: ", gross_total_deposit_amount)
+                            if gross_total_deposit_amount < (CONFIG.DEPOSIT_MINIMUM * 0.97):     # tolerance of 3% (100-97 = 3)
+                                difference = CONFIG.DEPOSIT_MINIMUM - gross_total_deposit_amount
+                                top_up_warning = f"\n\n❗ WARNING: The minimum deposit is USDT {CONFIG.DEPOSIT_MINIMUM}, but your deposit total is USDT {gross_total_deposit_amount}. Please add USDT {difference} to meet the minimum required for your investment to generate returns. You can make an additional deposit using the /deposit command."
+                            else:
+                                top_up_warning = ""
+                            message = (
+                                f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
+                                f"Hello {first_name} {last_name},\n"
+                                f"🏦 Your deposits for the amount of <b>USDT {amount}</b> have just been received and credited to your account after deduction of {CONFIG.FEES.DEPOSIT_FEE}% deposit fee.\n\n"
+                                f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                f"{top_up_warning}"
+                            )
+
                             # use the below variant to use the automatic queuing feature
                             await self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
 

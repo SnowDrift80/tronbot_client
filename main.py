@@ -763,14 +763,16 @@ async def show_balance(update: Update, context: CallbackContext):
             context.user_data['status'] = None
             await update.message.reply_text("An error occurred while fetching the balance information.")
             return
-        
+
+        net_total_deposits = database.get_total_deposits_client(p_chat_id=chat_id)
+        gross_total_deposits = Decimal(net_total_deposits / (100 - CONFIG.FEES.DEPOSIT_FEE) * 100)        
         balance = Decimal(balance)
         minimum_deposit = Decimal(CONFIG.DEPOSIT_MINIMUM)
+        comparison_minimum_deposit = minimum_deposit / 100 * (100 - (CONFIG.FEES.DEPOSIT_FEE + 3))   # 3% tolerance
 
-        total_client_deposits = database.get_total_deposits_client(p_chat_id=chat_id)
-        deposit_difference = (minimum_deposit - balance).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+        deposit_difference = (minimum_deposit - gross_total_deposits).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
 
-        if total_client_deposits >= minimum_deposit:
+        if net_total_deposits >= comparison_minimum_deposit:
             factor_decimal = Decimal(factor)
 
             # Calculate the factorized balance
