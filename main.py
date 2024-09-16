@@ -1349,7 +1349,6 @@ async def poll_deposit_request_stack():
         Exception: If there is an unexpected error during processing of deposit requests.
     """
     while not application.shutdown_event.is_set():
-        print(f"\n\n\n\nSHUTDOWN FLAG: {application.shutdown_event.is_set}\n\n\n\n")
         try:
             # Process the next deposit request from the stack
             next_request = await depositstack.process_next()

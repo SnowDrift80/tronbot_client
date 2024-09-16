@@ -8,7 +8,8 @@ class CONFIG:
     
     TELEGRAM_KEY = '7352388541:AAFBM0lqJ0JrkE738vSrhJ6RIa-n7ElR8Mg' # tron dev test bot
     ## TELEGRAM_KEY = '7482254233:AAHZqH8MnQL0O0R78aLZrmTpkyXsq2_rsVY' # test-environment test bot @trondemo_bot
-    ## TELEGRAM_KEY = '7491925213:AAE0DXt_4hPwZFZsJGGEVb82zmMreL9UXFc' # production-environment test bot t.me/tron_staging_bot
+    ## TELEGRAM_KEY = '7491925213:AAE0DXt_4hPwZFZsJGGEVb82zmMreL9UXFc' # production-environment test bot @tron_staging_bot
+    ## TELEGRAM_KEY = '7282820014:AAHxC66U_9zFCsJlJAZF_UVK-CtriTzBPOI' # production bot - THIS ONE TO USE IN PRODUCTION @algoeagle_bot
     ASSET = 'USDT'
     METHOD = 'Tether USDT (ERC20)'
     ADMIN_CHAT_IDS = ['6916783573', '1366778530', '578856029']
