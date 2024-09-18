@@ -1502,7 +1502,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
             return
 
         # Handle withdrawal amount input if the user is in 'withdrawal: awaiting amount' status
-        if user_data['status'] == 'withdrawal: awaiting amount':
+        if user_data.get('status') == 'withdrawal: awaiting amount':
             if update.message.text:
                 amount_text = update.message.text
                 try:
@@ -1536,7 +1536,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                     await update.message.reply_text("Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
 
         # Handle wallet address input if the user is in 'withdrawal: awaiting wallet' status
-        elif user_data['status'] == 'withdrawal: awaiting wallet':
+        elif user_data.get('status') == 'withdrawal: awaiting wallet':
             logger.info('AWAITING WALLET!!!!')
             if update.message.text:
                 wallet_address = update.message.text
