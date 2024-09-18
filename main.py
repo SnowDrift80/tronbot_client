@@ -408,10 +408,15 @@ def add_chat(update: Update, chat_id):
     """
     try:
         # Extract user information from the update
-        chat_id = update.message.chat_id
-        firstname = update.effective_user.first_name
-        lastname = update.effective_user.last_name
-        language = update.effective_user.language_code
+        if update.message:
+            up_date = update
+        elif update.callback_query:
+            up_date = update.callback_query
+
+        firstname = up_date.effective_user.first_name or f'TGID{chat_id}'
+        lastname = up_date.effective_user.last_name or f'TGID{chat_id}'
+        
+        language = up_date.effective_user.language_code or 'en'  # Default language if missing
 
         # Create a new user object
         user_object = Client(chat_id=chat_id,
@@ -1116,7 +1121,7 @@ async def get_statistics(update: Update, context: CallbackContext):
     r_threemonths = model.calculate_three_months_compounded_return()
 
     message = (
-        "<b>⭐  ⭐ ⭐   ALGOEAGLE BOT PROFIT   ⭐ ⭐  ⭐\n\n</b>"
+        "<b>⭐ ⭐   ALGOEAGLE BOT PROFIT   ⭐ ⭐\n\n</b>"
         f"These are the returns the AlgoEagle bot has earned.\n\n"
         f"<b>Yesterday:</b>\n"
         f"<code>Date:        {r_day['profit_date']}\n"
