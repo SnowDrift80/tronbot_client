@@ -1419,9 +1419,10 @@ async def poll_deposit_request_stack():
 
         except Exception as e:
             # Handle any exceptions that occur during processing
-            error_message = f"Error occurred in deposit request stack polling: {str(e)}"
+            error_message = f"poll_deposit_request_stack() Error: {str(e)}"
             logger.error(error_message)
-            raise Exception(error_message)
+            # raise Exception(error_message) # raising an exception may end this thread
+            await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
 
 
 async def process_transfers(deposits):
@@ -1467,7 +1468,6 @@ async def poll_recent_deposits():
                         'balance': balance['balance']
                         }
                     active_deposits.append(row)
-                    print(f"\n\n\nDEPOSIT FOUND {balance['balance']} AT DEPOSIT-ADDRESS: {balance['deposit_address']}")
             
             logger.info(f"New deposits found: {active_deposits}")
             deposit_logs = DepositLogs(active_deposits)
@@ -1475,12 +1475,10 @@ async def poll_recent_deposits():
             response_data = []
 
             depositlogs = database.get_newdepositlogs() # we get the new depositlogs with transfer == False from the database
-            print(f"\n\n\n\n\n#####################################################")
             if depositlogs:
-                print(f"Found new deposits:\n{depositlogs}")
+                logger.info(f"************ Found new deposits: {depositlogs}")
             else:
-                print(f"No new deposits found")
-            print(f"#####################################################\n\n\n\n\n")
+                logger.info(f"************ No new deposits found")
 
             if depositlogs: # only process if there are any new deposits where transfer == False
                 # process the depositlogs and build response_data
@@ -1505,13 +1503,15 @@ async def poll_recent_deposits():
             # Sleep for the configured interval before polling again
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
             if application.shutdown_event.is_set():
+                logger.warning(f"*** poll_recent_deposits() thread halted because of shutdown signal. ***")
                 break
         
         except Exception as e:
-            error_message = f"Error occurred in poll_recent_deposits coroutine: {str(e)}"
+            error_message = f"Error occurred in poll_recent_deposits() co-routine: {str(e)}"
             logger.error(error_message)
-            raise Exception(error_message)
-
+            # raise Exception(error_message) - this may cause the loop to stop in case of an uncought exception, even in sub-tasks.
+            await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
+ 
 
 async def handle_text_input(update: Update, context: CallbackContext):
     """

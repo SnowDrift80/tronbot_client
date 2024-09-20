@@ -54,7 +54,7 @@ class DataHandler:
             logging.info("Database connection established")
         except Exception as e:
             logging.error(f"Error connecting to the database: {e}")
-            raise
+            return  None
 
 
     def call_procedure(self, proc_name, *args):
@@ -89,7 +89,7 @@ class DataHandler:
             
         except Exception as e:
             logging.error(f"Error calling procedure {proc_name}: {e}")
-            raise
+            return  None
 
 
     def call_function(self, func_name, *args):
@@ -115,7 +115,7 @@ class DataHandler:
                 return result
         except Exception as e:
             logging.error(f"Error calling function {func_name}: {e}")
-            raise
+            return  None
 
 
 
@@ -138,7 +138,7 @@ class DataHandler:
             return self.call_procedure("import_csv_data", csv_path)
         except Exception as e:
             logging.error(f"Error importing CSV data from {csv_path}: {e}")
-            raise
+            return  None
     
 
     def add_deposit_record(self, p_refid, p_chat_id, p_firstname, p_lastname, p_amount, p_asset, p_txid, p_deposit_address):
@@ -167,7 +167,7 @@ class DataHandler:
             return self.call_procedure("add_deposit_record", p_refid, p_chat_id, p_firstname, p_lastname, p_amount, p_asset, p_txid, p_deposit_address)
         except Exception as e:
             logging.error(f"Error adding deposit record with refid {p_refid}: {e}")
-            raise
+            return  None
     
 
     def check_if_deposit_processed(self, p_refid):
@@ -191,7 +191,7 @@ class DataHandler:
             return result[0]['check_if_deposit_processed'] if result else None
         except Exception as e:
             logging.error(f"Error checking if deposit with refid {p_refid} is processed: {e}")
-            raise
+            return  None
     
 
     def compound_returns(self, p_current_date):
@@ -212,7 +212,7 @@ class DataHandler:
             return self.call_procedure("compound_returns", p_current_date)
         except Exception as e:
             logging.error(f"Error compounding returns for date {p_current_date}: {e}")
-            raise
+            return  None
     
 
     
@@ -237,7 +237,7 @@ class DataHandler:
             return self.call_function("statement", p_chat_id, p_start_date, p_end_date)
         except Exception as e:
             logging.error(f"Error fetching statement for chat_id {p_chat_id}: {e}")
-            raise
+            return  None
         
 
     def get_total_liabilities(self):
@@ -256,7 +256,7 @@ class DataHandler:
             return self.call_procedure("total_liabilities")
         except Exception as e:
             logging.error(f"Error fetching total liabilities: {e}")
-            raise
+            return  None
     
 
     def projected_balance(self, p_target_date, p_chat_id):
@@ -279,7 +279,7 @@ class DataHandler:
             return self.call_procedure("projected_balance", p_target_date, p_chat_id)
         except Exception as e:
             logging.error(f"Error calculating projected balance: {e}")
-            raise
+            return  None
     
 
     def get_depositaddresses(self):
@@ -298,7 +298,7 @@ class DataHandler:
             return self.call_function("get_depositaddresses")
         except Exception as e:
             logging.error(f"Error retrieving deposit addresses: {e}")
-            raise
+            return  None
 
 
     def get_deposit_address_private_key(self, deposit_address):
@@ -320,7 +320,7 @@ class DataHandler:
             return private_key
         except Exception as e:
             logging.error(f"Error retrieving unhashed private key: {e}")
-            raise
+            return  None
 
 
     def get_centraladdress(self):
@@ -346,7 +346,7 @@ class DataHandler:
                 return {"depositaddress": CONFIG.ETHPOLYGON.BACKUP_CENTRAL_ADDRESS}
         except Exception as e:
             logging.error(f"Error retrieving central address: {e}")
-            raise
+            return  None
 
 
     def insert_depositlogs(self, logs):
@@ -383,7 +383,7 @@ class DataHandler:
         except Exception as e:
             logging.error(f"Error inserting deposit logs: {e}")
             self.conn.rollback()
-            raise
+            return  None
 
 
     def get_newdepositlogs(self):
@@ -405,7 +405,7 @@ class DataHandler:
                 return None
         except Exception as e:
             logging.error(f"Error retrieving new deposit logs: {e}")
-            raise
+            return  None
 
 
     def get_unidentified_deposits(self):
@@ -435,7 +435,7 @@ class DataHandler:
             return deposits_list
         except Exception as e:
             logging.error(f"Error retrieving deposit addresses: {e}")
-            raise
+            return  None
 
 
     def update_depositlogs_refund(self, p_transaction_id, p_refund_transaction_id):
@@ -453,7 +453,7 @@ class DataHandler:
             self.call_function("update_depositlogs_refund", p_transaction_id, p_refund_transaction_id)
         except Exception as e:
             logging.error(f"Error updating depositlog with refund data: {e}")
-            raise
+            return  None
 
 
     def get_profits_one_day(self, p_chat_id):
@@ -467,7 +467,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one day profits: {e}")
-            raise
+            return  None
 
 
     def get_profits_one_week(self, p_chat_id):
@@ -481,7 +481,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one week profits: {e}")
-            raise
+            return  None
 
         
     def get_profits_one_month(self, p_chat_id):
@@ -495,7 +495,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one month profits: {e}")
-            raise
+            return  None
 
 
     def get_profits_three_months(self, p_chat_id):
@@ -509,7 +509,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving three months profits: {e}")
-            raise
+            return  None
 
 
     def get_profits_all_time(self, p_chat_id):
@@ -523,7 +523,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving yesterday's return: {e}")
-            raise
+            return  None
 
 
     def get_bot_returns_yesterday(self):
@@ -535,7 +535,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one day profits: {e}")
-            raise
+            return  None
 
 
     def calculate_weekly_compounded_return(self):
@@ -547,7 +547,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one week compounded returns: {e}")
-            raise
+            return  None
 
 
     def calculate_monthly_compounded_return(self):
@@ -559,7 +559,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving one month compounded returns: {e}")
-            raise
+            return  None
 
 
     def calculate_three_months_compounded_return(self):
@@ -571,7 +571,7 @@ class DataHandler:
             return response.json()
         except Exception as e:
             logging.error(f"Error retrieving three months compounded returns: {e}")
-            raise
+            return  None
 
 
     def get_total_deposits_client(self, p_chat_id: int):
@@ -593,16 +593,16 @@ class DataHandler:
         
         except requests.exceptions.HTTPError as http_err:
             logging.error(f"HTTP error occurred: {http_err}")
-            raise
+            return  None
         except requests.exceptions.RequestException as req_err:
             logging.error(f"Request error occurred: {req_err}")
-            raise
+            return  None
         except ValueError as val_err:
             logging.error(f"Value error occurred: {val_err}")
-            raise
+            return  None
         except Exception as e:
             logging.error(f"An unexpected error occurred: {e}")
-            raise
+            return  None
 
 
 
@@ -621,7 +621,7 @@ class DataHandler:
             return self.call_function("update_transferred_status_true", transaction_id)
         except Exception as e:
             logging.error(f"Error updating depositlogs, 'transferred' to TRUE (tx_hash = {transaction_id}): {e}")
-            raise
+            return  None
 
 
     def update_transferred_status_false(self, transaction_id):
@@ -639,7 +639,7 @@ class DataHandler:
             return self.call_function("update_transferred_status_false", transaction_id)
         except Exception as e:
             logging.error(f"Error updating depositlogs, 'transferred' to FALSE (tx_hash = {transaction_id}): {e}")
-            raise
+            return  None
 
 
 
@@ -658,7 +658,7 @@ class DataHandler:
                 logging.info("Database connection closed")
         except Exception as e:
             logging.error(f"Error closing database connection: {e}")
-            raise
+            return  None
 
 
     
@@ -719,4 +719,3 @@ if __name__ == "__main__":
         # Log any errors that occur during execution
         import logging
         logging.error(f"Error in main execution: {e}")
-        raise
