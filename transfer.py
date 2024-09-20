@@ -1,6 +1,7 @@
 import time
 import logging
 from web3 import Web3
+from web3.exceptions import ContractLogicError, TransactionNotFound
 from eth_account import Account
 from config import CONFIG
 from model import DataHandler
@@ -138,23 +139,29 @@ class Funds:
             signed_transaction = self.web3.eth.account.sign_transaction(transaction, private_key)
 
             # Send the transaction to the Polygon network
-            tx_hash = self.web3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+            try:
+                tx_hash = self.web3.eth.send_raw_transaction(signed_transaction.rawTransaction)
+            except (ContractLogicError, ValueError, TransactionNotFound, Exception) as e:
+                logger.error(f"Web3 Eth transaction error: {e}")
+                return f"Web3 Eth transaction error: {e}"            
             tx_hash_str = tx_hash.hex()
             logger.info(f"Updating record with deposit transaction id {deposit_tx_id} to TRUE")
             self.database.update_transferred_status_true(f"'{deposit_tx_id}'")                
             logger.info(f'Transfer successfully initiated: {tx_hash_str}')
             receipt = None
-            while receipt is None:
+            max_retries = 30
+            retry_count = 0
+            while receipt is None and retry_count  < max_retries:
                 try:
                     receipt = self.web3.eth.get_transaction_receipt(tx_hash)
                     if receipt is not None:
                         break
                     else:
                         logger.info('Transaction not yet mined, waiting...')
-                        time.sleep(2)
+                        time.sleep(3)
                 except Exception as e:
                     logger.warning(f"Error while fetching transaction receipt of with TxHash {tx_hash_str}: {e}")
-                    time.sleep(2)
+                    time.sleep(3)
 
             if receipt.status == 1:
                 logger.info(f'*** RECEIPT RECEIVED: Transaction was successful. Receipt: {receipt}')
