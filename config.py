@@ -38,7 +38,7 @@ class CONFIG:
         BALANCEOF_FUNCTION = '0x70a08231'
         GET_BALANCE_BATCH_SIZE = 5 # currently infura supports a maximum batch size of 9
         INCREASE_GAS_PRICE_PERCENTAGE = 10 # 20% is aggressive, 10% often enough to get prioritized transaction
-        RETROSPECT_BLOCKS = 35000 # how many blocks into the past to search for new transactions
+        RETROSPECT_BLOCKS = 480 # 35000 original value | how many blocks into the past to search for new transactions
 
     class API:
         INFURA_API_URL = 'https://polygon-mainnet.infura.io/v3/'

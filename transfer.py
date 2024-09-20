@@ -159,6 +159,8 @@ class Funds:
                     else:
                         logger.info('Transaction not yet mined, waiting...')
                         time.sleep(3)
+                except TransactionNotFound as e:
+                    logger.warning(f"Waiting for receiving transaction receipt {tx_hash_str}: {e}")
                 except Exception as e:
                     logger.warning(f"Error while fetching transaction receipt of with TxHash {tx_hash_str}: {e}")
                     time.sleep(3)
