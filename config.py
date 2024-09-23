@@ -16,8 +16,8 @@ class CONFIG:
     ADMIN_DEPOSIT_NOTIFICATION = True
     DEPOSIT_ADDR_VALIDITY = 150 # number of seconds the deposit address remains assigned to the chat_id
     DEPOSIT_ADDR_VALIDITY_BUFFER = 30 # buffer that reflects the time it can take until the deposit is credited to our account
-    DEPOSIT_POLLING_INTERVAL = 10 # polling interval in seconds for incoming deposits
-    DEPOSIT_REQUEST_STACK_INTERVAL = 10 # polling interval in seconds for request stack
+    DEPOSIT_POLLING_INTERVAL = 20 # polling interval in seconds for incoming deposits
+    DEPOSIT_REQUEST_STACK_INTERVAL = 20 # polling interval in seconds for request stack
     DEPOSIT_MINIMUM = 20 # If below the deposit minimum, the deposit receipt confirmation will ask the customer to top up the difference.
     MAX_DEPOSIT_ADDRESSES = 10 # maximum number of deposit addresses that can be used concurrently
     LOGO_PATH = 'assets/algoeagle_dark_logo.jpg'
@@ -36,7 +36,7 @@ class CONFIG:
         USDT_CONTRACT = '0xc2132D05D31c914a87C6611C10748AEb04B58e8F'
         BACKUP_CENTRAL_ADDRESS =  '0x92ed6e3488C3722225FC7a3276436e0F55c7194b' # is used if db request get_central address returns null
         BALANCEOF_FUNCTION = '0x70a08231'
-        GET_BALANCE_BATCH_SIZE = 5 # currently infura supports a maximum batch size of 9
+        GET_BALANCE_BATCH_SIZE = 10 # currently infura supports a maximum batch size of 9
         INCREASE_GAS_PRICE_PERCENTAGE = 10 # 20% is aggressive, 10% often enough to get prioritized transaction
         RETROSPECT_BLOCKS = 480 # 35000 original value | how many blocks into the past to search for new transactions
 

@@ -167,9 +167,9 @@ class Funds:
                     time.sleep(10)
 
             if receipt.status == 1:
-                logger.info(f'*** RECEIPT RECEIVED: Transaction was successful. Receipt: {receipt}')
+                logger.info(f'\n\n*** RECEIPT RECEIVED: Transaction was successful. TRANSACTION COMPLETE ***\n\n')
             else:
-                logger.error(f'*** RECEIPT RECEIVED: Transaction failed. Receipt: {receipt}')
+                logger.error(f'*** RECEIPT STATUS TRANSACTION FAILED. Receipt: {receipt}')
                 #update field 'transferred' in depositlogs to FALSE to mark record to 'not processed'
                 self.database.update_transferred_status_false(f"'{deposit_tx_id}'")                
 

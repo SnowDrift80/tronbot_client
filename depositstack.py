@@ -219,8 +219,6 @@ class DepositStack():
     
     async def process_next(self):
         """Process the next deposit request from the stack with the most elements."""
-        logger.info("Processing next deposit request.")
-
         try:
             # Loop through the stacks to find the oldest element
             for stack in self.stacks:

@@ -88,32 +88,78 @@ class DepositLogs:
         return log
 
 
+    # def fetch_logs(self):
+    #     # Convert wallet address to 32-byte padded hex string
+    #     result = [] # final list that will contain all logs
+    #     wallet_addresses_padded = []
+    #     for adr in self.wallet_addresses:
+    #         print(f"ADR: {adr}")
+    #         adr_padded = f"0x{adr[2:].rjust(64, '0')}"  # Pad wallet_address to 32 bytes
+    #         wallet_addresses_padded.append(adr_padded)
+
+    #     database = DataHandler()
+    #     for wallet_address_padded in wallet_addresses_padded:
+    #         # Fetch logs for the specific block
+    #         # block_number = 59667010 - that was a transaction of 2 USDT
+    #         latest_block = self.get_latest_block()
+    #         retrospect = CONFIG.ETHPOLYGON.RETROSPECT_BLOCKS
+    #         startblock = latest_block - retrospect
+    #         logs = None
+    #         try:
+    #             logs = self.web3.eth.get_logs({
+    #                 'address': self.contract_address,
+    #                 'fromBlock': startblock,
+    #                 'toBlock': latest_block,
+    #                 'topics': [self.transfer_event_signature, None, wallet_address_padded]  # Use padded wallet_address directly
+    #             })
+    #         except Exception as e:
+    #             print(f"Error while fetching transaction logs: {e}")
+
+    #         # Process the logs
+    #         if logs:
+    #             for log in logs:
+    #                 row = self.handle_event(log)
+    #                 if row:
+    #                     result.append(row)
+
+    #             database.insert_depositlogs(result) # SQL procedure inserts only new deposits into the depositlog table
+    #     return result
+
+
     def fetch_logs(self):
-        # Convert wallet address to 32-byte padded hex string
-        result = [] # final list that will contain all logs
+        if not self.wallet_addresses:
+            return # there's nothing to do if self.wallet_addresses == 0
         wallet_addresses_padded = []
+        print(f"FETCH_LOGS: len self.wallet_addresses: {len(self.wallet_addresses)}")
         for adr in self.wallet_addresses:
-            print(f"ADR: {adr}")
+            # Convert wallet addresses to 32-byte padded hex strings
             adr_padded = f"0x{adr[2:].rjust(64, '0')}"  # Pad wallet_address to 32 bytes
             wallet_addresses_padded.append(adr_padded)
 
+        # Fetch the latest block and calculate the start block
+        latest_block = self.get_latest_block()
+        retrospect = CONFIG.ETHPOLYGON.RETROSPECT_BLOCKS
+        startblock = latest_block - retrospect
+
+        result = []
+
+        # Split the padded addresses into batches
+        batch_size = CONFIG.ETHPOLYGON.GET_BALANCE_BATCH_SIZE
+        batches = [wallet_addresses_padded[i:i + batch_size] for i in range(0, len(wallet_addresses_padded), batch_size)]
+
         database = DataHandler()
-        for wallet_address_padded in wallet_addresses_padded:
-            # Fetch logs for the specific block
-            # block_number = 59667010 - that was a transaction of 2 USDT
-            latest_block = self.get_latest_block()
-            retrospect = CONFIG.ETHPOLYGON.RETROSPECT_BLOCKS
-            startblock = latest_block - retrospect
+        for batch in batches:
             logs = None
             try:
+                # Query logs for the current batch of wallet addresses
                 logs = self.web3.eth.get_logs({
                     'address': self.contract_address,
                     'fromBlock': startblock,
                     'toBlock': latest_block,
-                    'topics': [self.transfer_event_signature, None, wallet_address_padded]  # Use padded wallet_address directly
+                    'topics': [self.transfer_event_signature, None, batch]  # Use batch of addresses
                 })
             except Exception as e:
-                print(f"Error while fetching transaction logs: {e}")
+                print(f"Error while fetching transaction logs for batch: {e}")
 
             # Process the logs
             if logs:
@@ -122,6 +168,8 @@ class DepositLogs:
                     if row:
                         result.append(row)
 
-                database.insert_depositlogs(result) # SQL procedure inserts only new deposits into the depositlog table
+                # Insert logs into the database after each batch
+                database.insert_depositlogs(result)  # Insert new logs into the depositlog table
+
         return result
 

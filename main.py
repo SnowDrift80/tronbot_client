@@ -1469,7 +1469,8 @@ async def poll_recent_deposits():
                         }
                     active_deposits.append(row)
             
-            logger.info(f"New deposits found: {active_deposits}")
+            if active_deposits:
+                logger.info(f"New deposits found: {len(active_deposits)}")
             deposit_logs = DepositLogs(active_deposits)
             deposit_logs.fetch_logs() # we get the new logs and insert those into the depositlogs table
             response_data = []
@@ -1478,7 +1479,7 @@ async def poll_recent_deposits():
             if depositlogs:
                 logger.info(f"************ Found new deposits: {depositlogs}")
             else:
-                logger.info(f"************ No new deposits found")
+                logger.info(f"############ No new deposits found")
 
             if depositlogs: # only process if there are any new deposits where transfer == False
                 # process the depositlogs and build response_data
