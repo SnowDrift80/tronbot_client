@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 import json
 import requests
 from requests.exceptions import RequestException
@@ -69,6 +70,7 @@ class EthAPI:
                 )
                 balance_response.raise_for_status()
                 balance_responses = balance_response.json()
+                sleep(0.2)
 
                 # Process balance responses
                 if balance_responses:
