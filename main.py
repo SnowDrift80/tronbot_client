@@ -1446,6 +1446,17 @@ async def poll_recent_deposits():
     Raises:
         Exception: If there is an unexpected error during API request, data processing, or deposit handling.
     """
+    cycle_episode = 0
+    full_cycle = [
+        {'number_of_batches': 1, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL},
+        {'number_of_batches': 1, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL},
+        {'number_of_batches': 2, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL},
+        {'number_of_batches': 1, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL},
+        {'number_of_batches': 1, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL},
+        {'number_of_batches': 5, 'interval_delay_sec': CONFIG.DEPOSIT_POLLING_INTERVAL}
+    ]
+
+    total_episodes = len(full_cycle)
     api = EthAPI()
     while not application.shutdown_event.is_set():
         try:
@@ -1456,7 +1467,13 @@ async def poll_recent_deposits():
             # response_data = testunit.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
 
             # get balances from all Polygon Mainnet deposit addresses
-            all_balances = api.get_recent_deposits()
+            interval_sec = full_cycle[cycle_episode]['interval_delay_sec']
+            number_of_batches = full_cycle[cycle_episode]['number_of_batches']
+            logger.info(f"cycle_episode: {cycle_episode}   interval_sec: {interval_sec}   number_of_batches: {number_of_batches}")
+            cycle_episode = (cycle_episode + 1) % total_episodes
+            await asyncio.sleep(interval_sec)
+            all_balances = api.get_recent_deposits(number_of_batches)
+
 
             # create new list consisting of dict containing address and balance where balance > 0
             # we want to process only those accounts that actually have a balance.
@@ -1502,7 +1519,7 @@ async def poll_recent_deposits():
                 await depositstack.receive_deposit(response_data)
             
             # Sleep for the configured interval before polling again
-            await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
+            # await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
             if application.shutdown_event.is_set():
                 logger.warning(f"*** poll_recent_deposits() thread halted because of shutdown signal. ***")
                 break

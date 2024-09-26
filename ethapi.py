@@ -14,7 +14,8 @@ contract_address = CONFIG.ETHPOLYGON.USDT_CONTRACT  # USDT contract on Polygon
 database = DataHandler()
 
 class EthAPI:
-    def get_recent_deposits(self):
+    
+    def get_recent_deposits(sel, number_of_batches):
         """
         The get_recent_deposits method retrieves the list of deposit_addresses from the database.
         Next, the list is split in batches of CONFIG.ETHPOLYGON.GET_BALANCE_BATCH_SIZE, for example batches of 10.
@@ -40,6 +41,10 @@ class EthAPI:
         if len(row):
             batches.append(row)
 
+
+        max_batches = len(batches) if number_of_batches > len(batches) else number_of_batches
+        batches = batches[: max_batches] # this solution is to support dynamic size of number of batches in order to manage API access rate
+        logger.info(f"len(batches): {len(batches)}   number_of_batches: {number_of_batches}    max_batches: {max_batches}")
         results = []
 
         print(f"NUMBER OF BATCHES: {len(batches)}")
