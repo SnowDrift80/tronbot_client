@@ -2,6 +2,7 @@ import re
 import json
 import base58
 import logging
+import signal
 import asyncio
 import uvicorn
 import hashlib
@@ -31,6 +32,12 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', 
     level=logging.INFO
 )
+
+# global executor
+executor = ThreadPoolExecutor(max_workers=3)
+
+# define the global shutdown event
+shutdown_event = asyncio.Event()
 
 # initiate logger
 logger = logging.getLogger(__name__)
@@ -1406,23 +1413,26 @@ async def poll_deposit_request_stack():
     Raises:
         Exception: If there is an unexpected error during processing of deposit requests.
     """
-    while not application.shutdown_event.is_set():
-        try:
-            # Process the next deposit request from the stack
-            next_request = await depositstack.process_next()
-            
-            # Sleep for the configured interval before processing the next request
-            await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
-            if application.shutdown_event.is_set():
-                break
+    try:
+        while not shutdown_event.is_set():
+                # Process the next deposit request from the stack
+                next_request = await depositstack.process_next()
+                
+                # Sleep for the configured interval before processing the next request
+                await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
 
+    except asyncio.CancelledError:
+        logger.info("poll_deposit_request_stack() was cancelled.")
 
-        except Exception as e:
-            # Handle any exceptions that occur during processing
-            error_message = f"poll_deposit_request_stack() Error: {str(e)}"
-            logger.error(error_message)
-            # raise Exception(error_message) # raising an exception may end this thread
-            await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
+    except Exception as e:
+        # Handle any exceptions that occur during processing
+        error_message = f"poll_deposit_request_stack() Error: {str(e)}"
+        logger.error(error_message)
+        # raise Exception(error_message) # raising an exception may end this thread
+        await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
+
+    finally:
+        logger.info("poll_deposit_request_stack() shutting down.")
 
 
 async def process_transfers(deposits):
@@ -1458,7 +1468,7 @@ async def poll_recent_deposits():
 
     total_episodes = len(full_cycle)
     api = EthAPI()
-    while not application.shutdown_event.is_set():
+    while not shutdown_event.is_set():
         try:
             # Uncomment the line below for production use:
             # response_data = await api.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
@@ -1523,12 +1533,17 @@ async def poll_recent_deposits():
             if application.shutdown_event.is_set():
                 logger.warning(f"*** poll_recent_deposits() thread halted because of shutdown signal. ***")
                 break
-        
+
+        except asyncio.CancelledError:
+            logger.info("poll_recent_deposits() was cancelled.")
+            break
         except Exception as e:
             error_message = f"Error occurred in poll_recent_deposits() co-routine: {str(e)}"
             logger.error(error_message)
             # raise Exception(error_message) - this may cause the loop to stop in case of an uncought exception, even in sub-tasks.
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
+        finally:
+            logger.info("poll_recent_deposits() shutting down.")
  
 
 async def handle_text_input(update: Update, context: CallbackContext):
@@ -1624,6 +1639,7 @@ def start_telegram_bot():
     Raises:
         Exception: If there is an unexpected error during the bot initialization or polling.
     """
+    loop = asyncio.get_event_loop()
 
     try:
         # commented out because used before introduction of telegram_bot.py
@@ -1643,13 +1659,17 @@ def start_telegram_bot():
         # Add text message handler
         application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text_input))
 
-        # Start the Telegram bot polling
-        application.run_polling()
-
+        # Start the Telegram bot polling in an async-friendly way
+        application.run_polling(stop_signals=None, close_loop=False)  # Disable default signal handling
+        
     except Exception as e:
-        error_message = f"Error occurred while starting Telegram bot: {str(e)}"
-        logger.error(error_message)
-        raise Exception(error_message)
+        logger.error(f"Error occurred while starting Telegram bot: {e}")
+        raise
+    finally:
+        logger.info("Telegram bot is stopping...")
+        #application.shutdown()  # Stop Telegram bot cleanly
+        shutdown_event.set()
+        loop.run_until_complete(shutdown())
 
 
 def main():
@@ -1669,6 +1689,10 @@ def main():
 
     global thread_fastapi, thread_deposits, thread_deposit_request_stack
 
+    loop = asyncio.get_event_loop()
+
+    # set up signal handlers for graceful shutdown
+
     try:
         with executor:
             # submit tasks to run in background as separate threads
@@ -1680,9 +1704,12 @@ def main():
             start_telegram_bot()
 
     except Exception as e:
-        error_message = f"Error occurred in main function: {str(e)}"
-        logger.error(error_message)
-        raise Exception(error_message)
+        logger.error(f"Error occurred in main function: {str(e)}")
+        raise
+    finally:
+        logger.info("Main function is exiting...")
+        # ensure a graceful shutdown is triggered
+        loop.run_until_complete(shutdown())
 
 
 def poll_recent_deposits_wrapper():
@@ -1732,48 +1759,82 @@ def poll_deposit_request_stack_wrapper():
         # Ensure the event loop is closed after execution
         loop.close()
 
-
 def run_fastapi():
     """
     Function to run the FastAPI application using uvicorn.
-
     This function starts the FastAPI application on the specified host and port.
-
-    Raises:
-        Exception: If there is an unexpected error during FastAPI application startup.
     """
-
     try:
         config = uvicorn.Config("main:app", host="127.0.0.1", port=8000, workers=4)
-        server = uvicorn.Server(config)
-        server.run()
+        global uvicorn_server
+        uvicorn_server = uvicorn.Server(config)
+        uvicorn_server.run()
 
+    except Exception as e:
+        logger.error(f"Error occurred in run_fastapi function: {e}")
+        raise
 
     except KeyboardInterrupt:
-        server.should_exit = True
-        server.shutdown()
+        logger.info("FastAPI interrupted, shutting down.")
+        shutdown()
+
+
+async def shutdown():
+    """
+    Gracefully shutdown the application.
+    """
+    logger.info("Initiating shutdown sequence...")
+    
+    # Set the shutdown event
+    logger.info("shutdown event registered...")
+    shutdown_event.set()
+ 
+    # Shut down FastAPI server
+    try:
+        logger.info("Shutting down FastAPI server...")
+        uvicorn_server.should_exit = True
+        # uvicorn_server.force_exit = True
+        logger.info("FastAPI server shutdown complete.")
     except Exception as e:
-        error_message = f"Error occurred in run_fastapi function: {str(e)}"
-        logger.error(error_message)
-        raise Exception(error_message)
+        logger.error(f"Error during FastAPI shutdown: {e}")
+
+    # Shutdown ThreadPoolExecutor
+    if executor:
+        logger.info("Shutting down ThreadPoolExecutor...")
+        executor.shutdown(wait=True)
+        logger.info("ThreadPoolExecutor shutdown complete.")
+    
+    logger.info("Shutdown sequence complete.")
 
 
-def shutdown():
-    logger.info("Shutting down...")
-    application.shutdown_event.set() # sets signal for threads to stop
-    logger.info("Stop event set.")
-    executor.shutdown(wait=True)
-    logger.info("Shutdown complete.")
+def initiate_shutdown():
+    """
+    Synchronous function to initiate the shutdown.
+    Used for signal handling.
+    """
+    logger.info("Shutdown signal received.")
+    asyncio.run_coroutine_threadsafe(shutdown(), asyncio.get_event_loop())
+
+
+
+async def signal_handler():
+    """
+    Async signal handler to handle SIGINT and SIGTERM for graceful shutdown.
+    """
+    loop = asyncio.get_running_loop()
+    
+    # Bind the shutdown signals to initiate_shutdown function
+    loop.add_signal_handler(signal.SIGINT, initiate_shutdown)
+    loop.add_signal_handler(signal.SIGTERM, initiate_shutdown)
+
 
 
 if __name__ == '__main__':
-    # Entry point of the script when executed directly
-    # Call the main function to start the application
     try:
         main()
     except (KeyboardInterrupt, SystemExit):
         logger.info("Received shutdown signal, shutting down.")
-        shutdown()
+        asyncio.run(shutdown())
 
     # Note: This block ensures that the main function is executed when the script is run directly.
     # The main function typically starts multiple threads for FastAPI, Telegram bot, and other asynchronous tasks.
