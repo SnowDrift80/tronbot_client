@@ -584,7 +584,7 @@ async def show_deposit_address(update: Update, context: CallbackContext, chat_id
             message_obj = update.callback_query.message
         else:
             raise ValueError("Neither update.message nor update.callback_query found.")
-
+        
         if client.active_deposit_address:
             message = f"⚠️ <b>You already requested a deposit.</b>\n\n"
             message += f"Please send your deposit to the following address:\n"
@@ -1406,10 +1406,11 @@ async def button(update: Update, context: CallbackContext) -> None:
                     await query.edit_message_text(text="You decided to not make a deposit yet.")
                     await query.message.reply_text("You're welcome any time to request to make a deposit.")
             elif status == Workflows.RequestDeposit.CAR_2['function']: #client_ask_referral
-                if decision == "referral":
+                if decision == "referral": 
                     await query.edit_message_text("You chose to enter a referral code:\n\nPlease enter the referral code now or write 'cancel' abort the deposit process.")
                     context.user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # enter_referral_code
                 else:
+                    await query.edit_message_text("You chose to continue without a referral code.")
                     await query.message.reply_text("Please wait while your deposit address is being prepared...") 
                     client = get_client_object(update, chat_id)
                     deposit_request = await depositstack.add_deposit_request(update, client)                    
