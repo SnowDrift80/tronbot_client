@@ -1407,7 +1407,7 @@ async def button(update: Update, context: CallbackContext) -> None:
                     await query.message.reply_text("You're welcome any time to request to make a deposit.")
             elif status == Workflows.RequestDeposit.CAR_2['function']: #client_ask_referral
                 if decision == "referral":
-                    await query.edit_message_text("You chose to enter a referral code:\n\nPlease enter the referral code now or enter 'cancel' abort the deposit process.")
+                    await query.edit_message_text("You chose to enter a referral code:\n\nPlease enter the referral code now or write 'cancel' abort the deposit process.")
                     context.user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # enter_referral_code
                 else:
                     await query.message.reply_text("Please wait while your deposit address is being prepared...") 
@@ -1685,7 +1685,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                 return
             else:
                 user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # client_ask_referral
-                await update.message.reply_text(f"🚫 Your referral code '{referral_code}' is invalid.\n\nTry to enter the correct code again or enter '<b><i>skip</i></b>' to continue without referral code or enter '<b><i>cancel</i></b>' to abort the entire deposit process:", parse_mode='HTML') 
+                await update.message.reply_text(f"🚫 Your referral code '{referral_code}' is invalid.\n\nTry to enter the correct code again or write '<b><i>skip</i></b>' to continue without referral code or write '<b><i>cancel</i></b>' to abort the entire deposit process:", parse_mode='HTML') 
                 return
 
         # Handle withdrawal amount input if the user is in 'withdrawal: awaiting amount' status
@@ -1706,21 +1706,21 @@ async def handle_text_input(update: Update, context: CallbackContext):
                     if balance_raw:
                         balance = float(balance_raw)
                         if amount > balance:
-                            await update.message.reply_text(f"The requested withdrawal amount {amount} exceeds your balance of {balance}. Please enter a lower amount or enter 'cancel' to cancel the withdrawal.")
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} exceeds your balance of {balance}. Please enter a lower amount or write 'cancel' to cancel the withdrawal.")
                             context.user_data['status'] = 'withdrawal: awaiting amount'
                         elif amount == 0:
-                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be 0. Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be 0. Please enter a valid amount or write 'cancel' to cancel the withdrawal.")
                             context.user_data['status'] = 'withdrawal: awaiting amount'
                         elif amount < 0:
-                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be negative. Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
+                            await update.message.reply_text(f"The requested withdrawal amount {amount} must not be negative. Please enter a valid amount or write 'cancel' to cancel the withdrawal.")
                             context.user_data['status'] = 'withdrawal: awaiting amount'
                         else:
                             withdrawals.update_amount(chat_id, amount)
-                            message = "Now, please enter your wallet address or enter 'cancel' to cancel the withdrawal:"
+                            message = "Now, please enter your wallet address or write 'cancel' to cancel the withdrawal:"
                             context.user_data['status'] = 'withdrawal: awaiting wallet'
                             await depositstack.bot_message(chat_id=chat_id, message=message)
                 except ValueError:
-                    await update.message.reply_text("Please enter a valid amount or enter 'cancel' to cancel the withdrawal.")
+                    await update.message.reply_text("Please enter a valid amount or write 'cancel' to cancel the withdrawal.")
 
         # Handle wallet address input if the user is in 'withdrawal: awaiting wallet' status
         elif user_data.get('status') == 'withdrawal: awaiting wallet':
@@ -1730,7 +1730,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                 is_valid_wallet_address = await validate_address(wallet_address, chat_id)
                 logger.info(f"is_valid_wallet_address: {is_valid_wallet_address}")
                 if not is_valid_wallet_address:
-                    message = f"The wallet address '{wallet_address}' you entered is not a valid USDT/ERC20 wallet address.\nPlease enter a correct wallet address or enter 'cancel' to cancel the process entirely."
+                    message = f"The wallet address '{wallet_address}' you entered is not a valid USDT/ERC20 wallet address.\nPlease enter a correct wallet address or write 'cancel' to cancel the process entirely."
                     await depositstack.bot_message(chat_id=chat_id, message=message)
                     context.user_data['status'] = 'withdrawal: awaiting wallet'
                     return
