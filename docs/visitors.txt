@@ -1,0 +1,677 @@
+Oct 05 11:12:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: sayed reza hejazi, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 273482315
+Oct 05 11:12:25 ae-prod-server python[149395]: INFO:__main__:Client DATA: sayed reza hejazi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 273482315
+Oct 05 11:12:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: sayed reza hejazi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 273482315
+Oct 05 10:40:02 ae-prod-server python[149395]: INFO:__main__:Client DATA:  Rakib Ahmed SEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6891030322
+Oct 05 10:40:01 ae-prod-server python[149395]: INFO:__main__:Client DATA:  Rakib Ahmed SEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6891030322
+Oct 05 10:40:00 ae-prod-server python[149395]: INFO:__main__:Client DATA:  Rakib Ahmed SEED, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6891030322
+Oct 05 09:39:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: Zulfikar Mohd Syah, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7491078832
+Oct 05 09:10:14 ae-prod-server python[149395]: INFO:__main__:Client DATA: Aaqib Hussain, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7522538190
+Oct 05 09:03:30 ae-prod-server python[149395]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 05 09:03:28 ae-prod-server python[149395]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6916783573
+Oct 05 08:52:58 ae-prod-server python[149395]: INFO:__main__:Client DATA: Afewerk Getasew, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 587144441
+Oct 05 08:43:04 ae-prod-server python[149395]: INFO:__main__:Client DATA: 和彦 島田, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1883011118
+Oct 05 08:36:26 ae-prod-server python[149395]: INFO:__main__:Client DATA: Lucky 🍅 🐸 🐈 Sarah, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5122337029
+Oct 05 05:36:21 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ha Ii, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6520075760
+Oct 05 05:09:03 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abdulrashid Ishaq, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7173505459
+Oct 05 05:08:59 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abdulrashid Ishaq, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7173505459
+Oct 05 05:05:57 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sanket Kotkar, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5709031638
+Oct 05 05:05:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sanket Kotkar, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5709031638
+Oct 05 04:43:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1755274237
+Oct 05 04:43:24 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 1755274237
+Oct 05 04:43:00 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1755274237
+Oct 05 04:42:55 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1755274237
+Oct 05 04:42:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1755274237
+Oct 05 04:42:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Awel Ibrahim, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1755274237
+Oct 05 04:33:42 ae-prod-server python[149395]: INFO:__main__:Client DATA: غلامرضا یزدانی, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5421720809
+Oct 05 04:33:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: غلامرضا یزدانی, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5421720809
+Oct 05 04:33:27 ae-prod-server python[149395]: INFO:__main__:Client DATA: غلامرضا یزدانی, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5421720809
+Oct 05 04:29:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ak🌱SEED Anarul, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7410991742
+Oct 05 04:29:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ak🌱SEED Anarul, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7410991742
+Oct 05 04:23:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🦋⍣⃝YOUSAFZAI🕊😎 TGID7931951355, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7931951355
+Oct 05 04:21:23 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tumpa🐈⬛ TGID6507772940, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6507772940
+Oct 05 04:20:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: Md Rajul, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7482469441
+Oct 05 04:17:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sri OG Media, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7741622871
+Oct 05 04:17:31 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sri OG Media, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7741622871
+Oct 05 04:16:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sri OG Media, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7741622871
+Oct 05 04:16:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sri OG Media, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7741622871
+Oct 05 04:11:24 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7125583712
+Oct 05 04:11:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: Kumar M, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1629514081
+Oct 05 04:10:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7125583712
+Oct 05 04:10:48 ae-prod-server python[149395]: INFO:__main__:Client DATA: Crown keyz 🍅 🐈‍⬛ TGID7452625196, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7452625196
+Oct 05 04:10:48 ae-prod-server python[149395]: INFO:__main__:Client DATA: Kumar M, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1629514081
+Oct 05 04:10:11 ae-prod-server python[149395]: INFO:__main__:Client DATA: Kumar M, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1629514081
+Oct 05 04:10:04 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7125583712
+Oct 05 04:09:57 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7125583712
+Oct 05 04:09:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7125583712
+Oct 05 04:09:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7125583712
+Oct 05 04:09:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7125583712
+Oct 05 04:09:21 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7125583712
+Oct 05 04:09:12 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7125583712
+Oct 05 04:09:09 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7125583712
+Oct 05 04:08:58 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🇮🇷SAEID🇮🇷 KACHLOO🇮🇷, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7125583712
+Oct 05 04:07:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sri OG Media, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7741622871
+Oct 05 04:02:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: Parham Esteghlali4444🔥️👑️🔥, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6718322909
+Oct 05 04:00:31 ae-prod-server python[149395]: INFO:__main__:Client DATA: 359641 TGID6961130067, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6961130067
+Oct 05 03:48:55 ae-prod-server python[149395]: INFO:__main__:Client DATA: Asraful Alom🦴🐈‍⬛, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1736909183
+Oct 05 03:48:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: Asraful Alom🦴🐈‍⬛, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1736909183
+Oct 05 03:48:39 ae-prod-server python[149395]: INFO:__main__:Client DATA: Asraful Alom🦴🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1736909183
+Oct 05 03:47:11 ae-prod-server python[149395]: INFO:__main__:Client DATA: Faruk Ahmed, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7508765424
+Oct 05 03:46:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: turiano tuhakamaru, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1398125543
+Oct 05 03:45:37 ae-prod-server python[149395]: INFO:__main__:Client DATA: Dot Com, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1813566362
+Oct 05 03:42:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Haris 🌱🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6889949464
+Oct 05 03:37:12 ae-prod-server python[149395]: INFO:__main__:Client DATA: Liaqat Hussain, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6287233033
+Oct 05 03:37:03 ae-prod-server python[149395]: INFO:__main__:Client DATA: turiano tuhakamaru, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1398125543
+Oct 05 03:36:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: turiano tuhakamaru, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1398125543
+Oct 05 03:36:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: Liaqat Hussain, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6287233033
+Oct 05 03:36:35 ae-prod-server python[149395]: INFO:__main__:Client DATA: Liaqat Hussain, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6287233033
+Oct 05 03:36:20 ae-prod-server python[149395]: INFO:__main__:Client DATA: turiano tuhakamaru, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1398125543
+Oct 05 03:36:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: Liaqat Hussain, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6287233033
+Oct 05 03:30:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: R TGID5908804556, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5908804556
+Oct 05 03:29:26 ae-prod-server python[149395]: INFO:__main__:Client DATA: gaurav patil, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7276638847
+Oct 05 03:24:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Luis Miguel Tauche TGID1784762085, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1784762085
+Oct 05 03:24:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: Luis Miguel Tauche TGID1784762085, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1784762085
+Oct 05 03:24:32 ae-prod-server python[149395]: INFO:__main__:Client DATA: Luis Miguel Tauche TGID1784762085, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1784762085
+Oct 05 03:23:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: Saleem Ullah, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7479500514
+Oct 05 03:21:48 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mubîn bbX ㅤㅤ, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 413774879
+Oct 05 03:16:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jeans G Williams, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7317318719
+Oct 05 03:16:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jeans G Williams, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7317318719
+Oct 05 03:16:28 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jeans G Williams, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7317318719
+Oct 05 03:16:12 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abbah Rabe, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7038311437
+Oct 05 03:15:38 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abbah Rabe, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7038311437
+Oct 05 03:15:26 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abbah Rabe, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7038311437
+Oct 05 03:15:21 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abbah Rabe, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7038311437
+Oct 05 03:13:36 ae-prod-server python[149395]: INFO:__main__:Client DATA: James Klawrens Valomy, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6055537694
+Oct 05 03:11:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: Buta Buta Buta Buta, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7449322977
+Oct 05 03:06:53 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱SEED🐈‍⬛ አሰ, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 5705782418
+Oct 05 03:06:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱SEED🐈‍⬛ አሰ, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5705782418
+Oct 05 03:06:36 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱SEED🐈‍⬛ አሰ, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5705782418
+Oct 05 03:05:55 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sagar Gawali, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1194549893
+Oct 05 03:04:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: ፍቅርና ሰላም TGID1144474376, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1144474376
+Oct 05 03:03:56 ae-prod-server python[149395]: INFO:__main__:Client DATA: ፍቅርና ሰላም TGID1144474376, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1144474376
+Oct 05 03:03:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: ፍቅርና ሰላም TGID1144474376, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1144474376
+Oct 05 03:02:11 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1780131699
+Oct 05 03:02:09 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1780131699
+Oct 05 03:02:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1780131699
+Oct 05 03:02:06 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1780131699
+Oct 05 03:02:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1780131699
+Oct 05 03:02:00 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1780131699
+Oct 05 03:01:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 1780131699
+Oct 05 03:01:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1780131699
+Oct 05 03:01:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: Θϻιd ϳλнλπϐιπ나:ᆯᅙ🐈‍⬛ TGID2116006723, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2116006723
+Oct 05 02:59:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6376926389
+Oct 05 02:58:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Yousaf, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7761641940
+Oct 05 02:58:18 ae-prod-server python[149395]: INFO:__main__:Client DATA: Hafsat Yakubu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6794614667
+Oct 05 02:58:14 ae-prod-server python[149395]: INFO:__main__:Client DATA: Raj Kumar 🦴, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6334421702
+Oct 05 02:58:10 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Yousaf, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7761641940
+Oct 05 02:57:58 ae-prod-server python[149395]: INFO:__main__:Client DATA: Raj Kumar 🦴, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6334421702
+Oct 05 02:57:58 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Yousaf, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7761641940
+Oct 05 02:57:57 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6376926389
+Oct 05 02:57:57 ae-prod-server python[149395]: INFO:__main__:Client DATA: Raj Kumar 🦴, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6334421702
+Oct 05 02:57:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Yousaf, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7761641940
+Oct 05 02:57:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6376926389
+Oct 05 02:57:48 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Yousaf, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7761641940
+Oct 05 02:57:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: Raj Kumar 🦴, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6334421702
+Oct 05 02:57:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6376926389
+Oct 05 02:57:39 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6376926389
+Oct 05 02:57:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:57:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6376926389
+Oct 05 02:56:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6376926389
+Oct 05 02:56:28 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6376926389
+Oct 05 02:55:20 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6376926389
+Oct 05 02:55:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6376926389
+Oct 05 02:54:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:54:40 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:54:27 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6376926389
+Oct 05 02:52:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6376926389
+Oct 05 02:52:37 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:52:33 ae-prod-server python[149395]: INFO:__main__:Client DATA: Paradise TGID6731558335, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6731558335
+Oct 05 02:52:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Paradise TGID6731558335, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6731558335
+Oct 05 02:52:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:51:53 ae-prod-server python[149395]: INFO:__main__:Client DATA: 1st. Lt Ryan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1818882984
+Oct 05 02:51:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:51:37 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6376926389
+Oct 05 02:51:17 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tanhaye aval..., Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6376926389
+Oct 05 02:50:53 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🐤ayesha🌱SEED bashir Gra- Gra🐈‍⬛🐼, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6574386601
+Oct 05 02:50:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: Bello Galadanchi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7389502204
+Oct 05 02:50:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ha-- Es--- afshar🦴, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 132953148
+Oct 05 02:50:11 ae-prod-server python[149395]: INFO:__main__:Client DATA: Tabish Rathore, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7212204424
+Oct 05 02:49:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🐰mamad🐰 Sh, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1382567186
+Oct 05 02:49:37 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🐰mamad🐰 Sh, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1382567186
+Oct 05 02:48:40 ae-prod-server python[149395]: INFO:__main__:Client DATA: Muhammad Ahmad TGID7582898063, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7582898063
+Oct 05 02:48:35 ae-prod-server python[149395]: INFO:__main__:Client DATA: Đoàn Kiều, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7354932620
+Oct 05 02:48:13 ae-prod-server python[149395]: INFO:__main__:Client DATA: Nazakat Etisalat "🌱SEED" , Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7036154318
+Oct 05 02:47:52 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7105407151
+Oct 05 02:47:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7105407151
+Oct 05 02:47:30 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7105407151
+Oct 05 02:47:25 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7105407151
+Oct 05 02:47:22 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7105407151
+Oct 05 02:47:20 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7105407151
+Oct 05 02:47:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7105407151
+Oct 05 02:47:12 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7105407151
+Oct 05 02:47:09 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7105407151
+Oct 05 02:47:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: ইশাত ইসাত, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7105407151
+Oct 05 02:46:38 ae-prod-server python[149395]: INFO:__main__:Client DATA: HUSSAINI UMAR, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1279142899
+Oct 05 02:46:30 ae-prod-server python[149395]: INFO:__main__:Client DATA: Phina🍅 Uzoma 🌱SEED, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6701271536
+Oct 05 02:46:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: sayed reza hejazi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 273482315
+Oct 05 02:46:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: sayed reza hejazi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 273482315
+Oct 05 02:39:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: Haregeweyin Getachew TGID1506047717, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1506047717
+Oct 05 02:39:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: 𝓫𝔂🗿 𝖕𝖊𝖗𝖒𝖎𝖘𝖘𝖎𝖔𝖓, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 713531240
+Oct 05 02:39:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: 𝓫𝔂🗿 𝖕𝖊𝖗𝖒𝖎𝖘𝖘𝖎𝖔𝖓, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 713531240
+Oct 05 02:39:13 ae-prod-server python[149395]: INFO:__main__:Client DATA: Haregeweyin Getachew TGID1506047717, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1506047717
+Oct 05 02:35:00 ae-prod-server python[149395]: INFO:__main__:Client DATA: Hb Bc🦴, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1198381176
+Oct 05 02:34:46 ae-prod-server python[149395]: INFO:__main__:Client DATA: ali Fadaei, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 121827399
+Oct 05 02:30:25 ae-prod-server python[149395]: INFO:__main__:Client DATA: fryew weldu , Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5423185550
+Oct 05 02:28:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mani Chand Chauhan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6677626047
+Oct 05 02:27:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Bharat Raj Jat 🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6471055418
+Oct 05 02:27:31 ae-prod-server python[149395]: INFO:__main__:Client DATA: Yahiya Ahmed, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7346335068
+Oct 05 02:27:24 ae-prod-server python[149395]: INFO:__main__:Client DATA: Yahiya Ahmed, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7346335068
+Oct 05 02:27:22 ae-prod-server python[149395]: INFO:__main__:Client DATA: Y TGID922211249, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 922211249
+Oct 05 02:26:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jem karager TGID5787699374, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5787699374
+Oct 05 02:26:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: Yahiya Ahmed, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7346335068
+Oct 05 02:26:36 ae-prod-server python[149395]: INFO:__main__:Client DATA: Yahiya Ahmed, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7346335068
+Oct 05 02:26:27 ae-prod-server python[149395]: INFO:__main__:Client DATA: Y TGID922211249, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 922211249
+Oct 05 02:26:18 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jem karager TGID5787699374, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5787699374
+Oct 05 02:25:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: O R TGID1869685644, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1869685644
+Oct 05 02:25:10 ae-prod-server python[149395]: INFO:__main__:Client DATA: Y TGID922211249, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 922211249
+Oct 05 02:24:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Y TGID922211249, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 922211249
+Oct 05 02:24:22 ae-prod-server python[149395]: INFO:__main__:Client DATA: Y TGID922211249, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 922211249
+Oct 05 02:22:22 ae-prod-server python[149395]: INFO:__main__:Client DATA: Fernando Santos, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6848443929
+Oct 05 02:17:23 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jhans Jhans, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7541111018
+Oct 05 02:16:55 ae-prod-server python[149395]: INFO:__main__:Client DATA: NIYI🍅 🥕🌱SEED 🦴🐈, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6371775511
+Oct 05 02:16:50 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱 Stonecold Scarcity🌱SEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6120055337
+Oct 05 02:16:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: NIYI🍅 🥕🌱SEED 🦴🐈, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6371775511
+Oct 05 02:16:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jhans Jhans, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7541111018
+Oct 05 02:16:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱 Stonecold Scarcity🌱SEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6120055337
+Oct 05 02:16:42 ae-prod-server python[149395]: INFO:__main__:Client DATA: hane sleman, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7102755272
+Oct 05 02:16:39 ae-prod-server python[149395]: INFO:__main__:Client DATA: NIYI🍅 🥕🌱SEED 🦴🐈, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6371775511
+Oct 05 02:16:34 ae-prod-server python[149395]: INFO:__main__:Client DATA: 🌱 Stonecold Scarcity🌱SEED, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6120055337
+Oct 05 02:16:32 ae-prod-server python[149395]: INFO:__main__:Client DATA: Jhans Jhans, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7541111018
+Oct 05 02:16:18 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sanyo TGID1004688439, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1004688439
+Oct 05 02:16:03 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sanyo TGID1004688439, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1004688439
+Oct 05 02:15:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: Sanyo TGID1004688439, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1004688439
+Oct 05 02:15:45 ae-prod-server python[149395]: INFO:__main__:Client DATA: Hussaina Adamu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7353949550
+Oct 05 02:15:06 ae-prod-server python[149395]: INFO:__main__:Client DATA: Bini 🐈‍⬛ TGID5093476444, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5093476444
+Oct 05 02:13:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: MR~ Hamim_7X™🥠🐈‍⬛ CANO, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7386982894
+Oct 05 02:13:27 ae-prod-server python[149395]: INFO:__main__:Client DATA: MR~ Hamim_7X™🥠🐈‍⬛ CANO, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7386982894
+Oct 05 02:13:21 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1346750614
+Oct 05 02:13:20 ae-prod-server python[149395]: INFO:__main__:Client DATA: MR~ Hamim_7X™🥠🐈‍⬛ CANO, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7386982894
+Oct 05 02:13:07 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1346750614
+Oct 05 02:12:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ajay Kumar Jena, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7541932777
+Oct 05 02:12:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1346750614
+Oct 05 02:12:33 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1346750614
+Oct 05 02:12:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abdul Kaium, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6825735801
+Oct 05 02:12:18 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1346750614
+Oct 05 02:12:10 ae-prod-server python[149395]: INFO:__main__:Client DATA: Smith TGID7482663596, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7482663596
+Oct 05 02:12:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: Smith TGID7482663596, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7482663596
+Oct 05 02:11:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: Agober Zanzira, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1324089590
+Oct 05 02:11:41 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1346750614
+Oct 05 02:11:35 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 1346750614
+Oct 05 02:11:35 ae-prod-server python[149395]: INFO:__main__:Client DATA: Agober Zanzira, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1324089590
+Oct 05 02:11:27 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6976029376
+Oct 05 02:11:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ali Korde👑, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1848944318
+Oct 05 02:11:15 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1346750614
+Oct 05 02:11:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: Olii Man, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1346750614
+Oct 05 02:09:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6976029376
+Oct 05 02:09:08 ae-prod-server python[149395]: INFO:__main__:Client DATA: YOOM LAATA? TGID1355927229, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1355927229
+Oct 05 02:08:49 ae-prod-server python[149395]: INFO:__main__:Client DATA: Caalaa Mahammad, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5869241250
+Oct 05 02:08:43 ae-prod-server python[149395]: INFO:__main__:Client DATA: YOOM LAATA? TGID1355927229, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1355927229
+Oct 05 02:08:32 ae-prod-server python[149395]: INFO:__main__:Client DATA: Вікторія Осіпова, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1780131699
+Oct 05 02:08:29 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6976029376
+Oct 05 02:08:05 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6976029376
+Oct 05 02:08:01 ae-prod-server python[149395]: INFO:__main__:Client DATA: 献普 王, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7054575058
+Oct 05 02:07:58 ae-prod-server python[149395]: INFO:__main__:Client DATA: Caalaa Mahammad, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5869241250
+Oct 05 02:07:54 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abela TGID1078604378, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1078604378
+Oct 05 02:07:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6976029376
+Oct 05 02:07:40 ae-prod-server python[149395]: INFO:__main__:Client DATA: Caalaa Mahammad, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5869241250
+Oct 05 02:07:39 ae-prod-server python[149395]: INFO:__main__:Client DATA: Abela TGID1078604378, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1078604378
+Oct 05 02:07:16 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6976029376
+Oct 05 02:07:06 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6976029376
+Oct 05 02:06:47 ae-prod-server python[149395]: INFO:__main__:Client DATA: Mücåå Wårråå, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6976029376
+Oct 05 02:06:20 ae-prod-server python[149395]: INFO:__main__:Client DATA: Gezachwe Gesse, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1083315691
+Oct 05 02:04:07 ae-prod-server python[149395]: INFO:__main__:Client DATA: Henry🐈 Smart, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7075757299
+Oct 05 02:03:19 ae-prod-server python[149395]: INFO:__main__:Client DATA: md TGID7083564493, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7083564493
+Oct 04 22:44:51 ae-prod-server python[149395]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6026874778
+Oct 04 22:44:44 ae-prod-server python[149395]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6026874778
+Oct 04 22:44:11 ae-prod-server python[149395]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6026874778
+Oct 04 19:56:55 ae-prod-server python[149395]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 04 19:56:52 ae-prod-server python[149395]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6916783573
+Oct 04 15:02:00 ae-prod-server python[149395]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6916783573
+Oct 04 13:13:25 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ruben Gual, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7239105942
+Oct 04 13:13:23 ae-prod-server python[149395]: INFO:__main__:Client DATA: Ruben Gual, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7239105942
+Oct 04 11:21:24 ae-prod-server python[149395]: INFO:__main__:Client DATA: Igboke Enuel, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6373999820
+Oct 04 10:26:36 ae-prod-server python[147776]: INFO:__main__:Client DATA: luis TGID743949471, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 743949471
+Oct 04 10:08:01 ae-prod-server python[147776]: INFO:__main__:Client DATA: ⒶⓢⓗⒺ TGID6575842746, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6575842746
+Oct 04 09:24:25 ae-prod-server python[147776]: INFO:__main__:Client DATA: 21429 Kim, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7856995836
+Oct 04 09:20:08 ae-prod-server python[147776]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6916783573
+Oct 04 09:19:48 ae-prod-server python[147776]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6916783573
+Oct 04 09:19:44 ae-prod-server python[147776]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6916783573
+Oct 04 09:18:21 ae-prod-server python[147776]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 04 09:18:15 ae-prod-server python[147776]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6916783573
+Oct 04 09:16:05 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 04 08:43:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 04 08:43:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 04 06:41:03 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lili Birhan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6711655210
+Oct 04 06:39:18 ae-prod-server python[118285]: INFO:__main__:Client DATA: Milan Brar, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 897085703
+Oct 04 06:39:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Milan Brar, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 897085703
+Oct 04 06:37:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: Subhas Mukherjee🍅, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5496434184
+Oct 04 06:20:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: meraj87 TGID6134474491, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6134474491
+Oct 04 05:51:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7205601882
+Oct 04 05:51:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7205601882
+Oct 04 05:50:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7205601882
+Oct 04 05:49:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7205601882
+Oct 04 05:49:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7205601882
+Oct 04 05:49:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eghosa Kelvin, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7205601882
+Oct 04 05:41:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Muhammad Abid, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7385498195
+Oct 04 05:18:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ilham Ftrn, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1605403167
+Oct 04 05:18:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ilham Ftrn, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1605403167
+Oct 04 05:17:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ilham Ftrn, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1605403167
+Oct 04 05:17:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ilham Ftrn, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1605403167
+Oct 04 04:41:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Thuo TGID6497734491, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6497734491
+Oct 04 04:39:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Prabal Khedbale, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1867960659
+Oct 04 04:39:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: 🥇shahrokh nadi🥇, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6568816895
+Oct 04 04:38:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: 🥇shahrokh nadi🥇, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6568816895
+Oct 04 04:30:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abreham Fasil, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 851723380
+Oct 04 04:30:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abreham Fasil, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 851723380
+Oct 04 04:29:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Alimuddin, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7026899309
+Oct 04 04:29:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Alimuddin, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7026899309
+Oct 04 04:28:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: @mahdi Tahrirchi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7290040128
+Oct 04 04:15:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Faruk Ahmed, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7508765424
+Oct 04 04:15:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: Faruk Ahmed, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7508765424
+Oct 04 04:15:21 ae-prod-server python[118285]: INFO:__main__:Client DATA: Faruk Ahmed, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7508765424
+Oct 04 03:57:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: নুসরাত তন্বী, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7681181213
+Oct 04 03:57:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: নুসরাত তন্বী, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7681181213
+Oct 04 03:57:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: নুসরাত তন্বী, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7681181213
+Oct 04 03:55:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝙼𝚛•𝙷𝚁𝙸𝙳𝙾𝚈||𝟽𝚡_𝙰𝚍𝚖𝚒𝚗 TGID6657038417, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6657038417
+Oct 04 03:55:27 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jennifer Paulinus, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6510522618
+Oct 04 03:55:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝙼𝚛•𝙷𝚁𝙸𝙳𝙾𝚈||𝟽𝚡_𝙰𝚍𝚖𝚒𝚗 TGID6657038417, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6657038417
+Oct 04 03:55:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jamshed Khan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7069823544
+Oct 04 03:55:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jennifer Paulinus, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6510522618
+Oct 04 03:55:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nguyen VanHoang, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7274658273
+Oct 04 03:54:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nguyen VanHoang, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7274658273
+Oct 04 03:54:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nguyen VanHoang, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7274658273
+Oct 04 03:54:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝙼𝚛•𝙷𝚁𝙸𝙳𝙾𝚈||𝟽𝚡_𝙰𝚍𝚖𝚒𝚗 TGID6657038417, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6657038417
+Oct 04 03:54:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝙼𝚛•𝙷𝚁𝙸𝙳𝙾𝚈||𝟽𝚡_𝙰𝚍𝚖𝚒𝚗 TGID6657038417, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6657038417
+Oct 04 03:52:33 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Sohan, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7402828444
+Oct 04 03:52:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Sohan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7402828444
+Oct 04 03:52:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Sohan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7402828444
+Oct 04 03:51:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jennifer Paulinus, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6510522618
+Oct 04 03:51:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lawrence💎🐸🍅🌱 Okoi🐈🍅, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1993597717
+Oct 04 03:47:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: fresh Blessing, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6403536763
+Oct 04 03:45:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: GDDeepa 🦴, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2021637554
+Oct 04 03:44:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sr Sojib Joy, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6274709403
+Oct 04 03:43:05 ae-prod-server python[118285]: INFO:__main__:Client DATA: Renal TGID6935662995, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6935662995
+Oct 04 03:41:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chala Tadu, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7267037951
+Oct 04 03:41:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chala Tadu, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7267037951
+Oct 04 03:41:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chala Tadu, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7267037951
+Oct 04 03:41:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chala Tadu, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7267037951
+Oct 04 03:41:33 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chala Tadu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7267037951
+Oct 04 03:41:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Micheal Martins, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6036472272
+Oct 04 03:41:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: Micheal Martins, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6036472272
+Oct 04 03:41:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: بركان على, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7467766821
+Oct 04 03:40:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: بركان على, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7467766821
+Oct 04 03:40:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: بركان على, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7467766821
+Oct 04 03:40:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: بركان على, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7467766821
+Oct 04 03:40:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rahul🌱seed Mondal, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6317336746
+Oct 04 03:39:51 ae-prod-server python[118285]: INFO:__main__:Client DATA: بركان على, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7467766821
+Oct 04 03:39:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rahul🌱seed Mondal, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6317336746
+Oct 04 03:39:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: Elosiuba Ugochukwu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6966247894
+Oct 04 03:37:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: gaurav patil, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7276638847
+Oct 04 03:36:03 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ali🐸 Boroojerdi, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6131821543
+Oct 04 03:36:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ali🐸 Boroojerdi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6131821543
+Oct 04 03:35:35 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ali🐸 Boroojerdi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6131821543
+Oct 04 03:34:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Jowlee, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6508251492
+Oct 04 03:34:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Jowlee, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6508251492
+Oct 04 03:34:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Jowlee, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6508251492
+Oct 04 03:33:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Gussty TGID841251817, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 841251817
+Oct 04 03:32:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: مشري TGID1355685932, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1355685932
+Oct 04 03:32:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: مشري TGID1355685932, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1355685932
+Oct 04 03:32:21 ae-prod-server python[118285]: INFO:__main__:Client DATA: مشري TGID1355685932, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1355685932
+Oct 04 03:30:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nancy Lilian, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6680831168
+Oct 04 03:30:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nancy Lilian, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6680831168
+Oct 04 03:30:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nancy Lilian, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6680831168
+Oct 04 03:29:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nancy Lilian, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6680831168
+Oct 04 03:26:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: Saghir Ahmed, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5979468848
+Oct 04 03:26:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6831514866
+Oct 04 03:26:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6831514866
+Oct 04 03:26:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6831514866
+Oct 04 03:26:22 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6831514866
+Oct 04 03:26:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6831514866
+Oct 04 03:26:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: ایرج TGID6831514866, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6831514866
+Oct 04 03:23:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jose Quintero, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1966713727
+Oct 04 03:22:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Jose Quintero, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1966713727
+Oct 04 03:20:18 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rehan Ali, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6634556552
+Oct 04 03:20:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rehan Ali, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6634556552
+Oct 04 03:20:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opik Saputro, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7467850158
+Oct 04 03:19:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rehan Ali, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6634556552
+Oct 04 03:19:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rehan Ali, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6634556552
+Oct 04 03:19:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opik Saputro, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7467850158
+Oct 04 03:16:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: vivek survasr, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1292025856
+Oct 04 03:16:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shahriar Saikat, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1315954517
+Oct 04 03:16:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: vivek survasr, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1292025856
+Oct 04 03:15:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: ▂▃▄▅▆▇█▓▒░—(•·÷[ Arash##]÷·•)—░▒▓█▇▆▅▄▃▂ TGID900847711, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 900847711
+Oct 04 03:12:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: S C, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6762034092
+Oct 04 03:11:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mustapha Aliyu Hardo🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5870030055
+Oct 04 03:11:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: S C, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6762034092
+Oct 04 03:11:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: S C, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6762034092
+Oct 04 03:10:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: S C, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6762034092
+Oct 04 02:59:33 ae-prod-server python[118285]: INFO:__main__:Client DATA: VĂN THANH NGUYỄN 🚀, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1461680912
+Oct 04 02:58:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: Odusola Temijuopelo Odusola, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6318361272
+Oct 04 02:56:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md NoyonSEED, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7451435503
+Oct 04 02:56:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md NoyonSEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7451435503
+Oct 04 02:56:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md NoyonSEED, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7451435503
+Oct 04 02:56:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md NoyonSEED, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7451435503
+Oct 04 02:54:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ripan Majumder, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7062637134
+Oct 04 02:53:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ripan Majumder, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7062637134
+Oct 04 02:52:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kidu TGID6881909413, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6881909413
+Oct 04 02:52:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kidu TGID6881909413, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6881909413
+Oct 04 02:52:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kidu TGID6881909413, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6881909413
+Oct 04 02:49:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: ™©®¥™ EXPRES, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7048580021
+Oct 04 02:49:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: ™©®¥™ EXPRES, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7048580021
+Oct 04 02:49:27 ae-prod-server python[118285]: INFO:__main__:Client DATA: ™©®¥™ EXPRES, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7048580021
+Oct 04 02:49:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Elsabet Loue TGID6788399157, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6788399157
+Oct 04 02:42:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: ۲۸۴۰۳ فریبرز یوسفی, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7356021889
+Oct 04 02:42:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Putraaand TGID5079899474, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5079899474
+Oct 04 02:40:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: ۲۸۴۰۳ فریبرز یوسفی, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7356021889
+Oct 04 02:40:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Precious Udousoroh, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7358529352
+Oct 04 02:39:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Precious Udousoroh, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7358529352
+Oct 04 02:37:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abaja Muhammed🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6962998666
+Oct 04 02:36:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abdul Hadi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7536954698
+Oct 04 02:36:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abdul Hadi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7536954698
+Oct 04 02:31:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Aaqib Hussain, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7522538190
+Oct 04 02:31:18 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shahjahan M Amin, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7221345061
+Oct 04 02:31:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6905299623
+Oct 04 02:31:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shahjahan M Amin, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7221345061
+Oct 04 02:30:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: joni😎🐈‍⬛️ TGID6690164697, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6690164697
+Oct 04 02:29:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: joni😎🐈‍⬛️ TGID6690164697, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6690164697
+Oct 04 02:28:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6905299623
+Oct 04 02:28:21 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6905299623
+Oct 04 02:27:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6905299623
+Oct 04 02:27:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: h@med dinani, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 617031545
+Oct 04 02:27:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6905299623
+Oct 04 02:27:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: h@med dinani, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 617031545
+Oct 04 02:26:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6905299623
+Oct 04 02:26:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anthony Martins, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6905299623
+Oct 04 02:17:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: Bakrii Nuuree, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7405057624
+Oct 04 02:16:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: . TGID6789917648, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6789917648
+Oct 04 02:15:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Bakrii Nuuree, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7405057624
+Oct 04 02:11:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6026874778
+Oct 04 02:11:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6026874778
+Oct 04 02:10:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6026874778
+Oct 04 02:10:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: behredin Hasen Husan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6026874778
+Oct 04 02:08:55 ae-prod-server python[118285]: INFO:__main__:Client DATA: EBENEZER Emmanuel, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7546922923
+Oct 04 02:08:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: EBENEZER Emmanuel, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7546922923
+Oct 04 02:08:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: EBENEZER Emmanuel, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7546922923
+Oct 04 02:08:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: EBENEZER Emmanuel, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7546922923
+Oct 04 02:07:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kassa Aregawi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5729094120
+Oct 04 02:07:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kassa Aregawi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5729094120
+Oct 04 02:07:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sunday 🐈‍⬛ Emeje, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5909297982
+Oct 04 02:06:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kassa Aregawi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5729094120
+Oct 04 02:06:13 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hamid Rafieepayam, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 102793640
+Oct 03 23:21:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 2052569831
+Oct 03 23:21:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 2052569831
+Oct 03 22:18:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6611839155
+Oct 03 22:18:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6611839155
+Oct 03 22:17:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6611839155
+Oct 03 21:34:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 7303370824
+Oct 03 21:34:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7303370824
+Oct 03 21:34:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7303370824
+Oct 03 21:34:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7303370824
+Oct 03 21:34:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7303370824
+Oct 03 21:32:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: No Name TGID578856029, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 578856029
+Oct 03 21:27:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6611839155
+Oct 03 21:27:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6611839155
+Oct 03 21:26:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: Della TGID6611839155, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6611839155
+Oct 03 20:49:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6280107453
+Oct 03 20:49:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6280107453
+Oct 03 20:49:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6280107453
+Oct 03 20:48:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6280107453
+Oct 03 20:48:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6280107453
+Oct 03 20:48:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6280107453
+Oct 03 20:48:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hadi Xoshnaw, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6280107453
+Oct 03 20:10:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hailu TGID445094182, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 445094182
+Oct 03 20:03:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Budi Setiawan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7303370824
+Oct 03 20:01:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: No Name TGID578856029, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 578856029
+Oct 03 19:58:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 03 19:58:05 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6916783573
+Oct 03 19:58:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6916783573
+Oct 03 19:57:55 ae-prod-server python[118285]: INFO:__main__:Client DATA: Snow TGID6916783573, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6916783573
+Oct 03 19:30:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: Deme Zeleke, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 517327436
+Oct 03 19:26:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Diego Ortiz JW, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1274804793
+Oct 03 19:23:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6435224540
+Oct 03 19:21:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: A:Sh TGID394357506, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 394357506
+Oct 03 19:21:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: A:Sh TGID394357506, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 394357506
+Oct 03 19:20:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: A:Sh TGID394357506, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 394357506
+Oct 03 19:19:21 ae-prod-server python[118285]: INFO:__main__:Client DATA: پیمان محسنی نیک, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6712354656
+Oct 03 19:17:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ghanasham Lade, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1472635980
+Oct 03 19:17:31 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ghanasham Lade, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1472635980
+Oct 03 19:12:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Shalom, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7539696128
+Oct 03 19:12:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Shalom, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7539696128
+Oct 03 19:12:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Shalom, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7539696128
+Oct 03 19:11:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Shalom, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7539696128
+Oct 03 19:11:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Shalom, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7539696128
+Oct 03 19:10:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: Robel TGID7063986737, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7063986737
+Oct 03 19:10:21 ae-prod-server python[118285]: INFO:__main__:Client DATA: Robel TGID7063986737, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7063986737
+Oct 03 19:10:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: FATIMA BELLO, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6833967276
+Oct 03 19:10:05 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:09:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:09:55 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6511355958
+Oct 03 19:09:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6511355958
+Oct 03 19:09:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: FATIMA BELLO, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6833967276
+Oct 03 19:09:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:09:35 ae-prod-server python[118285]: INFO:__main__:Client DATA: FATIMA BELLO, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6833967276
+Oct 03 19:09:18 ae-prod-server python[118285]: INFO:__main__:Client DATA: FATIMA BELLO, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6833967276
+Oct 03 19:08:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: میو .., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7111332367
+Oct 03 19:08:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: میو .., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7111332367
+Oct 03 19:08:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: میو .., Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7111332367
+Oct 03 19:08:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:08:35 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:08:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6511355958
+Oct 03 19:08:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6511355958
+Oct 03 19:08:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6511355958
+Oct 03 19:08:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6511355958
+Oct 03 19:08:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6511355958
+Oct 03 19:08:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md Tamim Ahmmed Rased, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6511355958
+Oct 03 19:04:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6435224540
+Oct 03 19:04:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6435224540
+Oct 03 19:04:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6435224540
+Oct 03 19:03:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: .جلال رحیم پناه, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6097301578
+Oct 03 19:03:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: .جلال رحیم پناه, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6097301578
+Oct 03 19:03:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: .جلال رحیم پناه, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6097301578
+Oct 03 19:02:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mohammad Mehedi Hasan, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 8015822556
+Oct 03 19:02:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mohammad Mehedi Hasan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 8015822556
+Oct 03 19:02:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mohammad Mehedi Hasan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 8015822556
+Oct 03 19:01:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Vlad TGID6082881387, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6082881387
+Oct 03 19:01:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Kato | LineHub CM TGID1660113024, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1660113024
+Oct 03 18:59:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:59:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7069357192
+Oct 03 18:59:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sumit Nagulwar, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7354596524
+Oct 03 18:58:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:58:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:58:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: Aungpaing App🐈‍⬛, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6560421006
+Oct 03 18:57:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:55:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Md.Mazhar Ali, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5953260670
+Oct 03 18:55:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: Amir Mirabian, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6735807848
+Oct 03 18:54:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nayeb TGID7419087294, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7419087294
+Oct 03 18:54:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nayeb TGID7419087294, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7419087294
+Oct 03 18:54:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6435224540
+Oct 03 18:53:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mridul Hasan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6941250048
+Oct 03 18:53:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mridul Hasan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6941250048
+Oct 03 18:53:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6435224540
+Oct 03 18:53:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6435224540
+Oct 03 18:51:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: مرضیه TGID6552889664, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6552889664
+Oct 03 18:51:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: مرضیه TGID6552889664, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6552889664
+Oct 03 18:51:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6435224540
+Oct 03 18:51:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Harun, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1904883516
+Oct 03 18:51:03 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Harun, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1904883516
+Oct 03 18:50:54 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ahmed Harun, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1904883516
+Oct 03 18:49:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 1237606474
+Oct 03 18:49:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: True Love, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6435224540
+Oct 03 18:49:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 1237606474
+Oct 03 18:49:36 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1237606474
+Oct 03 18:49:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1237606474
+Oct 03 18:49:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1237606474
+Oct 03 18:49:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Yakim TGID1237606474, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1237606474
+Oct 03 18:49:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: Amine Seddiki, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7367401266
+Oct 03 18:49:09 ae-prod-server python[118285]: INFO:__main__:Client DATA: Amine Seddiki, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7367401266
+Oct 03 18:47:22 ae-prod-server python[118285]: INFO:__main__:Client DATA: MD.SAMIUL HAQUE🌱SEED SARKER, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7617799045
+Oct 03 18:47:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: MD.SAMIUL HAQUE🌱SEED SARKER, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7617799045
+Oct 03 18:46:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hernan TGID2049258014, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2049258014
+Oct 03 18:45:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sunny Mane, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7378379264
+Oct 03 18:43:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Liza Noor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7908619822
+Oct 03 18:43:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: Liza Noor, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7908619822
+Oct 03 18:40:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Берикбай TGID1969974297, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1969974297
+Oct 03 18:40:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: Берикбай TGID1969974297, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1969974297
+Oct 03 18:38:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: Halimatu 🌱SEED TGID2026808287, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2026808287
+Oct 03 18:36:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lige~🅡 TGID6188821789, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6188821789
+Oct 03 18:36:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lige~🅡 TGID6188821789, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6188821789
+Oct 03 18:36:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lige~🅡 TGID6188821789, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6188821789
+Oct 03 18:36:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lige~🅡 TGID6188821789, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6188821789
+Oct 03 18:36:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Teade Jebon Ahmaed 🍒, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7007643487
+Oct 03 18:36:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Lige~🅡 TGID6188821789, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6188821789
+Oct 03 18:36:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Teade Jebon Ahmaed 🍒, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7007643487
+Oct 03 18:36:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: Teade Jebon Ahmaed 🍒, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7007643487
+Oct 03 18:35:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: Teade Jebon Ahmaed 🍒, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7007643487
+Oct 03 18:35:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 5259523058
+Oct 03 18:35:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 5259523058
+Oct 03 18:35:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Misgo Adu, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6388228959
+Oct 03 18:35:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 5259523058
+Oct 03 18:34:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zaki.mahya راضیzaki., Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1603559230
+Oct 03 18:34:55 ae-prod-server python[118285]: INFO:__main__:Client DATA: Misgo Adu, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6388228959
+Oct 03 18:34:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 5259523058
+Oct 03 18:34:51 ae-prod-server python[118285]: INFO:__main__:Client DATA: Misgo Adu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6388228959
+Oct 03 18:34:51 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zaki.mahya راضیzaki., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1603559230
+Oct 03 18:34:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zaki.mahya راضیzaki., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1603559230
+Oct 03 18:34:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 5259523058
+Oct 03 18:34:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zaki.mahya راضیzaki., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1603559230
+Oct 03 18:34:32 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zaki.mahya راضیzaki., Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1603559230
+Oct 03 18:34:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5259523058
+Oct 03 18:34:18 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5259523058
+Oct 03 18:34:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Chetan Mavale, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 648948355
+Oct 03 18:34:06 ae-prod-server python[118285]: INFO:__main__:Client DATA: محمد رضا احمدی, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5259523058
+Oct 03 18:33:51 ae-prod-server python[118285]: INFO:__main__:Client DATA: Alireza TGID1452083844, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1452083844
+Oct 03 18:32:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: Waseem Jutt, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7255546554
+Oct 03 18:31:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Belal Hossain🍅 Belal, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7275807290
+Oct 03 18:30:27 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝖇𝖎𝖌 𝖉𝖆𝖜𝖌𝖘 ... TGID6784759939, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6784759939
+Oct 03 18:30:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝖇𝖎𝖌 𝖉𝖆𝖜𝖌𝖘 ... TGID6784759939, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6784759939
+Oct 03 18:30:22 ae-prod-server python[118285]: INFO:__main__:Client DATA: 𝖇𝖎𝖌 𝖉𝖆𝖜𝖌𝖘 ... TGID6784759939, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6784759939
+Oct 03 18:30:02 ae-prod-server python[118285]: INFO:__main__:Client DATA: Emililan Lianal, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7214607921
+Oct 03 18:29:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hailu TGID445094182, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 445094182
+Oct 03 18:29:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hailu TGID445094182, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 445094182
+Oct 03 18:29:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mesay TGID1039615001, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 1039615001
+Oct 03 18:29:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mesay TGID1039615001, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 1039615001
+Oct 03 18:29:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Mesay TGID1039615001, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1039615001
+Oct 03 18:28:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7069357192
+Oct 03 18:28:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:27:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abdullah Wahab, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7664797473
+Oct 03 18:26:31 ae-prod-server python[118285]: INFO:__main__:Client DATA: Tun 2Y, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6613910371
+Oct 03 18:26:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Rabiu🍅 T Yahaya🦉🐈‍⬛🐰🐵, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6395351261
+Oct 03 18:25:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ejeh Joseph owoicho 🆓( 230813094)🍅🌱SEED 🐈‍⬛🐸 🐤 TGID6614979904, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6614979904
+Oct 03 18:25:34 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ejeh Joseph owoicho 🆓( 230813094)🍅🌱SEED 🐈‍⬛🐸 🐤 TGID6614979904, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6614979904
+Oct 03 18:23:29 ae-prod-server python[118285]: INFO:__main__:Client DATA: Alemayehu Tesfaye, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6498205277
+Oct 03 18:23:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7069357192
+Oct 03 18:22:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7069357192
+Oct 03 18:21:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7069357192
+Oct 03 18:21:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: Belay Nigusu, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 6519178631
+Oct 03 18:21:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: Loveth Chiamaka, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7285862817
+Oct 03 18:21:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: A.@ TGID7069357192, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7069357192
+Oct 03 18:21:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Belay Nigusu, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6519178631
+Oct 03 18:20:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Belay Nigusu, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6519178631
+Oct 03 18:20:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Loveth Chiamaka, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7285862817
+Oct 03 18:20:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zain Zain, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 7858956241
+Oct 03 18:20:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: Belay Nigusu, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6519178631
+Oct 03 18:20:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zain Zain, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7858956241
+Oct 03 18:20:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Zain Zain, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7858956241
+Oct 03 18:20:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: Loveth Chiamaka, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7285862817
+Oct 03 18:19:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: Marufa Islam, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7728750702
+Oct 03 18:19:44 ae-prod-server python[118285]: INFO:__main__:Client DATA: K2 TGID6505291898, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6505291898
+Oct 03 18:19:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: shambal aweke, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 1801886929
+Oct 03 18:19:24 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ajoke TGID7340016841, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7340016841
+Oct 03 18:19:20 ae-prod-server python[118285]: INFO:__main__:Client DATA: Ajoke TGID7340016841, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7340016841
+Oct 03 18:19:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: K2 TGID6505291898, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6505291898
+Oct 03 18:19:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: K2 TGID6505291898, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6505291898
+Oct 03 18:18:51 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eazy monie TGID6999169997, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6999169997
+Oct 03 18:18:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Eazy monie TGID6999169997, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6999169997
+Oct 03 18:16:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Gur Sevak, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7183881990
+Oct 03 18:15:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sopon Sopon, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7485988348
+Oct 03 18:15:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:15:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sopon Sopon, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7485988348
+Oct 03 18:15:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nilesh Shelke TGID7698255933, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7698255933
+Oct 03 18:14:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: Nilesh Shelke TGID7698255933, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7698255933
+Oct 03 18:14:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:14:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Oluwafemi Emmanuel, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6379451683
+Oct 03 18:14:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Oluwafemi Emmanuel, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6379451683
+Oct 03 18:14:48 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:14:31 ae-prod-server python[118285]: INFO:__main__:Client DATA: Oluwafemi Emmanuel, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6379451683
+Oct 03 18:14:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sopon Sopon, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7485988348
+Oct 03 18:14:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Francros Uche, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2028318380
+Oct 03 18:12:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: Y4ssen Embitel, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7533398009
+Oct 03 18:12:11 ae-prod-server python[118285]: INFO:__main__:Client DATA: Y4ssen Embitel, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7533398009
+Oct 03 18:11:58 ae-prod-server python[118285]: INFO:__main__:Client DATA: ☬🅔🅑🅡🅐🅗🅘🅜☬ ❥Ⓐ ⃝ⓗ ⃝ⓐ ⃝ⓜ ⃝ⓜ ⃝ⓐ ⃝ⓓ ツ, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 8035624830
+Oct 03 18:11:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 5652520563
+Oct 03 18:11:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 2052569831
+Oct 03 18:11:33 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 5652520563
+Oct 03 18:11:22 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 5652520563
+Oct 03 18:11:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 5652520563
+Oct 03 18:11:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 5652520563
+Oct 03 18:11:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 5652520563
+Oct 03 18:11:07 ae-prod-server python[118285]: INFO:__main__:Client DATA: Anas muhammad gabake🐤, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5591506855
+Oct 03 18:11:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5652520563
+Oct 03 18:11:01 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 2052569831
+Oct 03 18:10:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 2052569831
+Oct 03 18:10:52 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5652520563
+Oct 03 18:10:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Shin Thant, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5652520563
+Oct 03 18:10:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: ☬🅔🅑🅡🅐🅗🅘🅜☬ ❥Ⓐ ⃝ⓗ ⃝ⓐ ⃝ⓜ ⃝ⓜ ⃝ⓐ ⃝ⓓ ツ, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 8035624830
+Oct 03 18:10:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: Suresh Meena, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7077725395
+Oct 03 18:10:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 2052569831
+Oct 03 18:10:46 ae-prod-server python[118285]: INFO:__main__:Client DATA: ☬🅔🅑🅡🅐🅗🅘🅜☬ ❥Ⓐ ⃝ⓗ ⃝ⓐ ⃝ⓜ ⃝ⓜ ⃝ⓐ ⃝ⓓ ツ, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 8035624830
+Oct 03 18:10:45 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:10:43 ae-prod-server python[118285]: INFO:__main__:Client DATA: Milan Brar, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 897085703
+Oct 03 18:10:42 ae-prod-server python[118285]: INFO:__main__:Client DATA: Suresh Meena, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7077725395
+Oct 03 18:10:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 2052569831
+Oct 03 18:10:38 ae-prod-server python[118285]: INFO:__main__:Client DATA: Milan Brar, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 897085703
+Oct 03 18:10:37 ae-prod-server python[118285]: INFO:__main__:Client DATA: naser Hejazi TGID2052569831, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2052569831
+Oct 03 18:10:00 ae-prod-server python[118285]: INFO:__main__:Client DATA: Wasiu Alabi, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6359140390
+Oct 03 18:09:31 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abdi Mohammad, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7375489038
+Oct 03 18:09:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: Abdi Mohammad, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7375489038
+Oct 03 18:09:10 ae-prod-server python[118285]: INFO:__main__:Client DATA: Wasiu Alabi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6359140390
+Oct 03 18:08:41 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:07:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5922308022
+Oct 03 18:07:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: Thar Nay, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5131515267
+Oct 03 18:07:49 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 6648901161
+Oct 03 18:07:39 ae-prod-server python[118285]: INFO:__main__:Client DATA: besu Yotor, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5922308022
+Oct 03 18:07:26 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6648901161
+Oct 03 18:07:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sibel 🐈‍⬛ TGID97783138, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 97783138
+Oct 03 18:06:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6648901161
+Oct 03 18:06:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'withdraw funds', 'function': 'request_withdrawal'}, Chat ID: 6648901161
+Oct 03 18:06:27 ae-prod-server python[118285]: INFO:__main__:Client DATA: Sim OTP, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7412690296
+Oct 03 18:06:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6648901161
+Oct 03 18:06:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: Talile Tufa, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 8191946159
+Oct 03 18:06:17 ae-prod-server python[118285]: INFO:__main__:Client DATA: {"Timestamp":"2023-10-08 14:01:58 | Content \/hevc Bhikan, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6648901161
+Oct 03 18:06:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hashimu Abdullahi, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7408901037
+Oct 03 18:03:28 ae-prod-server python[118285]: INFO:__main__:Client DATA: sambu lal, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 8121689054
+Oct 03 18:03:23 ae-prod-server python[118285]: INFO:__main__:Client DATA: sambu lal, Balance: 0, Status: {'description': 'show deposit address', 'function': 'show_deposit_address'}, Chat ID: 8121689054
+Oct 03 18:03:19 ae-prod-server python[118285]: INFO:__main__:Client DATA: sambu lal, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 8121689054
+Oct 03 18:03:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: sambu lal, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 8121689054
+Oct 03 18:03:14 ae-prod-server python[118285]: INFO:__main__:Client DATA: sambu lal, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 8121689054
+Oct 03 18:01:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opeyemi Ayantola, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 5749987735
+Oct 03 18:01:04 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opeyemi Ayantola, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 5749987735
+Oct 03 18:00:56 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opeyemi Ayantola, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5749987735
+Oct 03 18:00:50 ae-prod-server python[118285]: INFO:__main__:Client DATA: Opeyemi Ayantola, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5749987735
+Oct 03 17:59:12 ae-prod-server python[118285]: INFO:__main__:Client DATA: Usama🍅 Jutt🍅, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6778060941
+Oct 03 17:58:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: Usama🍅 Jutt🍅, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6778060941
+Oct 03 17:57:40 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hitesh TGID7710359757, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7710359757
+Oct 03 17:57:25 ae-prod-server python[118285]: INFO:__main__:Client DATA: Hitesh TGID7710359757, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7710359757
+Oct 03 17:57:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: yolenao ..10.., Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 2131895552
+Oct 03 17:57:08 ae-prod-server python[118285]: INFO:__main__:Client DATA: yolenao ..10.., Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 2131895552
+Oct 03 17:56:03 ae-prod-server python[118285]: INFO:__main__:Client DATA: Admasu Arga, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6088888933
+Oct 03 17:55:15 ae-prod-server python[118285]: INFO:__main__:Client DATA: Gebresilase 🐈‍⬛ TGID5665657771, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 5665657771
+Oct 03 17:54:57 ae-prod-server python[118285]: INFO:__main__:Client DATA: Gebresilase 🐈‍⬛ TGID5665657771, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 5665657771
+Oct 03 17:50:35 ae-prod-server python[118285]: INFO:__main__:Client DATA: FaF TGID6399676846, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6399676846
+Oct 03 17:50:30 ae-prod-server python[118285]: INFO:__main__:Client DATA: FaF TGID6399676846, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 6399676846
+Oct 03 17:50:16 ae-prod-server python[118285]: INFO:__main__:Client DATA: FaF TGID6399676846, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 6399676846
+Oct 03 10:17:59 ae-prod-server python[118285]: INFO:__main__:Client DATA: Wai Peng Tang, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 929669572
+Oct 03 10:17:55 ae-prod-server python[118285]: INFO:__main__:Client DATA: FightingTurtle! TGID7337139671, Balance: 0, Status: {'description': 'go to start menu', 'function': 'start'}, Chat ID: 7337139671
+Oct 03 10:17:53 ae-prod-server python[118285]: INFO:__main__:Client DATA: FightingTurtle! TGID7337139671, Balance: 0, Status: {'description': 'show balance', 'function': 'show_balance'}, Chat ID: 7337139671
+Oct 03 10:17:47 ae-prod-server python[118285]: INFO:__main__:Client DATA: FightingTurtle! TGID7337139671, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 7337139671
+Oct 03 10:14:35 ae-prod-server python[118285]: INFO:__main__:Client DATA: Wai Peng Tang, Balance: 0, Status: {'description': 'default state', 'function': ''}, Chat ID: 929669572
+
