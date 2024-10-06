@@ -20,6 +20,14 @@ class Workflows:
                     'description': 'waiting for deposit',
                     'function': 'poll_deposit',
                 }
+        CAR_2 = {
+                    'description': 'asking client if he has a referral code',
+                    'function': 'client_ask_referral'
+                }
+        ERC_3 = {
+                    'description': 'enter referral code',
+                    'function': 'enter_referral_code'
+                }
     class GetBalance:
         GEB_0 = {
                     'description': 'show balance',
@@ -54,4 +62,9 @@ class Workflows:
         COS_0 = {
                     'description': 'contact support',
                     'function': 'contact_support',
+                }
+    class GetReferralCode:
+        GRC_0 = {
+                    'description': 'update and get referral code',
+                    'function': 'show_referral_code',
                 }

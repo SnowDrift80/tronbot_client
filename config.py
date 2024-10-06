@@ -17,7 +17,7 @@ class CONFIG:
     DEPOSIT_ADDR_VALIDITY = 150 # number of seconds the deposit address remains assigned to the chat_id
     DEPOSIT_ADDR_VALIDITY_BUFFER = 30 # buffer that reflects the time it can take until the deposit is credited to our account
     DEPOSIT_POLLING_INTERVAL = 20 # polling interval in seconds for incoming deposits
-    DEPOSIT_REQUEST_STACK_INTERVAL = 20 # polling interval in seconds for request stack
+    DEPOSIT_REQUEST_STACK_INTERVAL = 5 # polling interval in seconds for request stack
     DEPOSIT_MINIMUM = 20 # If below the deposit minimum, the deposit receipt confirmation will ask the customer to top up the difference.
     MAX_DEPOSIT_ADDRESSES = 10 # maximum number of deposit addresses that can be used concurrently
     LOGO_PATH = 'assets/algoeagle_dark_logo.jpg'
@@ -69,6 +69,8 @@ class CONFIG:
     class FEES:
         DEPOSIT_FEE = 10 # deposit fee in percent to be deducted from the deposit
         WITHDRAWAL_FEE = 10 # withdrawal fee in percent to be deducted from the deposit
+        REFERRER_KICKBACK = 5 # referral kickback in % percent from the referee gross deposit
+        REFEREE_DEPOSIT_FEE_DISCOUNT = 5 # the percentage points reduction from the deposit_fee if the referee uses the referral code
 
     class TEXTS:
         FAQ = """

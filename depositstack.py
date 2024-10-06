@@ -80,7 +80,7 @@ class DepositStack():
 
 
 
-    async def add_deposit_request(self, update: Update, client: Client):
+    async def add_deposit_request(self, update: Update, client: Client, referral: str = None):
         """Add a new deposit request to one of the stacks.
 
         This method creates a deposit request dictionary and adds it to the stack
@@ -91,6 +91,7 @@ class DepositStack():
         Args:
             update (Update): The Telegram update object.
             client (Client): The client object representing the user making the request.
+            referral (str): If referral code is given, include into deposit_request object.
 
         Returns:
             dict: The deposit request dictionary containing 'timestamp', 'eta',
@@ -127,7 +128,8 @@ class DepositStack():
                 'eta': eta, # estimated time as of when the deposit time-window will start - end time of deposit time window
                 'client_obj': client,
                 'deposit_address': self.deposit_addresses[min_stack_index],
-                'sent_to_client': False
+                'sent_to_client': False,
+                'referral' : referral
             }
 
             # Add the request to the appropriate stack
@@ -154,7 +156,6 @@ class DepositStack():
         except Exception as e:
             # Handle any unexpected errors during deposit request addition
             logger.error(f"Error in add_deposit_request: {e}")
-            raise
 
 
     async def send_message_to_client(self, message, chat_id, update: Update):
@@ -177,7 +178,6 @@ class DepositStack():
             await update.message.reply_text(message, parse_mode='HTML')
         except Exception as e:
             logger.error(f"Error while trying to send message to Telegram user: {e}")
-            raise
 
 
     async def bot_message(self, chat_id, message: str):
@@ -200,7 +200,7 @@ class DepositStack():
             await bot.sendMessage(chat_id, message, parse_mode='HTML')
         except Exception as e:
             logger.error(f"Error while trying to send message to Telegram user: {e}")
-            raise
+            
 
 
     def get_all_deposit_requests(self):
@@ -214,7 +214,6 @@ class DepositStack():
             return self.stacks
         except Exception as e:
             logger.error(f"Error occurred while retrieving deposit requests: {e}")
-            raise
     
     
     async def process_next(self):
@@ -260,7 +259,6 @@ class DepositStack():
             
         except Exception as e:
             logger.error(f"Error occurred while processing next deposit request: {e}")
-            raise
 
 
     async def receive_deposit(self, response_data):
@@ -297,7 +295,8 @@ class DepositStack():
                             chat_id = client_obj.chat_id
                             
                             # Log the deposit received information
-                            logger.info(f"Deposit received to deposit address {deposit_address} from client {first_name} {last_name}. Amount: {amount}")
+                            referral = request['referral']
+                            logger.info(f"Deposit received to deposit address {deposit_address} from client {first_name} {last_name}. Amount: {amount}. Referral Code: {request['referral']}")
                             
                             # avoid 'None' in firstname or lastname and replace with empty string ""                
                             if first_name == None:
@@ -326,7 +325,9 @@ class DepositStack():
                                 "kraken_refid": refid,
                                 "kraken_time": credit_time_str,
                                 "kraken_txid": txid,
-                                "deposit_fee": CONFIG.FEES.DEPOSIT_FEE
+                                "deposit_fee": CONFIG.FEES.DEPOSIT_FEE,
+                                "referral": referral,
+                                "referee_discount": CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT 
                             }
 
                             try:
@@ -360,16 +361,46 @@ class DepositStack():
                                 top_up_warning = f"\n\n❗ WARNING: The minimum deposit is USDT {CONFIG.DEPOSIT_MINIMUM}, but your deposit total is USDT {gross_total_deposit_amount}. Please add USDT {difference} to meet the minimum required for your investment to generate returns. You can make an additional deposit using the /deposit command."
                             else:
                                 top_up_warning = ""
-                            message = (
-                                f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
-                                f"Hello {first_name} {last_name},\n"
-                                f"🏦 Your deposits for the amount of <b>USDT {amount}</b> have just been received and credited to your account after deduction of {CONFIG.FEES.DEPOSIT_FEE}% deposit fee.\n\n"
-                                f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
-                                f"{top_up_warning}"
-                            )
+
+                            if referral:
+                                savings = amount * (CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / 100)
+                                message = (
+                                    f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
+                                    f"Hello {first_name} {last_name},\n"
+                                    f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account. We are pleased to inform you that your referral code was accepted, reducing the deposit fee from {CONFIG.FEES.DEPOSIT_FEE}% to {CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%. This means you saved USDT {savings:.6f}.\n\n"
+                                    f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                    f"{top_up_warning}"
+                                )
+                                bonus_to_referrer = amount / 100 * CONFIG.FEES.REFERRER_KICKBACK     
+                                referrer_chat_id = self.database.validate_referral(referral)
+                                try:
+                                    self.database.handle_referral_bonus(p_chat_id=referrer_chat_id, p_bonus_amount=bonus_to_referrer)
+                                except Exception as e:
+                                    logger.error(f"receive_deposit() - error in calling handle_referral_bonus: {e}")
+                                message_to_referrer = (
+                                    "🎁 <b><u>REFERRAL BONUS PAYOUT</u></b> 🎁\n\n"
+                                    f"Client {first_name} made a deposit of USDT {amount} using your referral code '{referral}'.\n"
+                                    f"This earned you a bonus of <b>USDT {bonus_to_referrer:.6f}</b> which was credited to your account.\n\n"
+                                    "Please check your new balance with the /balance command."
+                                )
+                                try:
+                                    await self.bot.send_message(chat_id=referrer_chat_id, text=message_to_referrer, parse_mode='HTML')
+                                except Exception as e:
+                                    logger.error(f"receive_deposit() - attempt to send Telegram bot message to referrer failed: {e}")
+                            else:
+                                message = (
+                                    f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
+                                    f"Hello {first_name} {last_name},\n"
+                                    f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account.\n\n"
+                                    f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                    f"{top_up_warning}"
+                                )
 
                             # use the below variant to use the automatic queuing feature
-                            await self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
+                            try:
+                                await self.bot.send_message(chat_id=chat_id, text=message, parse_mode='HTML')
+                            except Exception as e:
+                                logger.error(f"receive_deposit() - attempt to send Telegram bot message to client failed: {e}")
 
                             if CONFIG.ADMIN_DEPOSIT_NOTIFICATION:
                                 message = (
@@ -392,7 +423,7 @@ class DepositStack():
                             
         except Exception as e:
             logger.error(f"Error occurred while processing recent deposits: {e}")
-            raise
+            
     
 
     def smart_concat(self, str1, str2):
@@ -412,7 +443,7 @@ class DepositStack():
         except Exception as e:
             # Log any errors that occur during the calculation
             logger.error(f"Error occurred while calculating total number of deposit requests: {e}")
-            raise
+            
 
 
     def __repr__(self):
@@ -423,4 +454,4 @@ class DepositStack():
         except Exception as e:
             # Log any errors that occur during the representation creation
             logger.error(f"Error occurred while creating string representation of DepositStack: {e}")
-            raise
+            

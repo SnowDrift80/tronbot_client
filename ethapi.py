@@ -75,7 +75,7 @@ class EthAPI:
                 )
                 balance_response.raise_for_status()
                 balance_responses = balance_response.json()
-                sleep(0.2)
+                sleep(1)
 
                 # Process balance responses
                 if balance_responses:

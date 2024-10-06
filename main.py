@@ -269,6 +269,11 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         logger.info(f"Displaying start menu to user: {user.id}")
 
         keyboard = [
+            [InlineKeyboardButton("Get Your FREE REFERRAL Code\u2003💸", callback_data=json.dumps(
+                {
+                    "status": Workflows.GetReferralCode.GRC_0['function'],
+                    "decision": "",
+                }))],
             [InlineKeyboardButton("Deposit\u2003\u2003\u2003\u2003💳", callback_data=json.dumps(
                 {
                     "status": "request_deposit",
@@ -987,6 +992,52 @@ async def client_commit_to_deposit(chat_id, context: CallbackContext):
         error_message = f"Error occurred while sending deposit confirmation message: {str(e)}"
         logger.error(error_message)
         raise Exception(error_message)
+    
+
+async def client_to_deposit_ask_referral(chat_id, context: CallbackContext):
+    """
+    Sends a message to the client asking if he wants to enter a referral code.
+
+    Args:
+        chat_id (int): The ID of the chat with the client.
+        context (CallbackContext): The context object for handling callbacks.
+
+    Returns:
+        None
+
+    Raises:
+        Exception: If there is an error sending the message.
+
+    """
+    try:
+        keyboard_options = [
+            [
+                InlineKeyboardButton(
+                    "enter referral code",
+                    callback_data=json.dumps({
+                        "status": Workflows.RequestDeposit.CAR_2['function'], #client_ask_referral
+                        "decision": "referral",
+                    })
+                ),
+                InlineKeyboardButton(
+                    "skip",
+                    callback_data=json.dumps({
+                        "status": Workflows.RequestDeposit.CAR_2['function'], #client_ask_referral
+                        "decision": "skip",
+                    })
+                )
+            ]
+        ]
+
+        dep_fee_discount = CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / (CONFIG.FEES.DEPOSIT_FEE/100)
+        text = f"💸💸 Got a Referral Code? 💸💸\n\nUnlock bonuses on your deposit! Enter your referral code now and enjoy a reduced deposit fee  —  down from {CONFIG.FEES.DEPOSIT_FEE}% to just {CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%.\n\nDon't miss out on this exclusive discount!"
+        reply_markup = InlineKeyboardMarkup(keyboard_options)
+        await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup, parse_mode='HTML')
+
+    except Exception as e:
+        error_message = f"client_to_deposit_ask_referral: {str(e)}"
+        logger.error(error_message)
+        raise Exception(error_message)
 
 
 async def client_confirm_withdrawal(chat_id, context: CallbackContext):
@@ -1187,6 +1238,47 @@ async def get_statistics(update: Update, context: CallbackContext):
     await update.callback_query.message.reply_text(message, parse_mode='HTML')
 
 
+async def show_referral_code(update: Update, context: CallbackContext):
+    callback = False
+    if update.message:
+        chat_id = update.message.chat_id
+        username = update.effective_user.username
+    elif update.callback_query:
+        callback = True
+        chat_id = update.callback_query.message.chat_id
+        username = update.callback_query.from_user.username
+
+    try:
+        total_deposit_amount = database.get_total_deposits_client(p_chat_id=int(chat_id))
+        gross_total_deposit_amount = total_deposit_amount / (100 - CONFIG.FEES.DEPOSIT_FEE) * 100
+
+        if gross_total_deposit_amount < (CONFIG.DEPOSIT_MINIMUM * 0.97):     # tolerance of 3% (100-97 = 3)
+            message = (
+            f"<b>💸 💸 💸</b>  <u>QUALIFY FOR A REFERRAL CODE!</u>  <b>💸 💸 💸</b>\n\n"
+            f"To qualify for a referral code, make a minimum deposit of USDT {CONFIG.DEPOSIT_MINIMUM}.\n\n"
+            f"We encourage you to deposit using the /deposit command.\n\n"
+        )
+        else:
+            database.set_client_username(p_chat_id=chat_id, p_username=username)
+
+            dep_fee_discount = CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / (CONFIG.FEES.DEPOSIT_FEE/100)
+            message = (
+                f"<b>💸 💸 💸</b>  <u>YOUR REFERRAL CODE</u>  <b>💸 💸 💸</b>\n\n"
+                f"Your referral code is: <b><code>{username}</code></b>\n\n"
+                f"Click on the referral code to copy it and then share it with your friends who are interested in making a deposit.\n\n"
+                f"Earn a Referral bonus of {CONFIG.FEES.REFERRER_KICKBACK}% of all the deposits done using your code, "
+                f"and all users using the code will receive a {dep_fee_discount}% discount on their deposit fees!"
+            )
+        if callback:
+            await update.callback_query.message.reply_text(message, parse_mode='HTML')
+        else:
+            await update.message.reply_text(message, parse_mode='HTML')
+    except Exception as e:
+        logging.info("show_referral_code: something went wrong {e}")
+
+
+
+
 async def execute_workflow_action(update: Update, context: CallbackContext, action: str) -> None:
     """
     Executes workflow actions based on the provided action string.
@@ -1251,6 +1343,8 @@ async def execute_workflow_action(update: Update, context: CallbackContext, acti
             await start_chat_with_support(update, context)
         elif action == Workflows.GetStatistics.GES_0['function']:
             await get_statistics(update, context)
+        elif action == Workflows.GetReferralCode.GRC_0['function']:
+            await show_referral_code(update, context)
         
         else:
             await update.message.reply_text("Invalid action requested.")
@@ -1304,19 +1398,21 @@ async def button(update: Update, context: CallbackContext) -> None:
             if status == "client_commit_to_deposit":
                 if decision == "yes":
                     await query.edit_message_text(text="You confirmed to make a deposit now.")
-                    await query.message.reply_text("Please wait while your deposit address is being prepared...")
-                    client = get_client_object(update, chat_id)
-                    deposit_request = await depositstack.add_deposit_request(update, client)
-                    
-                    # Simulate payment (for testing purposes)
-                    # await testunit.make_payment(asset=CONFIG.ASSET, 
-                    #                             method=CONFIG.METHOD,
-                    #                             eta=deposit_request['eta'],
-                    #                             deposit_address=deposit_request['deposit_address'])
+                    await client_to_deposit_ask_referral(chat_id, context)
+                    #await query.message.reply_text("Please wait while your deposit address is being prepared...")
+                    #client = get_client_object(update, chat_id)
+                    # deposit_request = await depositstack.add_deposit_request(update, client)                    
                 else:
                     await query.edit_message_text(text="You decided to not make a deposit yet.")
                     await query.message.reply_text("You're welcome any time to request to make a deposit.")
-            
+            elif status == Workflows.RequestDeposit.CAR_2['function']: #client_ask_referral
+                if decision == "referral":
+                    await query.edit_message_text("You chose to enter a referral code:\n\nPlease enter the referral code now or enter 'cancel' abort the deposit process.")
+                    context.user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # enter_referral_code
+                else:
+                    await query.message.reply_text("Please wait while your deposit address is being prepared...") 
+                    client = get_client_object(update, chat_id)
+                    deposit_request = await depositstack.add_deposit_request(update, client)                    
             elif status == "request_deposit":
                 action = "show_deposit_address"
                 await execute_workflow_action(update, context, action)
@@ -1337,6 +1433,9 @@ async def button(update: Update, context: CallbackContext) -> None:
                 await execute_workflow_action(update, context, action)
             elif status == Workflows.ContactSupport.COS_0['function']:
                 action = Workflows.ContactSupport.COS_0['function']
+                await execute_workflow_action(update, context, action)            
+            elif status == Workflows.GetReferralCode.GRC_0['function']:
+                action = Workflows.GetReferralCode.GRC_0['function']
                 await execute_workflow_action(update, context, action)            
             elif status == "withdrawal: confirm":
                 if decision == "yes":
@@ -1430,9 +1529,6 @@ async def poll_deposit_request_stack():
         logger.error(error_message)
         # raise Exception(error_message) # raising an exception may end this thread
         await asyncio.sleep(CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL)
-
-    finally:
-        logger.info("poll_deposit_request_stack() shutting down.")
 
 
 async def process_transfers(deposits):
@@ -1542,8 +1638,6 @@ async def poll_recent_deposits():
             logger.error(error_message)
             # raise Exception(error_message) - this may cause the loop to stop in case of an uncought exception, even in sub-tasks.
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
-        finally:
-            logger.info("poll_recent_deposits() shutting down.")
  
 
 async def handle_text_input(update: Update, context: CallbackContext):
@@ -1571,6 +1665,28 @@ async def handle_text_input(update: Update, context: CallbackContext):
             else:
                 await update.message.reply_text("Nothing to cancel: No ongoing operation.")
             return
+        
+        if user_data.get('status') == Workflows.RequestDeposit.ERC_3['function']:  # enter_referral_code
+            referral_code = update.message.text
+            if referral_code.lower() == 'skip':
+                referral_code = None
+                logger.info(f"Customer skipped referral coe by typing 'skip' and continues in depositing without bonus.")
+                user_data['status'] = None
+                await update.message.reply_text(f"Please wait while your deposit address is being prepared...") 
+                client = get_client_object(update, chat_id)
+                deposit_request = await depositstack.add_deposit_request(update, client, referral=referral_code)
+                return
+            if database.validate_referral(p_referral=referral_code):
+                logger.info(f"✅  Deposit referral code '{referral_code}' is approved.")
+                user_data['status'] = None
+                await update.message.reply_text(f"✅ Your referral code '{referral_code}' is approved. \n\nPlease wait while your deposit address is being prepared...") 
+                client = get_client_object(update, chat_id)
+                deposit_request = await depositstack.add_deposit_request(update, client, referral=referral_code)
+                return
+            else:
+                user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # client_ask_referral
+                await update.message.reply_text(f"🚫 Your referral code '{referral_code}' is invalid.\n\nTry to enter the correct code again or enter '<b><i>skip</i></b>' to continue without referral code or enter '<b><i>cancel</i></b>' to abort the entire deposit process:", parse_mode='HTML') 
+                return
 
         # Handle withdrawal amount input if the user is in 'withdrawal: awaiting amount' status
         if user_data.get('status') == 'withdrawal: awaiting amount':
@@ -1651,6 +1767,7 @@ def start_telegram_bot():
         application.add_handler(CommandHandler("deposit", lambda update, context: execute_workflow_action(update, context, Workflows.RequestDeposit.SDA_0['function'])))
         application.add_handler(CommandHandler("balance", lambda update, context: execute_workflow_action(update, context, Workflows.GetBalance.GEB_0['function'])))
         application.add_handler(CommandHandler("withdraw", lambda update, context: execute_workflow_action(update, context, Workflows.Withdraw.WDR_0['function'])))
+        application.add_handler(CommandHandler("referral", lambda update, context: execute_workflow_action(update, context, Workflows.GetReferralCode.GRC_0['function'])))
         application.add_handler(CommandHandler("help", lambda update, context: execute_workflow_action(update, context, Workflows.GetHelp.HLP_0['function'])))
 
         # Add callback query handler

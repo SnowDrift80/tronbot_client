@@ -605,6 +605,104 @@ class DataHandler:
             return  None
 
 
+    def set_client_username(self, p_chat_id: int, p_username: str):
+        url = f"{CONFIG.RETURNS_BASEURL}/set_client_username"
+        print(f"URL: {url}")
+        
+        try:
+            # Make a POST request with the chat_id as a parameter
+            response = requests.get(url, params={"chat_id": p_chat_id, "username": p_username})
+            response.raise_for_status()  # Check if the request was successful
+            
+            # Parse the response as JSON
+            data = response.json()
+                    
+        except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+            return  None
+        except requests.exceptions.RequestException as req_err:
+            logging.error(f"Request error occurred: {req_err}")
+            return  None
+        except ValueError as val_err:
+            logging.error(f"Value error occurred: {val_err}")
+            return  None
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            return  None
+
+    
+    def validate_referral(self, p_referral: str):
+        """
+        Calls the /api/validate_referral endpoint to check if the referral exists.
+
+        Args:
+            p_referral (str): The referral username to validate.
+
+        Returns:
+            int: The chat_id if the referral exists, or None if it doesn't or an error occurs.
+        """
+        url = f"{CONFIG.RETURNS_BASEURL}/validate_referral"
+        print(f"URL: {url}")
+        
+        try:
+            # Make a GET request to the referral validation endpoint
+            response = requests.get(url, params={"referral": p_referral})
+            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+            
+            # Parse the response as JSON and return the result (chat_id or None)
+            chat_id = response.json()
+            return chat_id  # Expecting the API to return chat_id or None
+            
+        except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+            return None
+        except requests.exceptions.RequestException as req_err:
+            logging.error(f"Request error occurred: {req_err}")
+            return None
+        except ValueError as val_err:
+            logging.error(f"Value error occurred: {val_err}")
+            return None
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            return None
+
+
+    def handle_referral_bonus(self, p_chat_id: int, p_bonus_amount: float):
+        """
+        Calls the /api/handle_referral_bonus endpoint to add a bonus to the client's balance.
+
+        Args:
+            p_chat_id (int): The chat_id of the client receiving the bonus.
+            p_bonus_amount (float): The amount of the bonus to add.
+
+        Returns:
+            str: A success message if the bonus is successfully added, or None if an error occurs.
+        """
+        url = f"{CONFIG.RETURNS_BASEURL}/handle_referral_bonus"
+        print(f"URL: {url}")
+        
+        try:
+            # Make a POST request to the referral bonus endpoint
+            response = requests.post(url, params={"chat_id": p_chat_id, "bonus_amount": p_bonus_amount})
+            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+            
+            # Parse the response as JSON and return the success message
+            success_message = response.text
+            return success_message  # Expecting the API to return a success message
+            
+        except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+            return None
+        except requests.exceptions.RequestException as req_err:
+            logging.error(f"Request error occurred: {req_err}")
+            return None
+        except ValueError as val_err:
+            logging.error(f"Value error occurred: {val_err}")
+            return None
+        except Exception as e:
+            logging.error(f"An unexpected error occurred: {e}")
+            return None
+
 
     def update_transferred_status_true(self, transaction_id):
         """
