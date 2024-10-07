@@ -232,12 +232,30 @@ async def start(update: Update, context: CallbackContext) -> None:
         update (Update): The update object representing an incoming update.
         context (CallbackContext): The context object containing callback data.
     """
+    # Retrieve chat_id and user_id from the update
+    if update.message:
+        chat_id = update.message.chat_id
+        user_id = update.message.from_user.id
+    elif update.callback_query:
+        chat_id = update.callback_query.message.chat_id
+        user_id = update.callback_query.from_user.id
+
     try:
-        await update.message.reply_text('Great ! All is ready to start.\n\nBefore using our service, we strongly recommend you to carefully review the functionality of each trading bot button.')
+        await update.message.reply_text('Great! All is ready to start.\n\nBefore using our service, we strongly recommend you to carefully review the functionality of each trading bot button.')
         await startmenu(update, context)
     except Exception as e:
         logger.error(f"Error in start handler: {e}")
         await update.message.reply_text('An error occurred while processing your request. Please try again later.')
+
+    # Send a welcome message
+    await update.message.reply_text('Welcome! Click the link below to join our group.')
+
+    # Generate and send the invite link
+    group_id = -1002425411485  # Your group ID
+    invite_link = await context.bot.export_chat_invite_link(group_id)
+    
+    await update.message.reply_text(f'Join our group using this link: {invite_link}')
+
 
 
 async def startmenu(update: Update, context: CallbackContext) -> None:
