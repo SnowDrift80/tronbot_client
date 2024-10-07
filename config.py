@@ -20,11 +20,12 @@ class CONFIG:
     DEPOSIT_REQUEST_STACK_INTERVAL = 5 # polling interval in seconds for request stack
     DEPOSIT_MINIMUM = 20 # If below the deposit minimum, the deposit receipt confirmation will ask the customer to top up the difference.
     MAX_DEPOSIT_ADDRESSES = 10 # maximum number of deposit addresses that can be used concurrently
-    LOGO_PATH = 'assets/algoeagle_dark_logo.jpg'
+    LOGO_PATH = 'assets/algoeagle_dark_logo_flat.jpg'
     ENDPOINT_BASEURL = 'http://localhost:5001/api'
     RETURNS_BASEURL = 'http://localhost:5010/api'
     SUPPORT_CONTACT = '@AlgoEagleAdmin'
     CHAT_GROUP = '@AlgoEagle'
+    CHAT_GROUP_ID = -1002425411485
     
     class TRON:
         CHECK_TRON_WALLET = True

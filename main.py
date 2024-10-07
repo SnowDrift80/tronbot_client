@@ -241,20 +241,19 @@ async def start(update: Update, context: CallbackContext) -> None:
         user_id = update.callback_query.from_user.id
 
     try:
-        await update.message.reply_text('Great! All is ready to start.\n\nBefore using our service, we strongly recommend you to carefully review the functionality of each trading bot button.')
         await startmenu(update, context)
     except Exception as e:
         logger.error(f"Error in start handler: {e}")
         await update.message.reply_text('An error occurred while processing your request. Please try again later.')
 
     # Send a welcome message
-    await update.message.reply_text('Welcome! Click the link below to join our group.')
+    await update.message.reply_text('Click the link below to join our chat group:')
 
     # Generate and send the invite link
-    group_id = -1002425411485  # Your group ID
+    group_id = CONFIG.CHAT_GROUP_ID  # Your group ID
     invite_link = await context.bot.export_chat_invite_link(group_id)
     
-    await update.message.reply_text(f'Join our group using this link: {invite_link}')
+    await update.message.reply_text(f'{invite_link}')
 
 
 
@@ -276,13 +275,6 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         message = (
             f"<b>Hello {user.first_name}!\nWelcome to AlgoEagle.</b>\n\n"
             "Please choose an option from the menu below:\n\n"
-            "<b>Deposit</b>:\n<code>Add funds to your account.</code>\n\n"
-            "<b>Balance</b>:\n<code>Check your current balance.</code>\n\n"
-            "<b>Withdraw</b>:\n<code>Withdraw funds from your account.</code>\n\n"
-            "<b>AlgoEagle Chat</b>:\n<code>Join our community chat.</code>\n\n"
-            "<b>Statistics</b>:\n<code>View your trading statistics.</code>\n\n"
-            "<b>FAQ</b>:\n<code>Frequently asked questions.</code>\n\n"
-            "<b>Support</b>:\n<code>Get help from our support team.</code>"
         )
         logger.info(f"Displaying start menu to user: {user.id}")
 
