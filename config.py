@@ -26,6 +26,7 @@ class CONFIG:
     SUPPORT_CONTACT = '@AlgoEagleAdmin'
     CHAT_GROUP = '@AlgoEagle'
     CHAT_GROUP_ID = -1002425411485
+    CHAT_GROUP_PERM_INVITATION_LINK = 'https://t.me/AlgoEagle'
     
     class TRON:
         CHECK_TRON_WALLET = True

@@ -243,17 +243,14 @@ async def start(update: Update, context: CallbackContext) -> None:
     try:
         await startmenu(update, context)
     except Exception as e:
-        logger.error(f"Error in start handler: {e}")
+        logger.error(f"Error in start(): {e}")
         await update.message.reply_text('An error occurred while processing your request. Please try again later.')
 
     # Send a welcome message
-    await update.message.reply_text('Click the link below to join our chat group:')
-
-    # Generate and send the invite link
-    group_id = CONFIG.CHAT_GROUP_ID  # Your group ID
-    invite_link = await context.bot.export_chat_invite_link(group_id)
-    
-    await update.message.reply_text(f'{invite_link}')
+    try:
+        await update.message.reply_text(f'Click the link below to join our chat group:\n\n{CONFIG.CHAT_GROUP_PERM_INVITATION_LINK}')
+    except Exception as e:
+        logger.error(f"Error in start() - couldn't send invitation to chat group: {e}")
 
 
 
