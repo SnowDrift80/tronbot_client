@@ -230,8 +230,13 @@ class DepositStack():
                 eta_datetime = datetime.fromisoformat(element['eta'])
                 current_timestamp = datetime.now()
                 client_obj: Client = element['client_obj']
-                chat_id = client_obj.chat_id
-
+                if client_obj and client_obj.chat_id:
+                    chat_id = client_obj.chat_id
+                else:
+                    stack.pop[0]   # the stack element is faulty - chat_id is missing, delete the element
+                    logging.warning("DepositStack.process_next(): faulty client_obj; either missing the client_obj or the client_obj.chat_id")
+                    return # return to calling function
+                
                 # Check if the deposit request has been sent to the client
                 if not element['sent_to_client']:
                     # Check if it's time to notify the client

@@ -6,6 +6,7 @@ __pycache__/
 *.pyc
 *.old
 *.csv
+*.txt
 *.xlsx
 *.back
 .gitignore

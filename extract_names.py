@@ -1,4 +1,4 @@
-with open('visitors.txt', 'r') as file:
+with open('docs/visitors_deposit_oct1-oct9_24.txt', 'r') as file:
     log_entries = file.readlines()
 
 # Extracting the names using regular expression pattern
