@@ -269,7 +269,7 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
             user = update.callback_query.from_user
   
         img = CONFIG.LOGO_PATH
-        statistics = await get_welcome_statistics(update, context) + '\n\n'
+        statistics = await get_welcome_statistics(update, context) + '\n'
         howto = (
             "<b>How to make money with AlgoEagle?</b>\n\n"
             "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n"
@@ -1238,19 +1238,10 @@ async def get_welcome_statistics(update: Update, context: CallbackContext):
     r_month = model.calculate_monthly_compounded_return()
 
     message = (
-        f"Recent returns:\n\n"
-        f"<b>Yesterday:</b>\n"
-        f"<code>Date:        {r_day['profit_date']}\n"
-        f"Profit:      {r_day['yesterdays_return']}%\n\n</code>"
-        f"<b>Last week:</b>\n"
-        f"<code>Start date:  {r_week['start_date']}\n"
-        f"End date:    {r_week['end_date']}\n"
-        f"Profit:      {r_week['compounded_return']}%\n\n</code>"
-        f"<b>Last month:</b>\n"
-        f"<code>Start date:  {r_month['start_date']}\n"
-        f"End date:    {r_month['end_date']}\n"
-        f"Profit:      {r_month['compounded_return']}%</code>"
-
+        f"<b><u>Recent returns:</u></b>\n\n"
+        f"<b><code>Yesterday:      {r_day['yesterdays_return']}%</code></b>\n"
+        f"<b><code>Last week:       {r_week['compounded_return']}%</code></b>\n"
+        f"<b><code>Last month:     {r_month['compounded_return']}%</code></b>"
     )
     return message
 
