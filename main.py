@@ -247,10 +247,10 @@ async def start(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('An error occurred while processing your request. Please try again later.')
 
     # Send a welcome message
-    try:
-        await update.message.reply_text(f'Click the link below to join our chat group:\n\n{CONFIG.CHAT_GROUP_PERM_INVITATION_LINK}')
-    except Exception as e:
-        logger.error(f"Error in start() - couldn't send invitation to chat group: {e}")
+    # try:
+    #     await update.message.reply_text(f'Click the link below to join our chat group:\n\n{CONFIG.CHAT_GROUP_PERM_INVITATION_LINK}')
+    # except Exception as e:
+    #     logger.error(f"Error in start() - couldn't send invitation to chat group: {e}")
 
 
 
@@ -269,8 +269,18 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
             user = update.callback_query.from_user
   
         img = CONFIG.LOGO_PATH
+        statistics = await get_welcome_statistics(update, context) + '\n\n'
+        howto = (
+            "<b>How to make money with AlgoEagle?</b>\n\n"
+            "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n"
+            "<b>🦅</b>  You can withdraw anytime by clicking the button or writing /withdraw.\n\n"
+            "In case of any questions, please click the below <b><u>Support</u></b> button."
+        ) 
+
         message = (
             f"<b>Hello {user.first_name}!\nWelcome to AlgoEagle.</b>\n\n"
+            f"{statistics}\n\n"
+            f"{howto}\n\n"
             "Please choose an option from the menu below:\n\n"
         )
         logger.info(f"Displaying start menu to user: {user.id}")
@@ -436,7 +446,7 @@ async def handle_message(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('An error occurred while processing your message. Please try again later.')
 
 
-def add_chat(update: Update, chat_id):
+def add_chat(update: Update):
     """
     Adds a new chat to the active_chats list.
 
@@ -451,16 +461,18 @@ def add_chat(update: Update, chat_id):
         # Extract user information from the update
         if update.message:
             user = update.effective_user
+            new_chat_id = update.message.chat_id
         elif update.callback_query:
             user = update.callback_query.from_user
+            new_chat_id = update.callback_query.message.chat_id
 
-        firstname = user.first_name or f'TGID{chat_id}'
-        lastname = user.last_name or f'TGID{chat_id}'
+        firstname = user.first_name or f'TGID{new_chat_id}'
+        lastname = user.last_name or f'TGID{new_chat_id}'
         language = user.language_code or 'en'
         
 
         # Create a new user object
-        user_object = Client(chat_id=chat_id,
+        user_object = Client(chat_id=new_chat_id,
                              firstname=firstname,
                              lastname=lastname,
                              lang=language,
@@ -471,7 +483,7 @@ def add_chat(update: Update, chat_id):
 
         # Create a new Telegram user dictionary
         new_tguser = {
-            'chat_id': chat_id,
+            'chat_id': new_chat_id,
             'user_object': user_object,
             'create_time': timestamp,
             'last_accessed': timestamp
@@ -484,7 +496,7 @@ def add_chat(update: Update, chat_id):
         return new_tguser
 
     except Exception as e:
-        logger.error(f"Error adding chat for user {chat_id}: {e}")
+        logger.error(f"Error adding chat for user {new_chat_id}: {e}")
         raise
 
 
@@ -535,7 +547,7 @@ def check_chat(update, chat_id):
                 return tguser
         
         logger.warning(f"Chat not found for chat_id {chat_id}. Adding new chat.")
-        return add_chat(update, chat_id)
+        return add_chat(update)
     
     except Exception as e:
         logger.error(f"Error checking chat for chat_id {chat_id}: {e}")
@@ -1213,11 +1225,43 @@ async def start_chat_with_support(update: Update, context: CallbackContext) -> N
     await update.callback_query.message.reply_text(message)
 
 
-async def get_statistics(update: Update, context: CallbackContext):
-    print("GET_STATISTICS")
+async def get_welcome_statistics(update: Update, context: CallbackContext):
+    logger.info("GET_WELCOME_STATISTICS")
     model = DataHandler()
-    chat_id = update.callback_query.message.chat_id
-    print(f"CHAT_ID: {chat_id}")
+    if update.message:
+        user_id = update.message.from_user.id
+    else:
+        user_id = update.callback_query.message.from_user.id
+    logger.info(f"USER_ID: {user_id}")
+    r_day = model.get_bot_returns_yesterday()
+    r_week = model.calculate_weekly_compounded_return()
+    r_month = model.calculate_monthly_compounded_return()
+
+    message = (
+        f"Recent returns:\n\n"
+        f"<b>Yesterday:</b>\n"
+        f"<code>Date:        {r_day['profit_date']}\n"
+        f"Profit:      {r_day['yesterdays_return']}%\n\n</code>"
+        f"<b>Last week:</b>\n"
+        f"<code>Start date:  {r_week['start_date']}\n"
+        f"End date:    {r_week['end_date']}\n"
+        f"Profit:      {r_week['compounded_return']}%\n\n</code>"
+        f"<b>Last month:</b>\n"
+        f"<code>Start date:  {r_month['start_date']}\n"
+        f"End date:    {r_month['end_date']}\n"
+        f"Profit:      {r_month['compounded_return']}%</code>"
+
+    )
+    return message
+
+
+
+
+async def get_statistics(update: Update, context: CallbackContext):
+    logger.info("GET_STATISTICS")
+    model = DataHandler()
+    user_id = update.callback_query.message.from_user.id
+    logger.info(f"user_id: {user_id}")
     r_day = model.get_bot_returns_yesterday()
     r_week = model.calculate_weekly_compounded_return()
     r_month = model.calculate_monthly_compounded_return()
