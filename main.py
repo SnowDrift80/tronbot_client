@@ -247,10 +247,10 @@ async def start(update: Update, context: CallbackContext) -> None:
         await update.message.reply_text('An error occurred while processing your request. Please try again later.')
 
     # Send a welcome message
-    # try:
-    #     await update.message.reply_text(f'Click the link below to join our chat group:\n\n{CONFIG.CHAT_GROUP_PERM_INVITATION_LINK}')
-    # except Exception as e:
-    #     logger.error(f"Error in start() - couldn't send invitation to chat group: {e}")
+    try:
+        await update.message.reply_text(f'Click the link below to join our chat group:\n\n{CONFIG.CHAT_GROUP_PERM_INVITATION_LINK}')
+    except Exception as e:
+        logger.error(f"Error in start() - couldn't send invitation to chat group: {e}")
 
 
 
@@ -272,7 +272,7 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         statistics = await get_welcome_statistics(update, context) + '\n'
         howto = (
             "<b>How to make money with AlgoEagle?</b>\n\n"
-            "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n"
+            "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n\n"
             "<b>🦅</b>  You can withdraw anytime by clicking the button or writing /withdraw.\n\n"
             "In case of any questions, please click the below <b><u>Support</u></b> button."
         ) 
@@ -1238,7 +1238,7 @@ async def get_welcome_statistics(update: Update, context: CallbackContext):
     r_month = model.calculate_monthly_compounded_return()
 
     message = (
-        f"<b><u>Recent profit:</u></b>\n\n"
+        f"<b><u>Recent profit:</u></b>\n"
         f"<b><code>Yesterday:      {r_day['yesterdays_return']}%</code></b>\n"
         f"<b><code>Last week:       {r_week['compounded_return']}%</code></b>\n"
         f"<b><code>Last month:     {r_month['compounded_return']}%</code></b>"
