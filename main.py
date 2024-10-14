@@ -271,17 +271,17 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         img = CONFIG.LOGO_PATH
         statistics = await get_welcome_statistics(update, context) + '\n'
         howto = (
-            "<b>How to make money with AlgoEagle?</b>\n\n"
+            "<b><u>How to make money with AlgoEagle?</u></b>\n"
             "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n\n"
             "<b>🦅</b>  You can withdraw anytime by clicking the button or writing /withdraw.\n\n"
-            "In case of any questions, please click the below <b><u>Support</u></b> button."
+            "<i>In case of any questions, please click the below <b><u>Support</u></b> button.</i>"
         ) 
 
         message = (
             f"<b>Hello {user.first_name}!\nWelcome to AlgoEagle.</b>\n\n"
             f"{statistics}\n\n"
             f"{howto}\n\n"
-            "Please choose an option from the menu below:\n\n"
+            "≫ Please choose an option from the menu below:\n\n"
         )
         logger.info(f"Displaying start menu to user: {user.id}")
 
