@@ -272,8 +272,8 @@ async def startmenu(update: Update, context: CallbackContext) -> None:
         statistics = await get_welcome_statistics(update, context)
         howto = (
             "<b><u>How to make money with AlgoEagle?</u></b>\n"
-            "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n\n"
-            "<b>🦅</b>  You can withdraw anytime by clicking the button or writing /withdraw.\n"
+            "<b>🦅</b>  Once you make a deposit, your money will automatically be used for trading. You can check your balance any time with the /balance command.\n"
+            "<b>🦅</b>  You can withdraw anytime by clicking the button or writing /withdraw.\n\n"
             "<i>In case of any questions, please click the below <b><u>Support</u></b> button.</i>"
         ) 
 
