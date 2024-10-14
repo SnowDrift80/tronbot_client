@@ -1239,7 +1239,7 @@ async def get_welcome_statistics(update: Update, context: CallbackContext):
 
     message = (
         f"<b><u>Recent profit:</u></b>\n"
-        f"<b><code>Yesterday:      {r_day['yesterdays_return']}%</code></b>\n"
+        f"<b><code>Yesterday:       {r_day['yesterdays_return']}%</code></b>\n"
         f"<b><code>Last week:       {r_week['compounded_return']}%</code></b>\n"
         f"<b><code>Last month:     {r_month['compounded_return']}%</code></b>"
     )
