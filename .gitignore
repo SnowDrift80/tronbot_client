@@ -11,7 +11,7 @@ __pycache__/
 *.back
 .gitignore
 trialscripts/
-
+extract_names.py
 # Ignore VSCode-related files and directories
 .VSCodeCounter/
 tronbot.code-workspace

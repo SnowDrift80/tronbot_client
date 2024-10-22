@@ -18,6 +18,7 @@ class CONFIG:
     DEPOSIT_ADDR_VALIDITY_BUFFER = 30 # buffer that reflects the time it can take until the deposit is credited to our account
     DEPOSIT_POLLING_INTERVAL = 20 # polling interval in seconds for incoming deposits
     DEPOSIT_REQUEST_STACK_INTERVAL = 5 # polling interval in seconds for request stack
+    ONGOING_DEPOSIT_REQUEST_NOTIFICATION_INTERVAL = 60 # notifies client every x seconds about the remaining time of DEPOSIT_ADD_VALIDITY
     DEPOSIT_MINIMUM = 20 # If below the deposit minimum, the deposit receipt confirmation will ask the customer to top up the difference.
     MAX_DEPOSIT_ADDRESSES = 10 # maximum number of deposit addresses that can be used concurrently
     LOGO_PATH = 'assets/algoeagle_dark_logo_flat.jpg'

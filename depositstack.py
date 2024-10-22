@@ -247,21 +247,41 @@ class DepositStack():
                             f"<code>{element['deposit_address']}</code>\n\n"
                             f"The deposit <b><u>minimum amount is USDT {CONFIG.DEPOSIT_MINIMUM}</u></b>.\n\n"
                             f"<b>Please make sure that you send the USDT on the POLYGON (MATIC) Network.</b>\n\n"
+                            f"The time remaining to complete your deposit is {CONFIG.DEPOSIT_ADDR_VALIDITY // 60} minutes and {CONFIG.DEPOSIT_ADDR_VALIDITY % 60} seconds.\n\n"
                             f"You will be automatically notified once the deposit has been credited to our account."
                         )
                         await self.bot_message(chat_id, message)
                         element['sent_to_client'] = True
                 else:
-                    # Check if the deposit request has timed out
-                    if eta_datetime <= current_timestamp:
+                    # Calculate remaining time until timeout
+                    time_remaining = eta_datetime - current_timestamp
+                    if current_timestamp < eta_datetime:
+                        # Total duration of the deposit window
+                        deposit_window_duration = (eta_datetime - start_datetime).total_seconds()
+
+                        # How much time has passed since the start of the window
+                        time_elapsed_since_start = (current_timestamp - start_datetime).total_seconds()
+
+                        # Calculate the modulus to determine if it's time to send another reminder
+                        if time_elapsed_since_start % CONFIG.ONGOING_DEPOSIT_REQUEST_NOTIFICATION_INTERVAL < CONFIG.DEPOSIT_REQUEST_STACK_INTERVAL:
+                            # Send the periodic reminder
+                            message = (
+                                f"⏳ <b>Deposit Reminder:</b>\n\n"
+                                f"Please note you have {time_remaining.seconds // 60} minutes "
+                                f"left to complete the deposit to address <code>{element['deposit_address']}</code>."
+                            )
+                            await self.bot_message(chat_id, message)
+                    else:
+                        # If the time has expired, send a timeout message and remove the request
                         message = (
                             f"⚠️ <b><u>Deposit Timeout:</u></b>\n\n"
                             f"Your window to make a deposit using the address {element['deposit_address']} has timed out.\n\n"
-                            f"If you still wish to make a deposit, please request a new deposit address."
+                            f"If you still wish to make a deposit, please click on 'deposit' again."
                         )
                         await self.bot_message(chat_id, message)
                         stack.pop(0)
-            
+
+
         except Exception as e:
             logger.error(f"Error occurred while processing next deposit request: {e}")
 
