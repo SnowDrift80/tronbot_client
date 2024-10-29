@@ -80,7 +80,7 @@ class DepositStack():
 
 
 
-    async def add_deposit_request(self, update: Update, client: Client, referral: str = None):
+    async def add_deposit_request(self, update: Update, client: Client, referral: str = None, multiplier: float = None):
         """Add a new deposit request to one of the stacks.
 
         This method creates a deposit request dictionary and adds it to the stack
@@ -129,7 +129,8 @@ class DepositStack():
                 'client_obj': client,
                 'deposit_address': self.deposit_addresses[min_stack_index],
                 'sent_to_client': False,
-                'referral' : referral
+                'referral' : referral,
+                'multiplier' : multiplier
             }
 
             # Add the request to the appropriate stack
@@ -352,7 +353,8 @@ class DepositStack():
                                 "kraken_txid": txid,
                                 "deposit_fee": CONFIG.FEES.DEPOSIT_FEE,
                                 "referral": referral,
-                                "referee_discount": CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT 
+                                "referee_discount": CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT,
+                                "multiplier": request['multiplier'] 
                             }
 
                             try:
@@ -388,35 +390,77 @@ class DepositStack():
                                 top_up_warning = ""
 
                             if referral:
-                                savings = amount * (CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / 100)
-                                message = (
-                                    f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
-                                    f"Hello {first_name} {last_name},\n"
-                                    f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account. We are pleased to inform you that your referral code was accepted, reducing the deposit fee from {CONFIG.FEES.DEPOSIT_FEE}% to {CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%. This means you saved USDT {savings:.6f}.\n\n"
-                                    f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
-                                    f"{top_up_warning}"
-                                )
-                                bonus_to_referrer = amount / 100 * CONFIG.FEES.REFERRER_KICKBACK     
-                                referrer_chat_id = self.database.validate_referral(referral)
-                                try:
-                                    self.database.handle_referral_bonus(p_chat_id=referrer_chat_id, p_bonus_amount=bonus_to_referrer)
-                                except Exception as e:
-                                    logger.error(f"receive_deposit() - error in calling handle_referral_bonus: {e}")
-                                message_to_referrer = (
-                                    "🎁 <b><u>REFERRAL BONUS PAYOUT</u></b> 🎁\n\n"
-                                    f"Client {first_name} made a deposit of USDT {amount} using your referral code '{referral}'.\n"
-                                    f"This earned you a bonus of <b>USDT {bonus_to_referrer:.6f}</b> which was credited to your account.\n\n"
-                                    "Please check your new balance with the /balance command."
-                                )
-                                try:
-                                    await self.bot.send_message(chat_id=referrer_chat_id, text=message_to_referrer, parse_mode='HTML')
-                                except Exception as e:
-                                    logger.error(f"receive_deposit() - attempt to send Telegram bot message to referrer failed: {e}")
+                                print(f"depositstack.py - receive_deposit() - referral: {referral}")
+                                if not referral.startswith('!bonuscode?'):
+                                    savings = amount * (CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / 100)
+                                    message = (
+                                        f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
+                                        f"Hello {first_name} {last_name},\n"
+                                        f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account. "
+                                        f"We are pleased to inform you that your referral code was accepted, "
+                                        f"reducing the deposit fee from {CONFIG.FEES.DEPOSIT_FEE}% to "
+                                        f"{CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%. "
+                                        f"This means you saved USDT {savings:.6f}.\n\n"
+                                        f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                        f"{top_up_warning}"
+                                    )
+                                    bonus_to_referrer = amount / 100 * CONFIG.FEES.REFERRER_KICKBACK     
+                                    referrer_chat_id = self.database.validate_referral(referral)
+                                    try:
+                                        self.database.handle_referral_bonus(p_chat_id=referrer_chat_id, p_bonus_amount=bonus_to_referrer)
+                                    except Exception as e:
+                                        logger.error(f"receive_deposit() - error in calling handle_referral_bonus: {e}")
+                                    message_to_referrer = (
+                                        "🎁 <b><u>REFERRAL BONUS PAYOUT</u></b> 🎁\n\n"
+                                        f"Client {first_name} made a deposit of USDT {amount} using your referral code '{referral}'.\n"
+                                        f"This earned you a bonus of <b>USDT {bonus_to_referrer:.6f}</b> which was credited to your account.\n\n"
+                                        "Please check your new balance with the /balance command."
+                                    )
+                                    try:
+                                        await self.bot.send_message(chat_id=referrer_chat_id, text=message_to_referrer, parse_mode='HTML')
+                                    except Exception as e:
+                                        logger.error(f"receive_deposit() - attempt to send Telegram bot message to referrer failed: {e}")
+                                else:
+                                    bonus_code = referral.replace('!bonuscode?','')
+                                    original_deposit_amount = amount
+                                    multiplier = request['multiplier']
+                                    bonus_percentage = round((multiplier - 1) * 100)
+                                    bonus_amount = original_deposit_amount * 0.01 * bonus_percentage
+                                    total_gross_amount = amount * multiplier
+                                    fee = total_gross_amount * 0.01 * CONFIG.FEES.DEPOSIT_FEE
+                                    credited = total_gross_amount - fee
+                                    message = (
+                                        f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
+                                        f"Hello {first_name} {last_name},\n"
+                                        f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account.\n\n"
+                                        f"You were using bonus code {bonus_code}.\n\n"
+                                        f"<code>"
+                                        f"Deposit:  {original_deposit_amount:.6f}\n"
+                                        f"Bonus:   +{bonus_amount:.6f} ({bonus_percentage}%)\n"
+                                        f"          -------------------------------\n"
+                                        f"Gross:    {total_gross_amount:.6f} USDT\n"
+                                        f"Fee:     -{fee:.6f} ({CONFIG.FEES.DEPOSIT_FEE}%)\n"
+                                        f"          -------------------------------\n"
+                                        f"Credited: {credited:.6f} USDT\n"
+                                        f"          ===============================\n"
+                                        f"</code>\n\n"
+                                        f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
+                                        f"{top_up_warning}"
+                                    )
                             else:
+                                fee = amount * 0.01 * CONFIG.FEES.DEPOSIT_FEE
+                                credited = amount - fee
                                 message = (
                                     f"<b><u>ℹ️ Deposit Receipt Confirmation:</u></b>\n\n"
                                     f"Hello {first_name} {last_name},\n"
-                                    f"🏦 Your deposit of <b>USDT {amount}</b> has been successfully received and credited to your account.\n\n"
+                                    f"🏦 Your deposit has been successfully received.\n\n"
+                                    f"<code>"
+                                    f"Deposit:  {amount:.6f}\n"
+                                    f"Fee:     -{fee:.6f} ({CONFIG.FEES.DEPOSIT_FEE}%)\n"
+                                    f"          -------------------------------\n"
+                                    f"Credited: {credited:.6f} USDT\n"
+                                    f"          ===============================\n\n"
+                                    f"</code>"
                                     f"Thank you for your trust and welcome on board!.\nYou can check your balance anytime with the /balance command."
                                     f"{top_up_warning}"
                                 )

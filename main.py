@@ -1032,7 +1032,7 @@ async def client_to_deposit_ask_referral(chat_id, context: CallbackContext):
         keyboard_options = [
             [
                 InlineKeyboardButton(
-                    "enter referral code",
+                    "enter code",
                     callback_data=json.dumps({
                         "status": Workflows.RequestDeposit.CAR_2['function'], #client_ask_referral
                         "decision": "referral",
@@ -1049,7 +1049,7 @@ async def client_to_deposit_ask_referral(chat_id, context: CallbackContext):
         ]
 
         dep_fee_discount = CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT / (CONFIG.FEES.DEPOSIT_FEE/100)
-        text = f"💸💸 Got a Referral Code? 💸💸\n\nUnlock bonuses on your deposit! Enter your referral code now and enjoy a reduced deposit fee  —  down from {CONFIG.FEES.DEPOSIT_FEE}% to just {CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%.\n\nDon't miss out on this exclusive discount!"
+        text = f"💸💸 Got a Code? Unlock Exclusive Rewards! 💸💸\n\nEnhance your deposit benefits! Enter a referral code to enjoy a reduced deposit fee — from {CONFIG.FEES.DEPOSIT_FEE}% down to just {CONFIG.FEES.DEPOSIT_FEE - CONFIG.FEES.REFEREE_DEPOSIT_FEE_DISCOUNT}%. Or, use a bonus code to boost your deposit with a special multiplier, giving you even more credited value!\n\nDon't miss out on these exciting rewards!"
         reply_markup = InlineKeyboardMarkup(keyboard_options)
         await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup, parse_mode='HTML')
 
@@ -1708,12 +1708,10 @@ async def handle_text_input(update: Update, context: CallbackContext):
             else:
                 await update.message.reply_text("Nothing to cancel: No ongoing operation.")
             return
-        
         if user_data.get('status') == Workflows.RequestDeposit.ERC_3['function']:  # enter_referral_code
             referral_code = update.message.text
             if referral_code.lower() == 'skip':
-                referral_code = None
-                logger.info(f"Customer skipped referral coe by typing 'skip' and continues in depositing without bonus.")
+                logger.info(f"Customer skipped referral code by typing 'skip' and continues in depositing without bonus.")
                 user_data['status'] = None
                 await update.message.reply_text(f"Please wait while your deposit address is being prepared...") 
                 client = get_client_object(update, chat_id)
@@ -1722,9 +1720,19 @@ async def handle_text_input(update: Update, context: CallbackContext):
             if database.validate_referral(p_referral=referral_code):
                 logger.info(f"✅  Deposit referral code '{referral_code}' is approved.")
                 user_data['status'] = None
-                await update.message.reply_text(f"✅ Your referral code '{referral_code}' is approved. \n\nPlease wait while your deposit address is being prepared...") 
+                await update.message.reply_text(f"✅ Your referral code '{referral_code}' was approved. \n\nPlease wait while your deposit address is being prepared...") 
                 client = get_client_object(update, chat_id)
                 deposit_request = await depositstack.add_deposit_request(update, client, referral=referral_code)
+                return
+            if referral_code:
+                multiplier = database.validate_bonuscode(bonuscode=referral_code)
+            if multiplier:
+                logger.info(f"✅  Deposit bonus code '{referral_code}' is approved.")
+                user_data['status'] = None
+                await update.message.reply_text(f"✅ Your bonus code '{referral_code}' was approved. \n\nPlease wait while your deposit address is being prepared...") 
+                client = get_client_object(update, chat_id)
+                referral_code = f"!bonuscode?{referral_code}"
+                deposit_request = await depositstack.add_deposit_request(update, client, referral=referral_code, multiplier=multiplier)
                 return
             else:
                 user_data['status'] = Workflows.RequestDeposit.ERC_3['function']  # client_ask_referral

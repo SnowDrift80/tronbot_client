@@ -704,6 +704,39 @@ class DataHandler:
             return None
 
 
+    def validate_bonuscode(self, bonuscode: str):
+        """
+        Calls the /api/validate_bonuscode endpoint to check if the bonus code is valid.
+        
+        Args:
+            bonuscode (str): The bonus code to validate.
+        
+        Returns:
+            float: The multiplier if the bonus code is valid, or None if it doesn't or an error occurs.
+        """
+        url = f"{CONFIG.RETURNS_BASEURL}/validate_bonuscode"
+        print(f"URL: {url}")
+        print(f"bonuscode to be sent: {bonuscode}")
+        
+        try:
+            # Make a POST request to the bonus code validation endpoint
+            response = requests.post(url, json={"bonus_code": bonuscode})
+            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+            
+            # Parse the response as JSON and retrieve the multiplier
+            multiplier = response.json().get("multiplier")
+            print(f"Response received in multiplier: {multiplier}")
+            return multiplier  # Return the multiplier or None
+            
+        except requests.exceptions.HTTPError as http_err:
+            if response.status_code == 404:
+                logging.error("Bonus code not found (404)")
+                return None
+            else:
+                logging.error(f"HTTP error occurred: {http_err}")
+                return None
+
+
     def update_transferred_status_true(self, transaction_id):
         """
         Updates the 'transferred' boolean field in depositlogs to TRUE by transaction_id (varchar).
