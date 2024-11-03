@@ -773,6 +773,38 @@ class DataHandler:
             return  None
 
 
+    def send_deposit_notification(self, username: str, deposit_amount: float):
+        """
+        Calls the /api/send_deposit_notification endpoint to send a deposit notification.
+        
+        Args:
+            username (str): The username of the person making the deposit.
+            deposit_amount (float): The amount deposited.
+        
+        Returns:
+            dict: A response message if the notification was sent successfully, or None if an error occurs.
+        """
+        url = f"{CONFIG.RETURNS_BASEURL}/send_deposit_notification"
+        print(f"URL: {url}")
+        print(f"Sending deposit notification for username: {username} with amount: {deposit_amount}")
+        
+        try:
+            # Make a GET request to the deposit notification endpoint
+            response = requests.get(url, params={"username": username, "deposit_amount": deposit_amount})
+            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+            
+            # Parse the response as JSON
+            response_data = response.json()
+            print(f"Response received: {response_data}")
+            return response_data  # Return the response data or None
+            
+        except requests.exceptions.HTTPError as http_err:
+            logging.error(f"HTTP error occurred: {http_err}")
+            return None
+        except Exception as e:
+            logging.error(f"An error occurred: {e}")
+            return None
+
 
     def close(self):
         """

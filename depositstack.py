@@ -1,4 +1,5 @@
 # depositstack.py
+import re
 import sys
 from datetime import datetime, timedelta
 import requests
@@ -287,6 +288,11 @@ class DepositStack():
             logger.error(f"Error occurred while processing next deposit request: {e}")
 
 
+    # Define a function to check if a character is Arabic
+    def is_arabic(self, character):
+        return re.match(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]', character)
+
+
     async def receive_deposit(self, response_data):
         """Process recent deposits and match them with the deposit requests in the stacks."""
         logger.info("Processing recent deposits.")
@@ -332,7 +338,19 @@ class DepositStack():
                             
                             # Add deposit record to the database to prevent re-processing
                             self.database.add_deposit_record(refid, chat_id, first_name, last_name, amount, asset, txid, deposit_address)
-                            
+                            # inform communit on group chat about someone just made an investment deposit
+                            if first_name != "" and first_name is not None:
+                                if len(first_name) > 1:
+                                    notification_username = f'{first_name[0]}{"*" * (len(first_name) - 1)}'.strip()
+                                else:
+                                    notification_username = first_name.strip()  # Single character remains unchanged
+                            else:
+                                notification_username = "default_username"
+
+                            if self.is_arabic(notification_username[0]):
+                                notification_username = notification_username[::-1]
+                    
+                            self.database.send_deposit_notification(username=notification_username, deposit_amount=amount)
 ############################ UPDATE CLIENT BALANCES REMOTE PROCEDURE CALL ##################################################
                             # Update client balances and create ledger entry 
                             # Prepare data to send in the API request
@@ -365,7 +383,17 @@ class DepositStack():
                                 logger.info(f"Deposit handled successfully: {result}")
   
                             except requests.HTTPError as e:
+                                # Log the HTTP error
                                 logger.error(f"HTTP error occurred: {e}")
+                                
+                                # Log the response content if it contains a JSON error message
+                                try:
+                                    error_details = response.json()  # Attempt to parse the response as JSON
+                                    logger.error(f"Error details from API: {error_details}")
+                                except ValueError:
+                                    # If response is not JSON, log the raw content
+                                    logger.error(f"Response content: {response.content.decode('utf-8')}")
+
                             except Exception as e:
                                 logger.error(f"Error occurred while calling handle_deposit API: {e}")
 
