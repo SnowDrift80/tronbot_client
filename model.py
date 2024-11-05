@@ -785,8 +785,8 @@ class DataHandler:
             dict: A response message if the notification was sent successfully, or None if an error occurs.
         """
         url = f"{CONFIG.RETURNS_BASEURL}/send_deposit_notification"
-        print(f"URL: {url}")
-        print(f"Sending deposit notification for username: {username} with amount: {deposit_amount}")
+        logging.info(f"URL: {url}")
+        logging.info(f"Sending deposit notification for username: {username} with amount: {deposit_amount}")
         
         try:
             # Make a GET request to the deposit notification endpoint
@@ -795,7 +795,7 @@ class DataHandler:
             
             # Parse the response as JSON
             response_data = response.json()
-            print(f"Response received: {response_data}")
+            logging.info(f"Response received: {response_data}")
             return response_data  # Return the response data or None
             
         except requests.exceptions.HTTPError as http_err:

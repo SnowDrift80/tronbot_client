@@ -347,8 +347,6 @@ class DepositStack():
                             else:
                                 notification_username = "default_username"
 
-                            if self.is_arabic(notification_username[0]):
-                                notification_username = notification_username[::-1]
                     
                             self.database.send_deposit_notification(username=notification_username, deposit_amount=amount)
 ############################ UPDATE CLIENT BALANCES REMOTE PROCEDURE CALL ##################################################
