@@ -278,7 +278,7 @@ class DepositStack():
                         message = (
                             f"⚠️ <b><u>Deposit Timeout:</u></b>\n\n"
                             f"Your window to make a deposit using the address {element['deposit_address']} has timed out.\n\n"
-                            f"If you still wish to make a deposit, please click on 'deposit' again."
+                            f"If you still wish to make a deposit, please write <i>/start</i> and click on 'Deposit' again."
                         )
                         await self.bot_message(chat_id, message)
                         stack.pop(0)
