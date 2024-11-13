@@ -1767,7 +1767,7 @@ async def handle_text_input(update: Update, context: CallbackContext):
                             context.user_data['status'] = 'withdrawal: awaiting amount'
                         else:
                             withdrawals.update_amount(chat_id, amount)
-                            message = "Now, please enter your wallet address or write 'cancel' to cancel the withdrawal:"
+                            message = "Now, please enter your MATIC wallet address or write 'cancel' to cancel the withdrawal:"
                             context.user_data['status'] = 'withdrawal: awaiting wallet'
                             await depositstack.bot_message(chat_id=chat_id, message=message)
                 except ValueError:

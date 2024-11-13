@@ -30,7 +30,7 @@ class CONFIG:
     CHAT_GROUP_PERM_INVITATION_LINK = 'https://t.me/AlgoEagle'
     
     class TRON:
-        CHECK_TRON_WALLET = True
+        CHECK_TRON_WALLET = False
         FULL_NODE = 'https://api.trongrid.io'
         SOLIDITY_NODE = 'https://api.trongrid.io'
         EVENT_SERVER = 'https://api.trongrid.io'
