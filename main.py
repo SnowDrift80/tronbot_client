@@ -81,8 +81,8 @@ async def validate_address(address, chat_id):
     # Check if address is Ethereum (0x... format) or Tron (T... format)
     if address.startswith('0x'):
         return await validate_ethereum_address(address, chat_id)
-    elif address.startswith('T'):
-        return await validate_tron_address(address, chat_id)
+    # elif address.startswith('T'):   # deactivate TRON validation - we don't accept TRON deposit addresses
+    #     return await validate_tron_address(address, chat_id)
     else:
         await depositstack.bot_message(chat_id=chat_id, message="<code>Invalid address format</code>")
         return False
