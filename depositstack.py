@@ -235,7 +235,7 @@ class DepositStack():
                 if client_obj and client_obj.chat_id:
                     chat_id = client_obj.chat_id
                 else:
-                    stack.pop[0]   # the stack element is faulty - chat_id is missing, delete the element
+                    stack.pop(0)   # the stack element is faulty - chat_id is missing, delete the element
                     logging.warning("DepositStack.process_next(): faulty client_obj; either missing the client_obj or the client_obj.chat_id")
                     return # return to calling function
                 
