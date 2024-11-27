@@ -1338,10 +1338,13 @@ async def execute_workflow_action(update: Update, context: CallbackContext, acti
 
     """
     try:
+        no_username = '[no username]'
         if update.message:
             chat_id = update.message.chat_id
+            username = update.message.from_user.username if update.message.from_user.username else no_username
         elif update.callback_query:
             chat_id = update.callback_query.message.chat_id
+            username = update.callback_query.from_user.username if update.callback_query.from_user.username else no_username
         
         # Ensure the chat exists or add it if it doesn't
         check_chat(update, chat_id)
@@ -1350,8 +1353,7 @@ async def execute_workflow_action(update: Update, context: CallbackContext, acti
         client = get_client_object(update, chat_id)
         
         # Log client data and action string
-        logger.info(f"Client DATA: {client.firstname} {client.lastname}, Balance: {client.balance}, Status: {client.status}, Chat ID: {client.chat_id}")
-        logger.info(f"ACTION STRING: {action}")
+        logger.info(f"Client DATA: (username: {username}) {client.firstname} {client.lastname}, Balance: {client.balance}, Status: {client.status}, Chat ID: {client.chat_id}, Action String: {action}")
         
         # Execute actions based on the action string
         if action == 'start':
@@ -1587,13 +1589,6 @@ async def process_transfers(deposits):
 async def poll_recent_deposits():
     """
     Coroutine function to poll recent deposits from an API or test source periodically.
-    
-    This function runs indefinitely, polling recent deposits at a defined interval (CONFIG.DEPOSIT_POLLING_INTERVAL).
-    It uses an API or test source (KrakenAPI or testunit) to fetch recent deposit data.
-    The fetched data is then processed and added to a deposit stack for further handling.
-
-    Raises:
-        Exception: If there is an unexpected error during API request, data processing, or deposit handling.
     """
     cycle_episode = 0
     full_cycle = [
@@ -1607,68 +1602,88 @@ async def poll_recent_deposits():
 
     total_episodes = len(full_cycle)
     api = EthAPI()
+
     while not shutdown_event.is_set():
         try:
-            # Uncomment the line below for production use:
-            # response_data = await api.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
-            
-            # For test use only:
-            # response_data = testunit.get_recent_deposits(asset=CONFIG.ASSET, method=CONFIG.METHOD)
-
-            # get balances from all Polygon Mainnet deposit addresses
+            # Determine polling parameters for the current cycle
             interval_sec = full_cycle[cycle_episode]['interval_delay_sec']
             number_of_batches = full_cycle[cycle_episode]['number_of_batches']
             logger.info(f"cycle_episode: {cycle_episode}   interval_sec: {interval_sec}   number_of_batches: {number_of_batches}")
             cycle_episode = (cycle_episode + 1) % total_episodes
+
+            # Sleep for the current cycle's interval before polling
             await asyncio.sleep(interval_sec)
-            all_balances = api.get_recent_deposits(number_of_batches)
 
+            # Fetch recent deposits
+            try:
+                all_balances = api.get_recent_deposits(number_of_batches)
+            except Exception as e:
+                logger.error(f"Failed to fetch recent deposits: {str(e)}")
+                continue
 
-            # create new list consisting of dict containing address and balance where balance > 0
-            # we want to process only those accounts that actually have a balance.
+            # Filter active deposits (balances > 0)
             active_deposits = []
-            for balance in all_balances:
-                if balance['balance'] > 0:
-                    row = {
-                        'deposit_address': balance['deposit_address'],
-                        'balance': balance['balance']
+            try:
+                for balance in all_balances:
+                    if balance['balance'] > 0:
+                        row = {
+                            'deposit_address': balance['deposit_address'],
+                            'balance': balance['balance']
                         }
-                    active_deposits.append(row)
-            
-            if active_deposits:
-                logger.info(f"New deposits found: {len(active_deposits)}")
-            deposit_logs = DepositLogs(active_deposits)
-            deposit_logs.fetch_logs() # we get the new logs and insert those into the depositlogs table
-            response_data = []
+                        active_deposits.append(row)
+                if active_deposits:
+                    logger.info(f"New deposits found: {len(active_deposits)}")
+            except Exception as e:
+                logger.error(f"Error processing deposit balances: {str(e)}")
+                continue
 
-            depositlogs = database.get_newdepositlogs() # we get the new depositlogs with transfer == False from the database
+            # Insert deposit logs and fetch new deposits
+            try:
+                deposit_logs = DepositLogs(active_deposits)
+                deposit_logs.fetch_logs()
+                depositlogs = database.get_newdepositlogs()  # Fetch logs with transfer == False
+                if depositlogs:
+                    logger.info(f"************ Found new deposits: {depositlogs}")
+                else:
+                    logger.info(f"############ No new deposits found")
+            except Exception as e:
+                logger.error(f"Error handling deposit logs: {str(e)}")
+                continue
+
+            # Process new deposit logs if available
             if depositlogs:
-                logger.info(f"************ Found new deposits: {depositlogs}")
-            else:
-                logger.info(f"############ No new deposits found")
+                response_data = []
+                try:
+                    for deposit in depositlogs:
+                        row = {
+                            'deposit_address': deposit['to_address'],
+                            'asset': 'USDT',
+                            'txid': deposit['from_address'],
+                            'amount': deposit['amount'],
+                            'refid': deposit['transaction_id'],  # Unique identifier of the deposit transaction
+                            'credit_time_timestamp': deposit['block_timestamp'],
+                            'credit_time': deposit['created_at']
+                        }
+                        response_data.append(row)
+                except Exception as e:
+                    logger.error(f"Error building response_data: {str(e)}")
+                    continue
 
-            if depositlogs: # only process if there are any new deposits where transfer == False
-                # process the depositlogs and build response_data
-                for deposit in depositlogs:
-                    row =  {
-                        'deposit_address': deposit['to_address'],
-                        'asset': 'USDT',
-                        'txid': deposit['from_address'],
-                        'amount': deposit['amount'],
-                        'refid': deposit['transaction_id'],  # Unique identifier of the deposit transaction
-                        'credit_time_timestamp': deposit['block_timestamp'],
-                        'credit_time': deposit['created_at']  
-                    }
-                    response_data.append(row)            
+                # Launch async task for processing transfers
+                try:
+                    asyncio.create_task(process_transfers(response_data))
+                except Exception as e:
+                    logger.error(f"Error creating async task for process_transfers: {str(e)}")
+                    # This error shouldn't block further operations since the task is fire-and-forget.
 
-                # call async payment processing function
-                asyncio.create_task(process_transfers(response_data))
+                # Await deposit stack processing
+                try:
+                    await depositstack.receive_deposit(response_data)
+                except Exception as e:
+                    logger.error(f"Error awaiting depositstack.receive_deposit: {str(e)}")
+                    continue
 
-                # Process the received deposit data and add it to the deposit stack
-                await depositstack.receive_deposit(response_data)
-            
-            # Sleep for the configured interval before polling again
-            # await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
+            # Check for shutdown event
             if application.shutdown_event.is_set():
                 logger.warning(f"*** poll_recent_deposits() thread halted because of shutdown signal. ***")
                 break
@@ -1677,9 +1692,7 @@ async def poll_recent_deposits():
             logger.info("poll_recent_deposits() was cancelled.")
             break
         except Exception as e:
-            error_message = f"Error occurred in poll_recent_deposits() co-routine: {str(e)}"
-            logger.error(error_message)
-            # raise Exception(error_message) - this may cause the loop to stop in case of an uncought exception, even in sub-tasks.
+            logger.error(f"Unhandled error in poll_recent_deposits() co-routine: {str(e)}")
             await asyncio.sleep(CONFIG.DEPOSIT_POLLING_INTERVAL)
  
 
