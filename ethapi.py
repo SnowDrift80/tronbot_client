@@ -80,14 +80,19 @@ class EthAPI:
                 # Process balance responses
                 if balance_responses:
                     for i, balance_result in enumerate(balance_responses):
-                        wallet_address = batch[balance_result['id']] # the wallet address is in the batch[index]
-                        balance_hex = balance_result['result']
-                        balance_amount = int(balance_hex, 16) / (10 ** 6)  # Convert balance to USDT
+                        if 'result' in balance_result:
+                            # proceed if 'result' key exists - this is an intermittent issue with Infura, still being investigated
+                            wallet_address = batch[balance_result['id']] # the wallet address is in the batch[index]
+                            balance_hex = balance_result['result']
+                            balance_amount = int(balance_hex, 16) / (10 ** 6)  # Convert balance to USDT
 
-                        results.append({
-                            'deposit_address': wallet_address,
-                            'balance': balance_amount
-                        })
+                            results.append({
+                                'deposit_address': wallet_address,
+                                'balance': balance_amount
+                            })
+                        else:
+                            # handle case where 'result' is missing
+                            logger.warning(f"Infura request balances batch, no 'result' key in returned message: {balance_result}")
             except RequestException as e:
                logger.error(f"Error fetching balances for batch {batch}: {str(e)}")
 
